@@ -1,0 +1,157 @@
+# Variable definitions
+variables:
+  RUN_PIPLINE:
+    value: "false"  # run pipline NOT by default
+    description: "Run the pipline if set to true."
+
+  PROJECT_NAME:
+    value: "opsiclientkiosk"
+    description: "Project name of the project the pipline should run on."
+
+  BINARY_VERSION:
+    value: "4.12.4.30"
+    description: "Version of the binary"
+  GIT_SUBMODULE_STRATEGY: recursive
+
+# Control of the Pipline
+workflow:
+  rules:
+    - if: '$RUN_PIPLINE == "true"' # && $CI_PIPELINE_SOURCE == "push"'
+    # - if: '$CI_COMMIT_MESSAGE =~ /-compile$/ && $CI_PIPELINE_SOURCE == "push"'
+      when: always
+
+stages:
+  - build
+  - binaryindex
+  # - makePackages
+
+default:
+  before_script:
+    - echo "Execute this command before any 'script:' commands."
+
+#***************************************#
+#  compile and codesign Windows         #
+#***************************************#
+compile opsi-client-kiosk windows:
+  stage: build
+  tags:
+    - laz-win10
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: always
+  script:
+    - $LAZ_PROJECT_FILE="${PROJECT_NAME}.lpi"
+    - echo "$LAZ_PROJECT_FILE"
+    - $doc = [XML] (Get-Content -Path $LAZ_PROJECT_FILE)
+    - $BINARY_VERSION = $doc.SelectSingleNode("//MajorVersionNr").Value + "." + $doc.SelectSingleNode("//MinorVersionNr").Value + "." + $doc.SelectSingleNode("//RevisionNr").Value + "." + $doc.SelectSingleNode("//BuildNr").Value
+    - echo "$BINARY_VERSION"
+    - echo "Compiling $PROJECT_NAME for Win32"
+    - C:\lazarus\lazbuild.exe $LAZ_PROJECT_FILE --build-all --build-mode=Release_Win32
+    - echo "Compiling $PROJECT_NAME for Win64"
+    - C:\lazarus\lazbuild.exe $LAZ_PROJECT_FILE --build-all --build-mode=Release_Win64
+    # - $BINARY_OUT_PATH = $PROJECT_NAME -eq "opsiscript")
+    - echo "Code signing opsi-script for windows"
+    - opsi-dev-tool -l info --signserver-sign $PROJECT_REPOSITORY_PATH\compiler_out\binarys\i386-win32\opsi-script.exe
+    - opsi-dev-tool -l info --signserver-sign $PROJECT_REPOSITORY_PATH\compiler_out\binarys\x86_64-win64\opsi-script.exe
+  artifacts:
+    name: "opsi-script $BINARY_VERSION windows"
+    paths:
+      - $PROJECT_REPOSITORY_PATH\compiler_out\binarys\i386-win32\
+      - $PROJECT_REPOSITORY_PATH\compiler_out\binarys\x86_64-win64\
+   
+
+#***************************************#
+#  compile linux                        #
+#***************************************#
+compile opsi-script linux:
+  stage: build
+  tags:
+    - laz-linux
+  variables:
+    PROJECT_REPOSITORY_PATH: "opsi-script"
+  rules:
+    - if: ($PROJECT_NAME == "opsiscript") && ($PLATFORM == "all" || $PLATFORM == "Linux")
+      when: always
+  script:
+    - LAZ_PROJECT_FILE=${PROJECT_REPOSITORY_PATH}/${PROJECT_NAME}.lpi
+    - echo "$LAZ_PROJECT_FILE"
+    - echo "Compiling $PROJECT_NAME for Linux with no GUI"
+    - /usr/bin/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_Lin_64_nogui
+    - echo "Compiling $PROJECT_NAME for Linux with GUI"
+    - /usr/bin/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_Lin_64_gui
+    # - $BINARY_OUT_PATH = $PROJECT_NAME -eq "opsiscript")
+  artifacts:
+    name: "opsi-script $BINARY_VERSION linux"
+    paths:
+      - $PROJECT_REPOSITORY_PATH/compiler_out/binarys/x86_64-linux/
+
+
+#***************************************#
+#  compile and codesign MacOS           #
+#***************************************#
+compile opsi-script macos:
+  stage: build
+  tags:
+    - laz-macos
+  rules:
+    - if: ($PROJECT_NAME == "opsiscript") && ($PLATFORM == "all" || $PLATFORM == "MacOS")
+      when: always
+  script:
+    #---BUILD BINARIES---
+    - LAZ_PROJECT_FILE=${PROJECT_NAME}.lpi
+    - echo "$LAZ_PROJECT_FILE"
+    - echo "Compiling $PROJECT_NAME for MacOS with no GUI"
+    - /Library/Lazarus/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_mac_nogui --ws=cocoa
+    - echo "Compiling $PROJECT_NAME for MacOS with GUI"
+    - /Library/Lazarus/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_mac_gui --ws=cocoa
+    # - $BINARY_OUT_PATH = $PROJECT_NAME -eq "opsiscript")
+   
+    #---CODE SIGNING OPSI-SCRIPT---
+    - echo "Code signing opsi-script for macos"
+    - PATH_TO_BINARY=$PROJECT_REPOSITORY_PATH/compiler_out/binarys/x86_64-darwin/opsi-script
+    # - codesign -vvv --force --strict --options=runtime $ENTITLEMENTS --timestamp -s "$CODE_SIGN_SIGNATURE" $FULLPATHTOEXE
+    - codesign -vvv --force --strict  --timestamp -s "$CODE_SIGN_SIGNATURE" $PATH_TO_BINARY
+    - codesign --verify --verbose --strict $PATH_TO_BINARY
+    - codesign -dv -r- $PATH_TO_BINARY
+    - codesign -vvv --deep --strict $PATH_TO_BINARY
+    
+    #---CODE SIGNING OPSI-SCRIPT-GUI---
+    - echo "Code signing opsi-script-gui"
+    - PATH_TO_BINARY=$PROJECT_REPOSITORY_PATH/compiler_out/binarys/x86_64-darwin/opsi-script-gui
+    # - codesign -vvv --force --strict --options=runtime $ENTITLEMENTS --timestamp -s "$CODE_SIGN_SIGNATURE" $FULLPATHTOEXE
+    - codesign -vvv --force --strict  --timestamp -s "$CODE_SIGN_SIGNATURE" $PATH_TO_BINARY
+    - codesign --verify --verbose --strict $PATH_TO_BINARY
+    - codesign -dv -r- $PATH_TO_BINARY
+    - codesign -vvv --deep --strict $PATH_TO_BINARY
+  artifacts:
+    name: "opsi-script $BINARY_VERSION macos"
+    paths:
+      - $PROJECT_REPOSITORY_PATH/compiler_out/binarys/x86_64-darwin/
+
+
+
+opsi-client-kiosk to binaryindex:
+  stage: binaryindex
+  tags:
+    - laz-linux
+  when: manual
+  script:
+    - echo "deploy to binaryindex"
+    - rm -rf upload
+    - cd opsi-script
+    - opsi-dev-tool -l info --binary-pull
+    - cp compiler_out/binarys/i386-win32/opsi-script.exe upload/win32/opsi-script
+    - cp upload/win32/opsi-script/opsi-script.exe upload/win32/opsi-script/winst32.exe
+    - cp compiler_out/binarys/x86_64-win64/opsi-script.exe upload/win64/opsi-script
+    - cp upload/win64/opsi-script/opsi-script.exe upload/win64/opsi-script/winst64.exe
+    - cp compiler_out/binarys/x86_64-linux/opsi-script upload/lin64/opsi-script
+    - cp compiler_out/binarys/x86_64-linux/opsi-script-gui upload/lin64/opsi-script
+    - cp compiler_out/binarys/x86_64-darwin/opsi-script upload/mac64/opsi-script
+    - cp compiler_out/binarys/x86_64-darwin/opsi-script-gui upload/mac64/opsi-script
+    - ls -lah upload/*/opsi-script
+    - VERSION="$(opsi-dev-tool --binary-version upload/win32/opsi-script/opsi-script.exe)"
+    #- VERSION="$(grep MajorVersionNr opsiscript.lpi | tr -d -c [0-9]).$(grep MinorVersionNr opsiscript.lpi | tr -d -c [0-9]).$(grep RevisionNr opsiscript.lpi | tr -d -c [0-9]).$(grep BuildNr opsiscript.lpi | tr -d -c [0-9])"
+    - opsi-dev-tool -l info --binary-push upload/win32/opsi-script opsi-script-bin windows x86 "${VERSION}"
+    - opsi-dev-tool -l info --binary-push upload/win64/opsi-script opsi-script-bin windows x64 "${VERSION}"
+    - opsi-dev-tool -l info --binary-push upload/lin64/opsi-script opsi-script-bin linux x64 "${VERSION}"
+    - opsi-dev-tool -l info --binary-push upload/mac64/opsi-script opsi-script-bin darwin x64 "${VERSION}"

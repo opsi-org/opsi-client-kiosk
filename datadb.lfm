@@ -1,0 +1,46 @@
+object DataModuleOCK: TDataModuleOCK
+  OldCreateOrder = False
+  left = 691
+  top = 150
+  Height = 192
+  HorizontalOffset = 1349
+  VerticalOffset = 666
+  Width = 521
+  PPI = 96
+  object SQLite3Connection: TSQLite3Connection
+    Connected = False
+    LoginPrompt = False
+    DatabaseName = 'C:\Users\Jan\AppData\Local\Temp\opsikiosk.db'
+    KeepConnection = False
+    Transaction = SQLTransaction
+    left = 160
+    top = 24
+  end
+  object SQLQueryProductData: TSQLQuery
+    FieldDefs = <>
+    AfterPost = SQLQueryProductDataAfterPost
+    Database = SQLite3Connection
+    Transaction = SQLTransaction
+    SQL.Strings = (
+      ''
+    )
+    Params = <>
+    left = 64
+    top = 120
+  end
+  object SQLTransaction: TSQLTransaction
+    Active = False
+    Database = SQLite3Connection
+    left = 304
+    top = 24
+  end
+  object SQLQueryProductDependencies: TSQLQuery
+    FieldDefs = <>
+    Database = SQLite3Connection
+    Transaction = SQLTransaction
+    Params = <>
+    DataSource = FormOpsiClientKiosk.DataSourceProductData
+    left = 384
+    top = 128
+  end
+end
