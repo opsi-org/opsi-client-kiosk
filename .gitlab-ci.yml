@@ -70,6 +70,8 @@ compile opsi-client-kiosk windows:
 #***************************************#
 compile opsi-script linux:
   stage: build
+  dependencies:
+    - get version
   tags:
     - laz-linux
   rules:
@@ -90,6 +92,8 @@ compile opsi-script linux:
 #***************************************#
 compile opsi-script macos:
   stage: build
+  dependencies:
+    - get version
   tags:
     - laz-macos
   rules:
@@ -127,11 +131,10 @@ opsi-client-kiosk to binaryindex:
   script:
     - echo "deploy to binaryindex"
     - rm -rf upload
-    - cp 
     - opsi-dev-tool -l info --binary-pull
-    - cp builds/binarys/i386-win32/${BINARY_NAME_WINDOWS} upload/win32/${BINARY_NAME_WINDOWS}
-    - cp builds/binarys/x86_64-linux/${BINARY_NAME_LINUX} upload/lin64/${BINARY_NAME_LINUX}
-    - cp builds/binarys/x86_64-darwin/${BINARY_NAME_MAC} upload/mac64/${BINARY_NAME_MAC}
+    - cp builds/i386-win32/${BINARY_NAME_WINDOWS} upload/win32/${BINARY_NAME_WINDOWS}
+    - cp builds/x86_64-linux/${BINARY_NAME_LINUX} upload/lin64/${BINARY_NAME_LINUX}
+    - cp builds/x86_64-darwin/${BINARY_NAME_MAC} upload/mac64/${BINARY_NAME_MAC}
     #- ls -lah upload/*/opsi-script
     - opsi-dev-tool -l info --binary-push upload/win32/${BINARY_NAME_WINDOWS} opsi-client-kiosk windows x86 "${BINARY_VERSION}"
     - opsi-dev-tool -l info --binary-push upload/lin64/${BINARY_NAME_LINUX} opsi-client-kiosk linux x64 "${BINARY_VERSION}"
