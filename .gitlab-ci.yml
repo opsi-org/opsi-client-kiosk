@@ -22,9 +22,6 @@ stages:
   - binaryindex
   # - package
 
-default:
-  before_script:
-    - echo "Execute this command before any 'script:' commands."
 
 get version:
   stage: init
@@ -59,16 +56,15 @@ compile opsi-client-kiosk windows:
     - echo "Code signing ${BINARY_NAME_WINDOWS} (Version ${BINARY_VERSION}) for windows"
     - opsi-dev-tool -l info --signserver-sign builds\i386-win32\${BINARY_NAME_WINDOWS}
   artifacts:
-    name: "$BINARY_NAME_WINDOWS $BINARY_VERSION Windows (32 Bit)"
+    name: "$BINARY_NAME_WINDOWS $BINARY_VERSION Windows 32Bit)"
     paths:
       - builds\i386-win32\${BINARY_NAME_WINDOWS}
 
    
-
 #***************************************#
 #  compile linux                        #
 #***************************************#
-compile opsi-script linux:
+compile opsi-client-kiosk linux:
   stage: build
   dependencies:
     - get version
@@ -82,7 +78,7 @@ compile opsi-script linux:
     - echo "Compiling ${LAZ_PROJECT_FILE} (Version ${BINARY_VERSION}) for Linux (64 Bit)"
     - /usr/bin/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_Linux
   artifacts:
-    name: "$BINARY_NAME_LINUX $BINARY_VERSION Linux (64 Bit)"
+    name: "$BINARY_NAME_LINUX $BINARY_VERSION Linux 64Bit"
     paths:
       - builds/x86_64-linux/${BINARY_NAME_LINUX}
 
@@ -90,7 +86,7 @@ compile opsi-script linux:
 #***************************************#
 #  compile and codesign MacOS           #
 #***************************************#
-compile opsi-script macos:
+compile opsi-client-kiosk macos:
   stage: build
   dependencies:
     - get version
@@ -113,12 +109,14 @@ compile opsi-script macos:
     - echo "Verify code signing"
     - codesign --verify -v $PATH_TO_BINARY
   artifacts:
-    name: "$BINARY_NAME_MAC $BINARY_VERSION MacOS (64 Bit, Intel)"
+    name: "$BINARY_NAME_MAC $BINARY_VERSION MacOS 64Bit Intel"
     paths:
       - builds/x86_64-darwin/${BINARY_NAME_MAC}
 
 
-
+#***************************************#
+#  upload artifacts to binaryindex      #
+#***************************************#
 opsi-client-kiosk to binaryindex:
   stage: binaryindex
   tags:
