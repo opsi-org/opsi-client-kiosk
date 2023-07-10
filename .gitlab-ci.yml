@@ -104,7 +104,7 @@ compile opsi-script macos:
     - echo "Code signing $BINARY_NAME_MAC for MacOS"
     - PATH_TO_BINARY=builds/binarys/x86_64-darwin/${BINARY_NAME_MAC}
     # - codesign -s "$CODE_SIGN_SIGNATURE" -v -f --timestamp --options=runtime $ENTITLEMENTS $PATH_TO_BINARY
-    - codesign -s "$CODE_SIGN_SIGNATURE" -v -f --timestamp $PATH_TO_BINARY
+    - codesign -s "$APPLE_DEVELOPER_ID" -v -f --timestamp $PATH_TO_BINARY
     - echo "Verify code signing"
     - codesign --verify -v $PATH_TO_BINARY
   artifacts:
