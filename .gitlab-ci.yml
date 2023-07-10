@@ -59,7 +59,7 @@ compile opsi-client-kiosk windows:
     - echo "Code signing ${BINARY_NAME_WINDOWS} (Version ${BINARY_VERSION}) for windows"
     - opsi-dev-tool -l info --signserver-sign builds\i386-win32\${BINARY_NAME_WINDOWS}
   artifacts:
-    #name: "$BINARY_NAME_WINDOWS $BINARY_VERSION Windows (32 Bit)"
+    name: "$BINARY_NAME_WINDOWS $BINARY_VERSION Windows (32 Bit)"
     paths:
       - builds\i386-win32\${BINARY_NAME_WINDOWS}
 
@@ -82,7 +82,7 @@ compile opsi-script linux:
     - echo "Compiling ${LAZ_PROJECT_FILE} (Version ${BINARY_VERSION}) for Linux (64 Bit)"
     - /usr/bin/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_Linux
   artifacts:
-    #name: "$BINARY_NAME_LINUX $BINARY_VERSION Linux (64 Bit)"
+    name: "$BINARY_NAME_LINUX $BINARY_VERSION Linux (64 Bit)"
     paths:
       - builds/x86_64-linux/${BINARY_NAME_LINUX}
 
@@ -113,9 +113,9 @@ compile opsi-script macos:
     - echo "Verify code signing"
     - codesign --verify -v $PATH_TO_BINARY
   artifacts:
-    #name: "opsi-script $BINARY_VERSION macos"
+    name: "$BINARY_NAME_MAC $BINARY_VERSION MacOS (64 Bit, Intel)"
     paths:
-      - $PATH_TO_BINARY
+      - builds/x86_64-darwin/${BINARY_NAME_MAC}
 
 
 
@@ -130,12 +130,6 @@ opsi-client-kiosk to binaryindex:
       when: manual
   script:
     - echo "deploy to binaryindex"
-    - rm -rf upload
-    - opsi-dev-tool -l info --binary-pull
-    - cp builds/i386-win32/${BINARY_NAME_WINDOWS} upload/win32/${BINARY_NAME_WINDOWS}
-    - cp builds/x86_64-linux/${BINARY_NAME_LINUX} upload/lin64/${BINARY_NAME_LINUX}
-    - cp builds/x86_64-darwin/${BINARY_NAME_MAC} upload/mac64/${BINARY_NAME_MAC}
-    #- ls -lah upload/*/opsi-script
-    - opsi-dev-tool -l info --binary-push upload/win32/${BINARY_NAME_WINDOWS} opsi-client-kiosk windows x86 "${BINARY_VERSION}"
-    - opsi-dev-tool -l info --binary-push upload/lin64/${BINARY_NAME_LINUX} opsi-client-kiosk linux x64 "${BINARY_VERSION}"
-    - opsi-dev-tool -l info --binary-push upload/mac64/${BINARY_NAME_MAC} opsi-client-kiosk darwin x64 "${BINARY_VERSION}"
+    - opsi-dev-tool -l info --binary-push builds/i386-win32/${BINARY_NAME_WINDOWS} opsi-client-kiosk windows x86 "${BINARY_VERSION}"
+    - opsi-dev-tool -l info --binary-push builds/x86_64-linux/${BINARY_NAME_LINUX} opsi-client-kiosk linux x64 "${BINARY_VERSION}"
+    - opsi-dev-tool -l info --binary-push builds/x86_64-darwin/${BINARY_NAME_MAC}  opsi-client-kiosk darwin x64 "${BINARY_VERSION}"
