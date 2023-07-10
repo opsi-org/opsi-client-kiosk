@@ -82,7 +82,7 @@ compile opsi-script linux:
   artifacts:
     #name: "$BINARY_NAME_LINUX $BINARY_VERSION Linux (64 Bit)"
     paths:
-      - builds/binarys/x86_64-linux/${BINARY_NAME_LINUX}
+      - builds/x86_64-linux/${BINARY_NAME_LINUX}
 
 
 #***************************************#
@@ -103,6 +103,7 @@ compile opsi-script macos:
     #---CODE SIGNING---
     - echo "Code signing $BINARY_NAME_MAC for MacOS"
     - PATH_TO_BINARY=builds/binarys/x86_64-darwin/${BINARY_NAME_MAC}
+    - echo "$PATH_TO_BINARY (PATH_TO_BINARY)"
     # - codesign -s "$CODE_SIGN_SIGNATURE" -v -f --timestamp --options=runtime $ENTITLEMENTS $PATH_TO_BINARY
     - codesign -s "$APPLE_DEVELOPER_ID" -v -f --timestamp $PATH_TO_BINARY
     - echo "Verify code signing"
@@ -110,7 +111,7 @@ compile opsi-script macos:
   artifacts:
     #name: "opsi-script $BINARY_VERSION macos"
     paths:
-      - builds/binarys/x86_64-darwin/${BINARY_NAME_MAC}
+      - builds/x86_64-darwin/${BINARY_NAME_MAC}
 
 
 
