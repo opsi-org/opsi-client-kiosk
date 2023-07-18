@@ -90,7 +90,7 @@ compile opsi-client-kiosk linux:
 
 
 #***************************************#
-#  compile and codesign MacOS           #
+#  compile MacOS                        #
 #***************************************#
 compile opsi-client-kiosk macos:
   stage: build
@@ -105,15 +105,6 @@ compile opsi-client-kiosk macos:
   script:
     - echo "Compiling ${LAZ_PROJECT_FILE} (Version ${BINARY_VERSION}) for MacOS (Intel, 64 Bit)"
     - /Library/Lazarus/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_MacOS --ws=cocoa
-   
-    #---CODE SIGNING---
-    - echo "Code signing $BINARY_NAME_MAC for MacOS"
-    - PATH_TO_BINARY=builds/x86_64-darwin/${BINARY_NAME_MAC}
-    - echo "$PATH_TO_BINARY (PATH_TO_BINARY)"
-    # - codesign -s "$APPLE_DEVELOPER_ID" -v -f --timestamp --options runtime $ENTITLEMENTS $PATH_TO_BINARY
-    - codesign -s "$APPLE_DEVELOPER_ID" -v -f --timestamp $PATH_TO_BINARY
-    - echo "Verify code signing"
-    - codesign --verify -v $PATH_TO_BINARY
   artifacts:
     name: "$BINARY_NAME_MAC $BINARY_VERSION MacOS 64Bit Intel"
     paths:
