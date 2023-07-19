@@ -19,9 +19,9 @@ variables:
 stages:
   - init
   - build
-  # - bundle
+  - bundle
   - binaryindex
-  # - package
+  - package
 
 
 #**********************************************#
@@ -129,12 +129,10 @@ make opsi-client-kiosk bundle for Windows:
     - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for Windows (32 Bit)"
     - Remove-Item -Path 'app_windows' -Recurse
     - New-Item -Path 'app_windows' -ItemType Directory
-    - echo "Code signing ${BINARY_NAME_WINDOWS} (Version ${BINARY_VERSION}) for windows"
-    - opsi-dev-tool -l info --signserver-sign builds\i386-win32\${BINARY_NAME_WINDOWS}
-  artifacts:
-    name: "$BINARY_NAME_WINDOWS $BINARY_VERSION Windows 32Bit"
-    paths:
-      - builds\i386-win32\${BINARY_NAME_WINDOWS}
+  #artifacts:
+    #name: "$BINARY_NAME_WINDOWS $BINARY_VERSION Windows 32Bit"
+    #paths:
+      #- builds\i386-win32\${BINARY_NAME_WINDOWS}
 
 
 #***************************************#
