@@ -139,7 +139,7 @@ make opsi-client-kiosk bundle for Windows:
   artifacts:
     name: "app_windows"
     paths: 
-      - /app_windows
+      - app_windows
 
 
 #***************************************#
