@@ -172,11 +172,5 @@ opsi-package windows:
     - if: $CI_COMMIT_BRANCH == "main"
       when: manual
   script:
-    - echo "Compiling ${LAZ_PROJECT_FILE} (Version ${BINARY_VERSION}) for Windows (32 Bit)"
-    - C:\lazarus\lazbuild.exe $LAZ_PROJECT_FILE --build-all --build-mode=Release_Windows
-    - echo "Code signing ${BINARY_NAME_WINDOWS} (Version ${BINARY_VERSION}) for windows"
-    - opsi-dev-tool -l info --signserver-sign builds\i386-win32\${BINARY_NAME_WINDOWS}
-  artifacts:
-    name: "$BINARY_NAME_WINDOWS $BINARY_VERSION Windows 32Bit)"
-    paths:
-      - builds\i386-win32\${BINARY_NAME_WINDOWS}
+    - echo "Building opsi-package (Version ${BINARY_VERSION}) for Windows (32 Bit)"
+    - opsi-makepackage --help 
