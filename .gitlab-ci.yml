@@ -127,12 +127,19 @@ make opsi-client-kiosk bundle for Windows:
       when: always
   script:
     - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for Windows (32 Bit)"
-    - Remove-Item -Path 'app_windows' -Recurse
-    - New-Item -Path 'app_windows' -ItemType Directory
-  #artifacts:
-    #name: "$BINARY_NAME_WINDOWS $BINARY_VERSION Windows 32Bit"
-    #paths:
-      #- builds\i386-win32\${BINARY_NAME_WINDOWS}
+    - $BundleDir = 'app_windows'
+    - if (Test-Path $BundleDir) { Remove-Item -Path $BundleDir -Recurse }
+    - New-Item -Path $BundleDir -ItemType Directory
+    - cd $BundleDir
+    - Copy-Item 'default' -Recurse .
+    - Copy-Item 'locale' -Recurse .
+    - Copy-Item 'ock_custom' -Recurse .
+    - Copy-Item 'opsiclientkiosk.conf' .
+    - Copy-Item 'builds\i386-win32\${BINARY_NAME_WINDOWS}' .
+  artifacts:
+    name: "app_windows"
+    paths: 
+      - /app_windows
 
 
 #***************************************#
@@ -152,7 +159,6 @@ opsi-client-kiosk to binaryindex:
     - opsi-dev-tool -l info --binary-push builds/i386-win32/${BINARY_NAME_WINDOWS} opsi-client-kiosk windows x86 "${BINARY_VERSION}"
     - opsi-dev-tool -l info --binary-push builds/x86_64-linux/${BINARY_NAME_LINUX} opsi-client-kiosk linux x64 "${BINARY_VERSION}"
     - opsi-dev-tool -l info --binary-push builds/x86_64-darwin/${BINARY_NAME_MAC}  opsi-client-kiosk darwin x64 "${BINARY_VERSION}"
-
 
   
 #***************************************#
