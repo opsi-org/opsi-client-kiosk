@@ -1,0 +1,277 @@
+; ----------------------------------------------------------------
+; Copyright (c) uib gmbh (www.uib.de)
+; This sourcecode is owned by uib
+; and published under the Terms of the General Public License.
+; ----------------------------------------------------------------
+encoding=utf8
+
+[Actions]
+requiredWinstVersion >= "4.12.1.0"
+ScriptErrorMessages=off
+
+;*********************** VARIABLES *********************************************
+;---------------------------
+;	Variable declarations
+;---------------------------
+; logging directory
+DefVar $LogDir$
+
+; general information about the product
+DefVar $ProductId$  
+DefVar $MinimumSpace$
+DefVar $InstallDir$
+DefVar $BinaryName$
+; linux packages which had to be installed on the system
+DefStringlist $ListOfPackageNames$
+
+; variables uesd to store informations for installation process
+DefVar $INST_OS$
+DefVar $distroType$
+DefVar $INST_icon_collection$
+DefVar $INST_DesktopIcon$
+DefVar $INST_ClientID$
+DefVar $INST_ClientAgentDir$
+DefVar $INST_OpsiclientdDir$
+DefVar $INST_OpsiclientdConf$
+DefVar $installSuccess$
+DefVar $ExitCode$
+
+; variables used to store startmenue entry/folder if already set on client
+;DefVar $Startmenue_Folder$
+DefVar $Startmenue_Entry$
+
+; variables used for checking installed client agent version 
+DefVar $INST_ClientAgentVersion$
+DefVar $INST_ClientAgentPackageVersion$
+DefVar $REQUIRED_ClientAgentVersion$
+DefVar $REQUIRED_ClientAgentPackageVersion$
+DefVar $RightClientAgent$
+
+; stores value of hostparameter software-on-demand.active
+; DefVar $kiosk_active$ 
+; path to icon file if available otherwise empty string
+DefVar $kiosk_iconfile$
+
+; some helper variables
+DefVar $ArrayStr$
+DefVar $ObjectStr$
+DefStringList $ReturnList$
+DefStringList $LinkFolder$
+
+
+; import complete file !
+importlib "uib_exitcode.opsiscript"
+importlib "%scriptpath%\osd-lib.opsiscript"
+importlib "%scriptpath%\uib_lin_install.opsiscript"
+
+;-----------------------------------
+;	Initialisation of variables
+;-----------------------------------
+Set $LogDir$ = "%opsiLogDir%"
+Set $INST_OS$ = GetOS
+Set $INST_ClientAgentDir$	= "/etc/opsi-client-agent"
+Set $INST_OpsiclientdConf$ = $INST_ClientAgentDir$+"/opsiclientd.conf"
+Set $INST_ClientID$   = GetValueFromInifile($INST_OpsiclientdConf$, "global", "host_id", $INST_ClientID$)
+Set $ProductId$       = "l-opsi-client-kiosk"
+Set $MinimumSpace$    = "10 MB"
+; the path were we find the product after the installation
+Set $InstallDir$      = "/opt/opsi-client-kiosk"
+Set $BinaryName$	= "opsiclientkiosk"
+
+; get product properties
+Set $INST_icon_collection$ = GetProductProperty("install_icon_collection", "false")
+Set $INST_DesktopIcon$ = GetProductProperty("desktop_icon","false")
+;Set $Startmenue_Folder$ = GetProductProperty ("startmenue_folder", "opsi.org")
+Set $Startmenue_Entry$ = GetProductProperty ("startmenue_entry", "opsi-client-kiosk")
+
+;opsiservicecall_authenticated
+;Set $OCD_config_service.url$ = GetValueFromInifile($INST_custom_Cfgini$, "opsiclientd", "config_service.url", $OCD_config_service.url$)
+;opsiservicecall_authenticated /username $INST_ClientId$ /password $SHI_pckey$ /serviceurl $OCD_config_service.url$
+Set $RightClientAgent$ = "false"
+; get opsi-client-agent product and package version
+Set $ReturnList$ = getReturnListFromSection("opsiservicecall_productOnClient_getObjects")
+Set $ArrayStr$ = takestring(0, $ReturnList$)
+Set $objectStr$ = jsonAsArrayGetElementByIndex($ArrayStr$,"0")
+Set $INST_ClientAgentVersion$ = jsonAsObjectGetValueByKey($objectStr$,"productVersion")
+Set $INST_ClientAgentPackageVersion$ = jsonAsObjectGetValueByKey($objectStr$,"packageVersion")
+Set $REQUIRED_ClientAgentVersion$ = "4.1.1.11"
+Set $REQUIRED_ClientAgentPackageVersion$ = "1"
+
+
+
+
+;*********************** INSTALLATION PROCESS **********************************
+;-------------------------
+;	Check OS
+;-------------------------
+;l-opsi-client-kiosk is only for Linux
+if not($INST_OS$ = "Linux")
+	LogError "Wrong OS: Product: l-opsi-client-kiosk is only for Linux"
+	isFatalError "Wrong OS"
+endif
+
+;-----------------------------------
+; Install needed linux packages
+;-----------------------------------
+; enter here names of the package at the supported Distributions / Versions
+set $distroType$ = getLinuxDistroType
+
+;following packages have to be installed to have the needed symlinks to the actual libraries. Might be changed in the future.
+switch $distroType$
+	Case 'redhat'
+		Set $ListOfPackageNames$ = CreateStringList("openssl-devel", "sqlite3-devel")
+	EndCase
+	Case 'suse'
+		Set $ListOfPackageNames$ = CreateStringList("openssl-devel", "sqlite3-devel")
+	EndCase			
+	Case 'debian'
+		Set $ListOfPackageNames$ = CreateStringList("libssl-dev", "libsqlite3-dev")
+	EndCase
+EndSwitch
+
+Set $installSuccess$ = genericLinInstall($ListOfPackageNames$)
+if $installSuccess$  = "false"
+	LogError "Installation of $ListOfPackageNames$ failed"
+	;isfatalerror "Installation failed"
+else
+	Comment "Additional linux libraries successfully installed" 
+endif
+;set $exitcode$ = boolToGenericExitcode($installSuccess$)
+
+;-----------------------------
+;	Check minimum disk space
+;-----------------------------
+;if not(HasMinimumSpace ("%SystemDrive%", $MinimumSpace$))
+	; Stop process and set installation status to failed	
+;	LogError "Not enough space on %SystemDrive%, " + $MinimumSpace$ + " on drive %SystemDrive% needed for " + $ProductId$
+;	isFatalError "No Space"
+;else
+	;-----------------------------
+	;	Install product
+	;-----------------------------	
+	Message "Installing " + $ProductId$ + " ..."
+
+	comment "Show product picture"
+	ShowBitmap "%ScriptPath%/" + $ProductId$ + ".png" $ProductId$
+
+	; check client-agent version
+	Set $RightClientAgent$ = booltostring(CompareDotSeparatedNumbers($INST_ClientAgentVersion$,">",$REQUIRED_ClientAgentVersion$))
+	if ($RightClientAgent$ = "false")
+		Set $RightClientAgent$ = booltostring(CompareDotSeparatedNumbers($INST_ClientAgentVersion$,"=",$REQUIRED_ClientAgentVersion$) and ($INST_ClientAgentPackageVersion$ INT>= $REQUIRED_ClientAgentPackageVersion$))	
+	endif
+	
+	if ($RightClientAgent$ = "true")
+		; uninstall old opsi-client-kiosk directory if existing 
+		if DirectoryExists($InstallDir$)
+			Message "Removing old " + $ProductId$ + " ..."
+			if FileExists("%ScriptPath%/delsub.opsiscript")
+				comment "Start uninstall sub section"
+				Sub "%ScriptPath%/delsub.opsiscript"
+			endif
+		endif
+		comment "get property value ....."
+		if $INST_icon_collection$ = "true"
+			Message "Installing " + $ProductId$ + " with icon collection " + " ..."
+			comment "install_icon_collection is true"
+			Files_install_with_icon_collection
+		else
+			if $INST_icon_collection$ = "false"
+				Message "Installing " + $ProductId$ + " without icon collection (default) " + " ..."
+				comment "install_icon_collection is false"
+				Files_install_without_icon_collection
+			else
+				comment "install_icon_collection must be set to true or false"
+			endif
+		endif
+		comment "Create shortcuts"
+		if fileexists($InstallDir$+"/ock_custom/skin/kiosk.png")
+			set $kiosk_iconfile$ = $InstallDir$+"/ock_custom/skin/kiosk.png"
+		else
+			set $kiosk_iconfile$ = ""
+		endif
+		LinkFolder_common_programs
+		Message "Start Desktop Icon Handling ..."
+		if $INST_DesktopIcon$ = "true"
+			comment "Create Desktop Icon"
+			Linkfolder_desktop
+		endif
+		set $LinkFolder$ = createStringList ("Startmenue_Entry="+$Startmenue_Entry$)
+		if saveTextFileWithEncoding($LinkFolder$, $InstallDir$+"/LinkFolder.conf", "utf-8")
+			comment "LinkFolder.conf saved succesfully"
+		endif
+		Patches_opsiclientkiosk.conf $InstallDir$ + "/opsiclientkiosk.conf"
+	else
+		LogError "Update opsi-client-agent to version (or greater): " + $REQUIRED_ClientAgentVersion$ + "-" + $REQUIRED_ClientAgentPackageVersion$
+		isFatalError "Required opsi-client-agent: " + $REQUIRED_ClientAgentVersion$ + "-" + $REQUIRED_ClientAgentPackageVersion$
+	endif ;opsi-client-agent version correct
+;endif ;check minimum space  
+
+;****************************** SECTIONS ***************************************
+;---------------------------
+;	Service call sections
+;---------------------------
+[opsiservicecall_authenticated]
+"method": "authenticated"
+"params": [
+					]
+
+[opsiservicecall_setOption_addConfigStateDefaults_true]
+"method": "backend_setOptions"
+"params": [
+	'{"addConfigStateDefaults":true}'
+]
+
+[opsiservicecall_productOnClient_getObjects]
+"method": "productOnClient_getObjects"
+"params": [
+	'[]',
+	'{"productId":"opsi-linux-client-agent","clientId":"$INST_ClientId$"}',
+]
+
+
+;------------------------------
+;	File sections
+;------------------------------
+[Files_install_with_icon_collection]
+copy -s "%ScriptPath%/files/app/*.*" "$InstallDir$"
+unzipfile "%ScriptPath%/files/resources/Collection64x64.zip." "$InstallDir$"
+chmod 755 "$InstallDir$/$BinaryName$"
+symlink "$InstallDir$/$BinaryName$" "/usr/local/bin/$BinaryName$"
+
+[Files_install_without_icon_collection]
+copy -s "%ScriptPath%/files/app/*.*" "$InstallDir$"
+chmod 755 "$InstallDir$/$BinaryName$"
+symlink "$InstallDir$/$BinaryName$" "/usr/local/bin/$BinaryName$"
+
+
+;------------------------- 
+;	LinkFolder Sections
+;-------------------------
+[LinkFolder_common_programs]
+; create shortcut to the installed exe in AllUsers startmenu
+set_basefolder common_programs
+set_subfolder ""
+set_link
+   name: "$Startmenue_Entry$"
+   target: "$InstallDir$/$BinaryName$"
+   parameters:"--fqdn=$INST_ClientId$"
+   icon_file: "$kiosk_iconfile$"
+   link_categories: System;Utility;
+end_link
+
+[Linkfolder_desktop]
+set_basefolder desktop
+set_subfolder ""
+set_link
+	name: "$Startmenue_Entry$"
+	target: "$Installdir$/$BinaryName$"
+	parameters:"--fqdn=$INST_ClientId$"
+	icon_file: "$kiosk_iconfile$"
+	link_categories:
+end_link
+
+[Patches_opsiclientkiosk.conf]
+set [webservice] ClientID = $INST_ClientID$
+
+;*********************** END OF SCRIPT *****************************************
+

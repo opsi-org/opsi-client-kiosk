@@ -1,0 +1,33 @@
+#!/bin/bash
+#
+# preinst script
+# This script executes before that package will be unpacked from its archive file.
+#
+# The following environment variables can be used to obtain information about the current installation:
+#   PRODUCT_ID: id of the current product
+#   PRODUCT_TYPE: type of the current product
+#   PRODUCT_VERSION: product version
+#   PACKAGE_VERSION: package version
+#   CLIENT_DATA_DIR: directory where client data will be installed
+#
+
+# if TMP_DIR exists something was wrong during former installation thus abort.
+TMP_DIR=${CLIENT_DATA_DIR}.tmp
+if [ -d $TMP_DIR ]; then
+	echo "Temporary directory ${TMP_DIR} already exist, aborting!" 1>&2
+	exit 1
+fi
+
+# if CLIENT_DATA_DIR exists then rename CLIENT_DATA_DIR to TMP_DIR else make it
+if [ -d $CLIENT_DATA_DIR ]; then
+	sudo opsi-set-rights $CLIENT_DATA_DIR
+	echo "Renaming previous directory..."
+	echo "   renaming ${CLIENT_DATA_DIR} to ${TMP_DIR}"
+	mv $CLIENT_DATA_DIR $TMP_DIR || exit 1
+	#sudo opsi-set-rights $TMP_DIR
+else
+	mkdir $CLIENT_DATA_DIR
+    sudo opsi-set-rights $CLIENT_DATA_DIR	
+fi
+
+exit 0

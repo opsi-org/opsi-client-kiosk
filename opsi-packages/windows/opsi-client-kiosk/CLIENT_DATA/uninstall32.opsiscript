@@ -1,0 +1,36 @@
+; Copyright (c) uib gmbh (www.uib.de)
+; This sourcecode is owned by uib gmbh
+; and published under the Terms of the General Public License.
+; credits: http://www.opsi.org/en/credits/
+
+[Actions]
+requiredWinstVersion >= "4.11.4.6"
+ScriptErrorMessages=off
+
+DefVar $LogDir$
+DefVar $ProductId$
+DefVar $InstallDir$
+
+
+Set $LogDir$ = "%opsiLogDir%"
+
+; ----------------------------------------------------------------
+; - Please edit the following values                             -
+; ----------------------------------------------------------------
+Set $ProductId$       = "opsi-client-kiosk"
+Set $InstallDir$      = "%ProgramFiles32Dir%\opsi.org\"+ $ProductId$
+; ----------------------------------------------------------------
+
+
+
+comment "Show product picture"
+ShowBitmap "%ScriptPath%\" + $ProductId$ + ".png" $ProductId$
+
+Message "Uninstalling " + $ProductId$ + " ..."
+
+if FileExists("%ScriptPath%\delsub32.opsiscript")
+	comment "Start uninstall sub section"
+	Sub "%ScriptPath%\delsub32.opsiscript"
+endif
+
+

@@ -1,0 +1,83 @@
+#!/bin/bash
+#
+# postinst script
+# This script executes after unpacking files from that archive and registering the product at the depot.
+#
+# The following environment variables can be used to obtain information about the current installation:
+#   PRODUCT_ID: id of the current product
+#   PRODUCT_TYPE: type of the current product
+#   PRODUCT_VERSION: product version
+#   PACKAGE_VERSION: package version
+#   CLIENT_DATA_DIR: directory where client data will be installed
+#
+
+
+#-------------------------------------------------------------------------------
+# Create configs (if not already exists)
+#-------------------------------------------------------------------------------
+EMPTYARRAY=""
+
+CHECKCONFIG="software-on-demand.installation-now-button"
+CHECKSTRING="{\"id\":\"${CHECKCONFIG}\"}"
+ANSWERARRAY=`opsi-admin -dS method config_getObjects '[]' ${CHECKSTRING}`
+if [ "${EMPTYARRAY}" == "${ANSWERARRAY}" ] ; then
+  echo "config ${CHECKCONFIG} does not exists - creating"
+  opsi-admin -d method config_createBool "${CHECKCONFIG}" "${CHECKCONFIG}" "true"
+else
+  echo "config ${CHECKCONFIG} already exists"
+fi
+
+CHECKCONFIG="software-on-demand.admin-mode"
+CHECKSTRING="{\"id\":\"${CHECKCONFIG}\"}"
+ANSWERARRAY=`opsi-admin -dS method config_getObjects '[]' ${CHECKSTRING}`
+if [ "${EMPTYARRAY}" == "${ANSWERARRAY}" ] ; then
+  echo "config ${CHECKCONFIG} does not exists - creating"
+  opsi-admin -d method config_createBool "${CHECKCONFIG}" "${CHECKCONFIG}" "false"
+else
+  echo "config ${CHECKCONFIG} already exists"
+fi
+#-------------------------------------------------------------------------------
+# END of Create configs
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+# Restore ock_custom directory from ${CLIENT_DATA_DIR}.tmp 
+# and migrate the kiosk settings from the old kiosk in the client-agent product 
+# if applicable (e.g. migration folder exists)
+#-------------------------------------------------------------------------------
+TMP_DIR=${CLIENT_DATA_DIR}.tmp
+if [ -d $TMP_DIR ]; then
+	echo "Restoring previous ock_custom directory..."
+	echo "   coping ${TMP_DIR}/files/app/ock_custom to ${CLIENT_DATA_DIR}/files/app"
+	cp -r --remove-destination ${TMP_DIR}/files/app/ock_custom ${CLIENT_DATA_DIR}/files/app || exit 1
+	#sudo opsi-set-rights $OCK_APP_DIR
+	
+	#---------------------------------------------------------------------------
+	# kiosk migration from client-agent 
+	# (only migrate if folder migration exists which is created by the client-agent 
+	# if the opsi-client-kiosk product does not exist)
+	#---------------------------------------------------------------------------
+	if [ -d ${TMP_DIR}/migration ]; then
+		echo "Read migration data from file and update backend database"
+
+		STARTMENUE_ENTRY="`cat ${TMP_DIR}/migration/startmenue_entry.json`"
+		opsi-admin -d method productPropertyState_updateObjects "${STARTMENUE_ENTRY}"
+		
+		STARTMENUE_FOLDER="`cat ${TMP_DIR}/migration/startmenue_folder.json`"
+		opsi-admin -d method productPropertyState_updateObjects "${STARTMENUE_FOLDER}"
+
+		DESKTOP_ICON="`cat ${TMP_DIR}/migration/desktop_icon.json`"
+		opsi-admin -d method productPropertyState_updateObjects "${DESKTOP_ICON}"
+	fi	
+	#---------------------------------------------------------------------------
+	# END of kiosk migration part
+	#---------------------------------------------------------------------------
+	
+	echo "Removing tempory directory..."
+	rm -rf $TMP_DIR 
+fi
+#-------------------------------------------------------------------------------
+# END of Restore ock_custom directory from ${CLIENT_DATA_DIR}.tmp
+#-------------------------------------------------------------------------------
+
+exit 0

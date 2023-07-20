@@ -1,0 +1,287 @@
+; Copyright (c) uib gmbh (www.uib.de)
+; This sourcecode is owned by uib
+; and published under the Terms of the General Public License.
+; credits: http://www.opsi.org/en/credits/
+
+[Actions]
+requiredWinstVersion >= "4.12.1.0"
+ScriptErrorMessages=off
+
+;*********************** VARIABLES *********************************************
+;---------------------------
+;	Variable declarations
+;---------------------------
+; logging directory
+DefVar $LogDir$
+
+; general information about the product
+DefVar $ProductId$  
+DefVar $MinimumSpace$
+DefVar $InstallDir$
+DefVar $BinaryName$
+
+; variables uesd to store informations for installation process
+DefVar $INST_OS$
+DefVar $INST_icon_collection$
+DefVar $INST_DesktopIcon$
+DefVar $INST_ClientID$
+DefVar $INST_ClientAgentDir$
+DefVar $INST_OpsiclientdDir$
+DefVar $INST_OpsiclientdConf$
+DefVar $OLD_KioskDir$
+
+; variables used to store startmenue entry/folder if already set on client
+DefVar $Startmenue_Folder$
+DefVar $Startmenue_Entry$
+;DefVar $Existing_Startmenue_Entry$
+;DefVar $Existing_Startmenue_Folder$
+
+; variables used for checking installed client agent version 
+DefVar $INST_ClientAgentVersion$
+DefVar $INST_ClientAgentPackageVersion$
+DefVar $REQUIRED_ClientAgentVersion$
+DefVar $REQUIRED_ClientAgentPackageVersion$
+DefVar $RightClientAgent$
+
+; stores value of hostparameter software-on-demand.active
+DefVar $kiosk_active$ 
+; path to icon file if available otherwise empty string
+DefVar $kiosk_iconfile$
+
+; some helper variables
+DefVar $ArrayStr$
+DefVar $ObjectStr$
+DefStringList $ReturnList$
+
+;-----------------------------------
+;	Initialisation of variables
+;-----------------------------------
+Set $LogDir$ = "%opsiLogDir%"
+Set $INST_OS$ = GetOS
+Set $INST_ClientAgentDir$	= "%ProgramFiles32Dir%\opsi.org\opsi-client-agent"
+; old kiosk directory in client-agent folder
+; Set $OLD_KioskDir$ = $INST_ClientAgentDir$+"\opsiclientkiosk"
+Set $INST_OpsiclientdDir$   = $INST_ClientAgentDir$+"\opsiclientd"
+Set $INST_OpsiclientdConf$ = $INST_OpsiclientdDir$+"\opsiclientd.conf"
+Set $INST_ClientID$   = GetValueFromInifile($INST_OpsiclientdConf$, "global", "host_id", $INST_ClientID$)
+Set $ProductId$       = "opsi-client-kiosk"
+Set $MinimumSpace$    = "10 MB"
+; the path were we find the product after the installation
+Set $InstallDir$      = "%ProgramFiles32Dir%\opsi.org\" + $ProductId$
+Set $BinaryName$	= "opsiclientkiosk.exe"
+
+; get product properties
+Set $INST_icon_collection$ = GetProductProperty("install_icon_collection", "false")
+Set $INST_DesktopIcon$ = GetProductProperty("desktop_icon","false")
+Set $Startmenue_Folder$ = GetProductProperty ("startmenue_folder", "opsi.org")
+Set $Startmenue_Entry$ = GetProductProperty ("startmenue_entry", "Opsi Client Kiosk")
+; get client entry
+;Set $Existing_Startmenue_Entry$ = GetRegistryStringValue32 ("[HKLM\software\opsi.org\"+$ProductID$+"] link_entry")
+;Set $Existing_Startmenue_Folder$ = GetRegistryStringValue32 ("[HKLM\software\opsi.org\"+$ProductID$+"] folder_entry")
+;if $Existing_Startmenue_folder$ = ""
+;	Set $Existing_startmenue_folder$ = "opsi.org"
+;endif
+; "imports" the Startmenue entries 
+if RegKeyExists("HKLM\software\opsi.org\opsikioskclient")
+	;Set $Startmenue_Folder$ = GetRegistryStringValue32 ("[HKLM\software\opsi.org\opsikioskclient] folder_entry")
+	;Set $Startmenue_Entry$ = GetRegistryStringValue32 ("[HKLM\software\opsi.org\opsikioskclient] link_entry")
+	;Set $INST_DesktopIcon$ = GetRegistryStringValue32 ("[HKLM\software\opsi.org\opsikioskclient] desktop_icon")
+	Registry_delete_oldKeys_from_client_agent
+endif
+
+;opsiservicecall_authenticated
+;Set $OCD_config_service.url$ = GetValueFromInifile($INST_custom_Cfgini$, "opsiclientd", "config_service.url", $OCD_config_service.url$)
+;opsiservicecall_authenticated /username $INST_ClientId$ /password $SHI_pckey$ /serviceurl $OCD_config_service.url$
+Set $RightClientAgent$ = "false"
+; get opsi-client-agent product and package version
+Set $ReturnList$ = getReturnListFromSection("opsiservicecall_productOnClient_getObjects")
+Set $ArrayStr$ = takestring(0, $ReturnList$)
+Set $objectStr$ = jsonAsArrayGetElementByIndex($ArrayStr$,"0")
+Set $INST_ClientAgentVersion$ = jsonAsObjectGetValueByKey($objectStr$,"productVersion")
+Set $INST_ClientAgentPackageVersion$ = jsonAsObjectGetValueByKey($objectStr$,"packageVersion")
+Set $REQUIRED_ClientAgentVersion$ = "4.1.1.0"
+Set $REQUIRED_ClientAgentPackageVersion$ = "1"
+
+
+;*********************** INSTALLATION PROCESS **********************************
+;-------------------------
+;	Check OS
+;-------------------------
+;at the moment opsi-client-kiosk is only for windows
+if not($INST_OS$ = "Windows_NT")
+	LogError "Wrong OS: Product: opsi-client-kiosk is currently only for Windows"
+	isFatalError "Wrong OS"
+endif
+
+;-----------------------------
+;	Check minimum disk space
+;-----------------------------
+if not(HasMinimumSpace ("%SystemDrive%", $MinimumSpace$))
+	; Stop process and set installation status to failed	
+	LogError "Not enough space on %SystemDrive%, " + $MinimumSpace$ + " on drive %SystemDrive% needed for " + $ProductId$
+	isFatalError "No Space"
+else
+	;-----------------------------
+	;	Install product
+	;-----------------------------	
+	Message "Installing " + $ProductId$ + " ..."
+
+	comment "Show product picture"
+	ShowBitmap "%ScriptPath%\" + $ProductId$ + ".png" $ProductId$
+
+	; check client-agent version
+	Set $RightClientAgent$ = booltostring(CompareDotSeparatedNumbers($INST_ClientAgentVersion$,">",$REQUIRED_ClientAgentVersion$))
+	if ($RightClientAgent$ = "false")
+		Set $RightClientAgent$ = booltostring(CompareDotSeparatedNumbers($INST_ClientAgentVersion$,"=",$REQUIRED_ClientAgentVersion$) and ($INST_ClientAgentPackageVersion$ INT>= $REQUIRED_ClientAgentPackageVersion$))	
+	endif
+	
+	if ($RightClientAgent$ = "true")
+		; uninstall old opsi-client-kiosk directory if existing 
+		if DirectoryExists($InstallDir$)
+			Message "Removing old " + $ProductId$ + " ..."
+			if FileExists("%ScriptPath%\delsub32.opsiscript")
+				comment "Start uninstall sub section"
+				Sub "%ScriptPath%\delsub32.opsiscript"
+			endif
+		endif
+		comment "get property value ....."
+		if $INST_icon_collection$ = "true"
+			Message "Installing " + $ProductId$ + " with icon collection " + " ..."
+			comment "install_icon_collection is true"
+			Files_install_with_icon_collection /32Bit
+		else
+			if $INST_icon_collection$ = "false"
+				Message "Installing " + $ProductId$ + " without icon collection (default) " + " ..."
+				comment "install_icon_collection is false"
+				Files_install_without_icon_collection /32Bit
+			else
+				comment "install_icon_collection must be set to true or false"
+			endif
+		endif
+		;DosInAnIcon_lock_opsikiosk !!!(not in use because at the moment not necessary)!!!
+		Registry_remember_link_entry
+		comment "Create shortcuts"
+		if fileexists($InstallDir$+"\ock_custom\skin\kiosk.ico")
+			set $kiosk_iconfile$ = $InstallDir$+"\ock_custom\skin\kiosk.ico"
+		else
+			set $kiosk_iconfile$ = ""
+		endif
+		LinkFolder_install
+		Message "Start Desktop Icon Handling ..."
+		if $INST_DesktopIcon$ = "true"
+			comment "Create Desktop Icon"
+			Linkfolder_create_desktop_icon
+		endif
+	else
+		LogError "Update opsi-client-agent to version (or greater): " + $REQUIRED_ClientAgentVersion$ + "-" + $REQUIRED_ClientAgentPackageVersion$
+		isFatalError "Required opsi-client-agent: " + $REQUIRED_ClientAgentVersion$ + "-" + $REQUIRED_ClientAgentPackageVersion$
+	endif ;opsi-client-agent version correct
+endif ;check minimum space  
+
+;****************************** SECTIONS ***************************************
+;---------------------------
+;	Service call sections
+;---------------------------
+[opsiservicecall_authenticated]
+"method": "authenticated"
+"params": [
+					]
+
+[opsiservicecall_setOption_addConfigStateDefaults_true]
+"method": "backend_setOptions"
+"params": [
+	'{"addConfigStateDefaults":true}'
+]
+
+[opsiservicecall_productOnClient_getObjects]
+"method": "productOnClient_getObjects"
+"params": [
+	'[]',
+	'{"productId":"opsi-client-agent","clientId":"$INST_ClientId$"}',
+]
+
+
+;------------------------------
+;	File sections
+;------------------------------
+[Files_install_with_icon_collection]
+copy -s "%ScriptPath%\files\app\*.*" "$InstallDir$"
+unzipfile "%ScriptPath%\files\resources\Collection64x64.zip." "$InstallDir$"
+
+[Files_install_without_icon_collection]
+copy -s "%ScriptPath%\files\app\*.*" "$InstallDir$"
+
+;----------------------------
+;	Registry sections
+;----------------------------
+;[Registry_install]
+; Example of setting some values of an registry key:
+;
+; openkey [HKEY_LOCAL_MACHINE\Software\$ProductId$]
+; set "name1" = "some string value"
+; set "name2" = REG_DWORD:0001
+; set "name3" = REG_BINARY:00 af 99 cd
+
+[Registry_remember_link_entry]
+;openkey [HKLM\software\opsi.org\opsiclientkiosk]
+openkey [HKEY_LOCAL_MACHINE\Software\opsi.org\$ProductId$]
+set "link_entry" = "$Startmenue_Entry$"
+set "folder_entry" = "$Startmenue_Folder$"
+;set "desktop_icon" = "$INST_DesktopIcon$"
+
+[Registry_delete_oldKeys_from_client_agent]
+DeleteKey [HKLM\software\opsi.org\opsikioskclient]
+
+
+
+;------------------------- 
+;	LinkFolder Sections
+;-------------------------
+[LinkFolder_install]
+; create shortcut to the installed exe in AllUsers startmenu
+set_basefolder common_programs
+set_subfolder $Startmenue_Folder$
+set_link
+   name: "$Startmenue_Entry$"
+   target: "$InstallDir$\$BinaryName$"
+   parameters:"--fqdn=$INST_ClientId$"
+   working_dir: $Installdir$
+   icon_file: "$kiosk_iconfile$"
+   icon_index:
+end_link
+
+[Linkfolder_create_desktop_icon]
+set_basefolder common_desktopdirectory
+set_subfolder ""
+set_link
+	name: "$Startmenue_Entry$"
+	target: "$Installdir$\$BinaryName$"
+	parameters:"--fqdn=$INST_ClientId$"
+	working_dir: $Installdir$
+	icon_file: "$kiosk_iconfile$"
+	icon_index:
+end_link
+
+;------------------------- 
+;	DosInAnIcon Sections !!!(not in use because at the moment not necessary)!!!
+;-------------------------
+[DosInAnIcon_lock_opsikiosk]
+rem see http://setacl.sourceforge.net/
+rem grant user execute to the opsi-client-kiosk directory 
+
+rem make the dacl not inherited
+"$InstallDir$\SetACL.exe" -on "$InstallDir$\$BinaryName$" -ot file -actn clear -actn setprot -op "dacl:p_c;sacl:nc" -rec cont_obj
+
+rem therefore remove users from dacl
+"$InstallDir$\SetACL.exe" -on ""$InstallDir$\$BinaryName$" -ot file -actn trustee -trst n1:S-1-5-32-545;s1:y;ta:remtrst;w:dacl"
+
+rem therefore set new rights
+"$InstallDir$\SetACL.exe" -on "$InstallDir$\$BinaryName$" -ot file -actn ace -ace "n:S-1-5-32-544;p:full;s:y" -ace "n:S-1-5-32-545;p:read_ex;s:y" -actn clear -clr "dacl,sacl" -actn rstchldrn -rst "dacl,sacl"
+
+rem show the resulting acl
+"$InstallDir$\SetACL.exe" -on "$InstallDir$" -ot file -actn list -lst "f:own;w:d,s,o,g;i:y;s:b"
+;"$INST_SetAclDir$\setacl.exe" -on "$INST_OpsiclientdDir$" -ot file -actn list -lst "f:own;w:d,s,o,g;i:y;s:b"
+;"$INST_SetAclDir$\setacl.exe" -on "$INST_WinstDir$" -ot file -actn list -lst "f:own;w:d,s,o,g;i:y;s:b"
+
+
+;*********************** END OF SCRIPT *****************************************

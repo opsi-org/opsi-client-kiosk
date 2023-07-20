@@ -1,0 +1,53 @@
+; Copyright (c) uib gmbh (www.uib.de)
+; This sourcecode is owned by uib gmbh
+; and published under the Terms of the General Public License.
+; credits: http://www.opsi.org/en/credits/
+encoding=utf8
+
+DefVar $Existing_Startmenue_Entry$
+DefStringList $Existing_LinkFolder$
+
+; get current client-kiosk entry
+if FileExists($INstallDir$ + "/LinkFolder.conf")
+	Set $Existing_LinkFolder$ = LoadTextFileWithEncoding($INstallDir$ + "/LinkFolder.conf", "utf-8")
+	Set $Existing_Startmenue_Entry$ = getValue("Startmenue_Entry", $Existing_LinkFolder$)
+else
+	LogError $INstallDir$ + "/LinkFolder.conf not found"
+endif
+
+Message "Uninstalling " + $ProductId$ + " ..."
+
+comment "Delete files"
+Files_uninstall
+
+comment "Delete program shortcuts"
+LinkFolder_uninstall
+
+
+;------------------------------
+;	File sections
+;------------------------------
+
+[Files_uninstall]
+del -sf "$InstallDir$/"
+;del -sf "%ProgramFiles32Dir%\$ProductId$\"
+;del -sf "%ProgramFiles32Dir%\opsi-client-kiosk\"
+
+;------------------------- 
+;	LinkFolder Sections
+;-------------------------
+
+[LinkFolder_uninstall]
+set_basefolder desktop
+set_subfolder ""
+delete_element $Existing_Startmenue_Entry$
+set_basefolder common_programs
+set_subfolder ""
+delete_element $Existing_Startmenue_Entry$
+
+;[Linkfolder_remove_desktop_icon]
+;set_basefolder common_desktopdirectory
+;set_subfolder ""
+;delete_element $Existing_Startmenue_Entry$
+
+;-----------------------------------------------------

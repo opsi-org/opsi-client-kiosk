@@ -1,0 +1,51 @@
+; Copyright (c) uib gmbh (www.uib.de)
+; This sourcecode is owned by uib gmbh
+; and published under the Terms of the General Public License.
+; credits: http://www.opsi.org/en/credits/
+
+DefVar $Existing_Startmenue_Entry$
+DefVar $Existing_Startmenue_Folder$
+
+; get current client-kiosk entry
+Set $Existing_Startmenue_Entry$ = GetRegistryStringValue32 ("[HKLM\software\opsi.org\"+$ProductID$+"] link_entry")
+Set $Existing_Startmenue_Folder$ = GetRegistryStringValue32 ("[HKLM\software\opsi.org\"+$ProductID$+"] folder_entry")
+if $Existing_Startmenue_folder$ = ""
+	Set $Existing_startmenue_folder$ = "opsi.org"
+endif
+
+Message "Uninstalling " + $ProductId$ + " ..."
+
+comment "Delete files"
+Files_uninstall /32Bit
+
+comment "Delete program shortcuts"
+LinkFolder_uninstall
+
+
+;------------------------------
+;	File sections
+;------------------------------
+
+[Files_uninstall]
+del -sf "$InstallDir$\"
+;del -sf "%ProgramFiles32Dir%\$ProductId$\"
+;del -sf "%ProgramFiles32Dir%\opsi-client-kiosk\"
+
+;------------------------- 
+;	LinkFolder Sections
+;-------------------------
+
+[LinkFolder_uninstall]
+set_basefolder common_desktopdirectory
+set_subfolder ""
+delete_element $Existing_Startmenue_Entry$
+set_basefolder common_programs
+set_subfolder $Existing_Startmenue_Folder$
+delete_element $Existing_Startmenue_Entry$
+
+;[Linkfolder_remove_desktop_icon]
+;set_basefolder common_desktopdirectory
+;set_subfolder ""
+;delete_element $Existing_Startmenue_Entry$
+
+

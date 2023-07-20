@@ -1,0 +1,83 @@
+[Changelog]
+opsi-client-kiosk (4.1.1.8-8) experimental; urgency=low
+
+  * slightly cleanup setup32.opsiscript
+
+ -- Jan Werner <j.werner@uib.de>  Fri, 18 Dec 2020 13:11:00 +0000
+
+opsi-client-kiosk (4.1.1.8-7) experimental; urgency=low
+
+  * change behavour if files are copied which are in use: now a reboot is requested
+
+ -- Jan Werner <j.werner@uib.de>  Thu, 17 Dec 2020 17:26:00 +0000
+
+opsi-client-kiosk (4.1.1.8-6) experimental; urgency=low
+
+  * Adminmode: fix issue that Icon/Screenshot image was deleted if the same image was used
+    for different products and than for one of these products the image was changed
+
+ -- Jan Werner <j.werner@uib.de>  Wed, 17 Dec 2020 09:28:00 +0000
+
+opsi-client-kiosk (4.1.1.7-6) experimental; urgency=medium
+
+ * remove set kiosk to setup part from postinst (functionality now coverd by opsi-client-agent package >= 4.1.1.18-1)
+ 
+ -- Jan Werner <j.werner@uib.de>  Wed, 14 Dec 2020 15:19:00 +0000
+
+opsi-client-kiosk (4.1.1.7-3) experimental; urgency=low
+
+ * small fixes in skin (header title/kiosk.icon are now displayed correct)
+ * if kiosk migration from client-agent package occured (folder migration exist in the opsi-client-kiosk folder on depot) 
+   set the opsi-client-kiosk to setup for all clients where software-on-demand.active=true. 
+ 
+ -- Jan Werner <j.werner@uib.de>  Thu, 03 Dec 2020 15:33:00 +0000
+
+opsi-client-kiosk (4.1.1.6-5) experimental; urgency=low
+
+ * migration from files
+ * depends on opsi-client-agent (>= 4.1.1.6-5)
+ 
+ -- Jan Werner <j.werner@uib.de>  Thu, 22 Oct 2020 15:33:00 +0000
+
+opsi-client-kiosk (4.1.1.6-4) experimental; urgency=low
+
+  * depends on opsi-client-agent (>= 4.1.1.1)
+  * this kiosk version needs no to be installed separatly, during the installation of the opsi-client-agent package (>=4.1.1.3-1) on the depot all necessary steps will be executed.
+    (e.g. migration of settings, installation of kiosk package on the depot, setting the kiosk to setup for the appropriate clients)
+ 
+ -- Jan Werner <j.werner@uib.de>  Tue, 20 Oct 2020 15:00:00 +0000
+
+
+opsi-client-kiosk (4.1.1.6-3) experimental; urgency=low
+
+  * Version build just for internal testing 
+
+ -- Jan Werner <j.werner@uib.de>  Tue, 29 Sept 2020 18:38:00 +0000
+
+opsi-client-kiosk (4.1.1.6-2) experimental; urgency=low
+
+  * last fixes
+
+ -- Jan Werner <j.werner@uib.de>  Tue, 23 Sept 2020 12:09:30 +0000
+
+opsi-client-kiosk (4.1.1.6-1) experimental; urgency=low
+
+  * opsi-client-kiosk version 4.1.1.6 (small bug fixes in user interface)
+  * migration from opsi-client-agent: postinst script now checks for different possible ock_custom paths in the client-agent directory 
+    and did not try to copy the ock_custom folder if no known path exists  
+
+ -- Jan Werner <j.werner@uib.de>  Tue, 23 Sept 2020 12:09:30 +0000
+
+opsi-client-kiosk (4.1.1.4-1) experimental; urgency=low
+
+  * Initial package
+  * the opsi-client-kiosk is now available as an extra package. Formely it was included in the opsi-client-agent package. 
+  * The ock_custom folder as well as the properties settings will be migrated from the opsi-client-agent package respectively the opsi-backend.
+  * Precondition for using the opsi-client-kiosk:
+     - The opsi-client-kiosk package and the opsi client-agent package >= version 4.1.1.0 must be installed on the opsi-depot. 
+     - IMPORTANT the opsi-client-kiosk package had to be installed on the depot before the opsi-client-agent package. This order is necessary for the migration process.
+     - The opsi-client-agent version >= 4.1.1.0 must be installed on the client. 
+
+ -- Jan Werner <j.werner@uib.de>  Wed, 19 August 2020 11:47:30 +0000
+
+ opsi-client-agent (>= 4.1.1.1)

@@ -1,0 +1,41 @@
+; Copyright (c) uib gmbh (www.uib.de)
+; This sourcecode is owned by uib gmbh
+; and published under the Terms of the General Public License.
+; credits: http://www.opsi.org/en/credits/
+
+DefVar $OLD_Startmenue_Entry$
+DefVar $OLD_Startmenue_Folder$
+
+Message "Uninstalling " + $ProductId$ + " ..."
+
+; if old kiosk in client agent directory exists delete old kiosk
+; NOTICE: Regkey is established in client-agent product as opsikioskclient and NOT as opsiclientkiosk 
+Set $OLD_Startmenue_Entry$ = GetRegistryStringValue32 ("[HKLM\software\opsi.org\opsikioskclient] link_entry")
+Set $OLD_Startmenue_Folder$ = GetRegistryStringValue32 ("[HKLM\software\opsi.org\opsikioskclient] folder_entry")
+if $OLD_Startmenue_folder$ = ""
+	Set $OLD_startmenue_folder$ = "opsi.org"
+endif
+
+comment "Delete old kiosk files"
+Files_uninstall /32Bit
+
+comment "Delete program shortcuts"
+LinkFolder_uninstall
+
+;------------------------------
+;	File sections
+;------------------------------
+[Files_uninstall]
+del -sf "$OLD_KioskDir$\"
+
+;------------------------- 
+;	LinkFolder Sections
+;-------------------------
+
+[LinkFolder_uninstall]
+set_basefolder common_desktopdirectory
+set_subfolder ""
+delete_element $OLD_Startmenue_Entry$
+set_basefolder common_programs
+set_subfolder $OLD_Startmenue_Folder$
+delete_element $OLD_Startmenue_Entry$

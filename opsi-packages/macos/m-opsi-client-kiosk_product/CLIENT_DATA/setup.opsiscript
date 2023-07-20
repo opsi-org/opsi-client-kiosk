@@ -1,0 +1,99 @@
+; ----------------------------------------------------------------
+; Copyright (c) uib gmbh (www.uib.de)
+; This sourcecode is owned by uib
+; and published under the Terms of the General Public License.
+; ----------------------------------------------------------------
+encoding=utf8
+
+[Actions]
+requiredWinstVersion >= "4.12.0.28"
+ScriptErrorMessages = false
+
+; All variables are defined here:
+include_insert "define_vars_multi.opsiscript"
+
+; import complete file !
+importlib "uib_exitcode.opsiscript"
+importlib "osd-lib.opsiscript"
+importlib "uib_macosinstalllib.opsiscript"
+
+
+; ----------------------------------------------------------------
+; $ProductId$ is the name of the product in opsi, only lower letters, no umlauts, no white spaces, use '-' as a seperator
+Set $ProductId$		 = "m-opsi-client-kiosk"
+Set $MinimumSpace$	 = "10 MB"
+; the path were we find the product after the installation
+;Set $InstallDir$	= "/Applications/<product.app>"
+Set $InstallDir$		= "/Applications/OpsiClientKiosk.app"
+Set $ApplicationSupportDir$ = "/Library/Application Support/org.opsi.OpsiClientKiosk"
+Set $INST_OpsiclientdConf$ = "/etc/opsi-client-agent/opsiclientd.conf"
+Set $INST_ClientID$   = GetValueFromInifile($INST_OpsiclientdConf$, "global", "host_id", $INST_ClientID$)
+; ----------------------------------------------------------------
+
+set $OS$ = GetOS
+
+if not(($OS$ = "macos"))
+	logError "Installation aborted: wrong OS version: only MacOS"
+	isFatalError "wrong OS"
+endif
+
+comment "Show product picture"
+ShowBitmap "%ScriptPath%/" + $ProductId$ + ".png" $ProductId$
+
+;set $desktop_icon$ = GetProductProperty("desktop_icon", "")
+set $install_icon_collection$ = GetProductProperty("install_icon_collection", "")
+
+
+if FileExists("%ScriptPath%/delsub.opsiscript")
+	comment "Start uninstall sub section"
+	Sub "%ScriptPath%/delsub.opsiscript"
+endif
+
+Message "Installing " + $ProductId$ + " ..."
+
+
+comment "Start setup "
+ChangeDirectory "%SCRIPTPATH%/files"
+; ---------------------------------------------
+; Installation
+;----------------------------------------------
+; App
+set $installSuccess$ = install_macos_generic("%SCRIPTPATH%/files/app/OpsiClientKiosk.app") 
+; Configuration files / custom files
+Files_install_config_custom_files
+Patches_opsiclientkiosk.conf $ApplicationSupportDir$ + "/opsiclientkiosk.conf"
+; Icon collection
+if $install_icon_collection$ = "true"
+	Message "Installing " + $ProductId$ + " with icon collection " + " ..."
+	comment "install_icon_collection is true"
+	Files_install_icon_collection
+else
+	comment "install_icon_collection must be set to true or false"
+endif
+
+;does only work if $UseName$ is given (additional property had to be created)
+;if $desktop_icon$ = "true"
+;  shellCall("ln -s " + $InstallDir$ + " /Users/" +$UserName$ + "/Desktop")
+;endif
+
+if $installSuccess$  = "false"
+	LogError "Installation failed"
+	isfatalerror "Installation failed"
+else
+	Comment "Installation success"
+endif
+;----------------------------------------------
+
+[Files_install_config_custom_files]
+copy -s "%ScriptPath%/files/app/ock_custom/*.*" "$ApplicationSupportDir$/ock_custom"
+copy "%ScriptPath%/files/app/opsiclientkiosk.conf" "$ApplicationSupportDir$"
+
+[Files_install_icon_collection]
+unzipfile "%ScriptPath%/files/resources/Collection64x64.zip." "$ApplicationSupportDir$/Collection64x64"
+
+[Patches_opsiclientkiosk.conf]
+set [webservice] ClientID = $INST_ClientID$
+
+; ----------------------------------------------------------------
+; ----------------------------------------------------------------
+

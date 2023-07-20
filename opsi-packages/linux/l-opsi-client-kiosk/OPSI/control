@@ -1,0 +1,48 @@
+[Package]
+version: 7
+depends: opsi-linux-client-agent (>= 4.1.1.11-1)
+
+[Product]
+type: localboot
+id: l-opsi-client-kiosk
+name: l-opsi-client-kiosk
+description: opsi-client-kiosk for Linux. Allows to install software with Opsi on the client on demand.
+advice: opsi-client-agent version >= 4.1.1.11-1 had to be installed on the client.
+version: 4.1.1.16
+priority: 0
+licenseRequired: False
+productClasses: 
+setupScript: setup.opsiscript
+uninstallScript: uninstall.opsiscript
+updateScript: 
+alwaysScript: 
+onceScript: 
+customScript: 
+userLoginScript: 
+
+[ProductDependency]
+action: setup
+requiredProduct: opsi-linux-client-agent
+requiredStatus: installed
+
+[ProductProperty]
+type: bool
+name: desktop_icon
+description: Should a desktop icon be created?
+default: False
+
+[ProductProperty]
+type: bool
+name: install_icon_collection
+description: Should a default icon collection installed where icons can be chosen from?
+default: False
+
+[ProductProperty]
+type: unicode
+name: startmenue_entry
+multivalue: False
+editable: True
+description: The Start Menu entry for the Client Kiosk (software on demand)
+values: ["opsi-client-kiosk", "software-on-demand"]
+default: ["opsi-client-kiosk"]
+
