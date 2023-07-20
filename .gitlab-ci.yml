@@ -136,6 +136,8 @@ make opsi-client-kiosk bundle for Windows:
     - Copy-Item '..\ock_custom' -Recurse .
     - Copy-Item '..\opsiclientkiosk.conf' .
     - Copy-Item ..\builds\i386-win32\${BINARY_NAME_WINDOWS} .
+    # Get libs from binaryindex
+    - opsi-dev-tool --binary-pull development ssl-libs windows x86 1.1.1.n .
   artifacts:
     name: "app_windows"
     paths: 
@@ -143,7 +145,7 @@ make opsi-client-kiosk bundle for Windows:
 
 
 #***************************************#
-#  upload binaries to binaryindex      #
+#  upload binaries to binaryindex       #
 #***************************************#
 opsi-client-kiosk to binaryindex:
   stage: binaryindex
@@ -169,6 +171,7 @@ opsi-package windows:
   dependencies:
     - get version
     - compile opsi-client-kiosk windows
+    - make opsi-client-kiosk bundle for Windows
   image: docker.uib.gmbh/opsi/dev/pybuilder:uib-python-default
   rules:
     - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG 
