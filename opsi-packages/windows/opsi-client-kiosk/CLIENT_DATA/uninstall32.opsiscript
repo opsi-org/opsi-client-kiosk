@@ -2,6 +2,7 @@
 ; This sourcecode is owned by uib gmbh
 ; and published under the Terms of the General Public License.
 ; credits: http://www.opsi.org/en/credits/
+encoding=utf8
 
 [Actions]
 requiredWinstVersion >= "4.11.4.6"

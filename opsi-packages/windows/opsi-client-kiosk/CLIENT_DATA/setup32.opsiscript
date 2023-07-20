@@ -2,6 +2,7 @@
 ; This sourcecode is owned by uib
 ; and published under the Terms of the General Public License.
 ; credits: http://www.opsi.org/en/credits/
+encoding=utf8
 
 [Actions]
 requiredWinstVersion >= "4.12.1.0"
@@ -172,6 +173,7 @@ else
 			comment "Create Desktop Icon"
 			Linkfolder_create_desktop_icon
 		endif
+		Patches_opsiclientkiosk.conf $InstallDir$ + "/opsiclientkiosk.conf"
 	else
 		LogError "Update opsi-client-agent to version (or greater): " + $REQUIRED_ClientAgentVersion$ + "-" + $REQUIRED_ClientAgentPackageVersion$
 		isFatalError "Required opsi-client-agent: " + $REQUIRED_ClientAgentVersion$ + "-" + $REQUIRED_ClientAgentPackageVersion$
@@ -261,6 +263,9 @@ set_link
 	icon_file: "$kiosk_iconfile$"
 	icon_index:
 end_link
+
+[Patches_opsiclientkiosk.conf]
+set [webservice] ClientID = $INST_ClientID$
 
 ;------------------------- 
 ;	DosInAnIcon Sections !!!(not in use because at the moment not necessary)!!!
