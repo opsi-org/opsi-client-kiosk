@@ -137,7 +137,7 @@ make opsi-client-kiosk bundle for Windows:
     - Copy-Item '..\opsiclientkiosk.conf' .
     - Copy-Item ..\builds\i386-win32\${BINARY_NAME_WINDOWS} .
     # Get libs from binaryindex
-    - opsi-dev-tool --binary-pull development ssl-libs windows x86 1.1.1.n .
+    - opsi-dev-tool --binary-pull development ssl-libs windows x86 1.1.1n .
   artifacts:
     name: "app_windows"
     paths: 
