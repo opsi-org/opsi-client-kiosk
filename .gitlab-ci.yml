@@ -138,6 +138,8 @@ make opsi-client-kiosk bundle for Windows:
     - Copy-Item ..\builds\i386-win32\${BINARY_NAME_WINDOWS} .
     # Get libs from binaryindex
     - opsi-dev-tool --binary-pull development ssl-libs windows x86 1.1.1n .
+    - Copy-Item ssl-libs\* -Recurse .
+    - Remove-Item -Path ssl-libs -Recurse
   artifacts:
     name: "app_windows"
     paths: 
@@ -181,7 +183,7 @@ opsi-package windows:
   script:
     - set -ex
     - echo "Building opsi-package (Version ${BINARY_VERSION}) for Windows (32 Bit)"
-    - $Package_Path='opsi-packages/windows/opsi-client-kiosk'
+    - Package_Path='opsi-packages/windows/opsi-client-kiosk'
     - cd $Package_Path
     - export version=`grep OPSI/control -A 10 -e "\[Product\]" | grep "version:" | tr -d "^a-zA-Z :"`
     - export package=`grep OPSI/control -A 4 -e "\[Package\]" | grep "version:" | tr -d "^a-zA-Z :"`
