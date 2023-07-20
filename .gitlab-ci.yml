@@ -189,15 +189,19 @@ opsi-package windows:
     - opsiPackage_Path="opsi-packages/windows/opsi-client-kiosk"
     - Files_Path="$opsiPackage_Path/CLIENT_DATA/files"
     - mkdir -p $Files_Path
-    - cp -r  app_windows $Files_Path
-    - cd $Package_Path
+    - mv app_windows $Files_Path/app
+    #- cp -r app $Files_Path
+    - opsi-dev-tool --binary-pull development client-kiosk-icon-collection all all latest .
+    - mkdir -p $Files_Path/resources
+    - mv client-kiosk-icon-collection/* $Files_Path/resources
+    - cd $opsiPackage_Path
     # - export version=`grep OPSI/control -A 10 -e "\[Product\]" | grep "version:" | tr -d "^a-zA-Z :"`
     - version=$BINARY_VERSION
     - package=`grep OPSI/control -A 4 -e "\[Package\]" | grep "version:" | tr -d "^a-zA-Z :"`
     - '[ "$CI_COMMIT_TAG" = "" ] && package="$package.$CI_JOB_ID"'
     - 'sed -i "/Package/,/version:/s/version: .*\$/version: $package/" OPSI/control'
     - echo "building version $version-$package"
-    #- opsi-makepackage --no-set-rights -l 6
-    #- upload-package opsi-client-kiosk*.opsi true true true false
+    - opsi-makepackage --no-set-rights -l 6
+    - upload-package opsi-client-kiosk*.opsi true true true false
 
 
