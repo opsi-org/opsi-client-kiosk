@@ -193,7 +193,7 @@ opsi-package windows:
     #- cp -r app $Files_Path
     - opsi-dev-tool --binary-pull development client-kiosk-icon-collection all all latest .
     - mkdir -p $Files_Path/resources
-    - mv client-kiosk-icon-collection/* $Files_Path/resources
+    - mv client-kiosk-icon-collection $Files_Path/resources
     - cd $opsiPackage_Path
     # - export version=`grep OPSI/control -A 10 -e "\[Product\]" | grep "version:" | tr -d "^a-zA-Z :"`
     - version=$BINARY_VERSION
