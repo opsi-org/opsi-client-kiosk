@@ -115,6 +115,7 @@ compile opsi-client-kiosk macos:
       - builds/x86_64-darwin/${BINARY_NAME_MAC}
 
 
+
 #*********************************************#
 #  make opsi-client-kiosk bundle for Windows  #
 #*********************************************#
@@ -150,6 +151,41 @@ make opsi-client-kiosk bundle for Windows:
     paths: 
       - app_windows
 
+
+#*********************************************#
+#  make opsi-client-kiosk bundle for Linux    #
+#*********************************************#
+make opsi-client-kiosk bundle for Linux:
+  stage: bundle
+  dependencies:
+    - get version
+    - compile opsi-client-kiosk linux
+  image: docker.uib.gmbh/opsi/dev/pybuilder:uib-python-default
+  rules:
+    # Wenn gepusht oder ein Merge Request erstellt wird immer erstellen
+    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
+      when: always
+  script:
+    - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for Linux (64 Bit)"
+    - $BundleDir = 'app_linux'
+    #- if (Test-Path $BundleDir) { Remove-Item -Path $BundleDir -Recurse }
+    - rm -r $BundleDir
+    - mkdir $BundleDir 
+    - cd $BundleDir
+    - cp -r ../default .
+    - cp -r ../locale .
+    - cp -r ../ock_custom .
+    - cp -r ../opsiclientkiosk.conf .
+    - cp -r ../builds/x86_64-linux/${BINARY_NAME_LINUX} .
+    # Get libs from binaryindex
+    - opsi-dev-tool --version
+    - opsi-dev-tool --binary-pull development ssl-libs linux x64 $SSL_LIB_VERSION .
+    - cp -r ssl-libs/* .
+    - rm -r ssl-libs
+  artifacts:
+    name: "app_linux"
+    paths: 
+      - app_linux
 
 #***************************************#
 #  upload binaries to binaryindex       #
