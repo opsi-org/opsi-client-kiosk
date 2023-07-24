@@ -167,7 +167,7 @@ make opsi-client-kiosk bundle for Linux:
       when: always
   script:
     - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for Linux (64 Bit)"
-    - $BundleDir = 'app_linux'
+    - BundleDir="app_linux"
     #- if (Test-Path $BundleDir) { Remove-Item -Path $BundleDir -Recurse }
     - rm -r $BundleDir
     - mkdir $BundleDir 
