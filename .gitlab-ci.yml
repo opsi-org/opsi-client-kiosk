@@ -246,3 +246,40 @@ opsi-package windows:
     - upload-package opsi-client-kiosk*.opsi true true true false
 
 
+#***************************************#
+#  make opsi-package for Linux          #
+#***************************************#
+opsi-package linux:
+  stage: package
+  dependencies:
+    - get version
+    - compile opsi-client-kiosk linux
+    - make opsi-client-kiosk bundle for Linux
+  image: docker.uib.gmbh/opsi/dev/pybuilder:uib-python-default
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG 
+      when: always
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: manual
+  script:
+    - set -ex
+    - echo "Building opsi-package (Version ${BINARY_VERSION}) for Linux (64 Bit)"
+    - opsiPackage_Path="opsi-packages/linux/l-opsi-client-kiosk"
+    - Files_Path="$opsiPackage_Path/CLIENT_DATA/files"
+    - mkdir -p $Files_Path
+    - mv app_linux $Files_Path/app
+    #- cp -r app $Files_Path
+    - opsi-dev-tool --version
+    - opsi-dev-tool --binary-pull development client-kiosk-icon-collection all all latest .
+    - mkdir -p $Files_Path/resources
+    - mv Collection64x64.zip $Files_Path/resources/Collection64x64.zip
+    - cd $opsiPackage_Path
+    # - export version=`grep OPSI/control -A 10 -e "\[Product\]" | grep "version:" | tr -d "^a-zA-Z :"`
+    - version=$BINARY_VERSION
+    - 'sed -i "/Product/,/version:/s/version: .*\$/version: $version/" OPSI/control'
+    - package=`grep OPSI/control -A 4 -e "\[Package\]" | grep "version:" | tr -d "^a-zA-Z :"`
+    - '[ "$CI_COMMIT_TAG" = "" ] && package="$package.$CI_JOB_ID"'
+    - 'sed -i "/Package/,/version:/s/version: .*\$/version: $package/" OPSI/control'
+    - echo "building version $version-$package"
+    - opsi-makepackage --no-set-rights -l 6
+    - upload-package l-opsi-client-kiosk*.opsi true true true false
