@@ -223,7 +223,7 @@ make opsi-client-kiosk bundle for MacOS:
     # copy resources to OpsiClientKiosk.app/Contents/Resource
     - cp -r ../default OpsiClientKiosk.app/Contents/Resources
     - cp -r ../locale OpsiClientKiosk.app/Contents/Resources
-    - cp -r ../opsiclientkiosk.icon OpsiClientKiosk.app/Contents/Resources
+    - cp -r ../opsiclientkiosk.ico OpsiClientKiosk.app/Contents/Resources
     # copy files which could be changed by customer to app_macos folder 
     # they had to be not within the Application structure because the Application will be codesigned and files within could not be changed anymore
     - cp -r ../ock_custom .
