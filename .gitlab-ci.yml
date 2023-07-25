@@ -168,7 +168,7 @@ make opsi-client-kiosk bundle for Linux:
   script:
     - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for Linux (64 Bit)"
     - BundleDir="app_linux"
-    - if [ -d $BundleDir ]; then rm -rf $BundleDir fi
+    #- if [ -d $BundleDir ]; then rm -rf $BundleDir fi
     - mkdir $BundleDir 
     - cd $BundleDir
     - cp -r ../default .
