@@ -219,7 +219,7 @@ make opsi-client-kiosk bundle for MacOS:
     - cp -r ssl-libs/* OpsiClientKiosk.app/Contents/Frameworks
     - rm -r ssl-libs
     # copy opsiclientkiosk binary to OpsiClientKiosk.app/Contents/MacOS 
-    - cp -r ../builds/x86_64-linux/${BINARY_NAME_MACOS} OpsiClientKiosk.app/Contents/MacOS
+    - cp -r ../builds/x86_64-darwin/${BINARY_NAME_MAC} OpsiClientKiosk.app/Contents/MacOS
     # copy resources to OpsiClientKiosk.app/Contents/Resource
     - cp -r ../default OpsiClientKiosk.app/Contents/Resources
     - cp -r ../locale OpsiClientKiosk.app/Contents/Resources
