@@ -196,11 +196,16 @@ make opsi-client-kiosk bundle for MacOS:
   dependencies:
     - get version
     - compile opsi-client-kiosk macos
-  image: docker.uib.gmbh/opsi/dev/pybuilder:uib-python-default
+  tags:
+    - macos_catalina
   rules:
     # Wenn gepusht oder ein Merge Request erstellt wird immer erstellen
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
       when: always
+  before_script:
+    - curl -o opsi-dev-tools.tar.gz "$OPSIDEVTOOLS_URL_DARWIN_X64"
+    - tar -xvf opsi-dev-tools.tar.gz
+    - cp opsi-dev-tool opsi-dev-cli
   script:
     - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for MacOS (64 Bit)"
     - SSL_LIB_VERSION="1.1-unsigned"
@@ -213,6 +218,11 @@ make opsi-client-kiosk bundle for MacOS:
     - mkdir OpsiClientKiosk.app/Contents/MacOS
     - mkdir OpsiClientKiosk.app/Contents/Resources
     - mkdir OpsiClientKiosk.app/Contents/Frameworks
+    # Patch Info.plist
+    - sed -i '' -e "/CFBundleShortVersionString/,/<\/string>/s/<string>.*<\/string>/<string>$BINARY_VERSION<\/string>/" ../Info.plist
+    - cp -r ../Info.plist OpsiClientKiosk.app/Contents
+    # make PkgInfo
+    - echo "APPL????" > PkgInfo
     # Get libraries from binaryindex and copy them to Frameworks
     - opsi-dev-tool --version
     - opsi-dev-tool --binary-pull development ssl-libs darwin x64 $SSL_LIB_VERSION .
@@ -224,6 +234,8 @@ make opsi-client-kiosk bundle for MacOS:
     - cp -r ../default OpsiClientKiosk.app/Contents/Resources
     - cp -r ../locale OpsiClientKiosk.app/Contents/Resources
     - cp -r ../opsiclientkiosk.ico OpsiClientKiosk.app/Contents/Resources
+    # Codesign and notarize application
+    - ./../opsi-dev-cli -l info apple sign-and-notarize --print-log $BundleDir/OpsiClientKiosk.app
     # copy files which could be changed by customer to app_macos folder 
     # they had to be not within the Application structure because the Application will be codesigned and files within could not be changed anymore
     - cp -r ../ock_custom .
@@ -330,3 +342,42 @@ opsi-package linux:
     - echo "building version $version-$package"
     - opsi-makepackage --no-set-rights -l 6
     - upload-package l-opsi-client-kiosk*.opsi true true true false
+
+
+#***************************************#
+#  make opsi-package for MacOS          #
+#***************************************#
+opsi-package macos:
+  stage: package
+  dependencies:
+    - get version
+    - compile opsi-client-kiosk macos
+    - make opsi-client-kiosk bundle for MacOS
+  image: docker.uib.gmbh/opsi/dev/pybuilder:uib-python-default
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG 
+      when: always
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: manual
+  script:
+    - set -ex
+    - echo "Building opsi-package (Version ${BINARY_VERSION}) for MacOS (64 Bit)"
+    - opsiPackage_Path="opsi-packages/macos/m-opsi-client-kiosk"
+    - Files_Path="$opsiPackage_Path/CLIENT_DATA/files"
+    - mkdir -p $Files_Path
+    - mv app_macos $Files_Path/app
+    #- cp -r app $Files_Path
+    - opsi-dev-tool --version
+    - opsi-dev-tool --binary-pull development client-kiosk-icon-collection all all latest .
+    - mkdir -p $Files_Path/resources
+    - mv Collection64x64.zip $Files_Path/resources/Collection64x64.zip
+    - cd $opsiPackage_Path
+    # - export version=`grep OPSI/control -A 10 -e "\[Product\]" | grep "version:" | tr -d "^a-zA-Z :"`
+    - version=$BINARY_VERSION
+    - 'sed -i "/Product/,/version:/s/version: .*\$/version: $version/" OPSI/control'
+    - package=`grep OPSI/control -A 4 -e "\[Package\]" | grep "version:" | tr -d "^a-zA-Z :"`
+    - '[ "$CI_COMMIT_TAG" = "" ] && package="$package.$CI_JOB_ID"'
+    - 'sed -i "/Package/,/version:/s/version: .*\$/version: $package/" OPSI/control'
+    - echo "building version $version-$package"
+    - opsi-makepackage --no-set-rights -l 6
+    - upload-package m-opsi-client-kiosk*.opsi true true true false
