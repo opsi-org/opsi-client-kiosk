@@ -13,7 +13,7 @@ variables:
   BINARY_NAME_MAC:
     value: "OpsiClientKiosk"
 
-  SSL_LIB_VERSION:
+  SSL_LIB_VERSION: #only windows
     value: "1.1.1n"
 
   GIT_SUBMODULE_STRATEGY: recursive
@@ -167,6 +167,7 @@ make opsi-client-kiosk bundle for Linux:
       when: always
   script:
     - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for Linux (64 Bit)"
+    - SSL_LIB_VERSION="1.1-oldlibc"
     - BundleDir="app_linux"
     #- if [ -d $BundleDir ]; then rm -rf $BundleDir fi
     - mkdir $BundleDir 
