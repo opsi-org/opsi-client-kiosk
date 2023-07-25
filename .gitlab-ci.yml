@@ -187,6 +187,53 @@ make opsi-client-kiosk bundle for Linux:
     paths: 
       - app_linux
 
+
+#*********************************************#
+#  make opsi-client-kiosk bundle for MacOS    #
+#*********************************************#
+make opsi-client-kiosk bundle for MacOS:
+  stage: bundle
+  dependencies:
+    - get version
+    - compile opsi-client-kiosk macos
+  image: docker.uib.gmbh/opsi/dev/pybuilder:uib-python-default
+  rules:
+    # Wenn gepusht oder ein Merge Request erstellt wird immer erstellen
+    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
+      when: always
+  script:
+    - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for MacOS (64 Bit)"
+    - SSL_LIB_VERSION="1.1-unsigned"
+    - BundleDir="app_macos"
+    - mkdir $BundleDir 
+    - cd $BundleDir
+    # Make Apple application structure
+    - mkdir OpsiClientKiosk.app
+    - mkdir OpsiClientKiosk.app/Contents
+    - mkdir OpsiClientKiosk.app/Contents/MacOS
+    - mkdir OpsiClientKiosk.app/Contents/Resources
+    - mkdir OpsiClientKiosk.app/Contents/Frameworks
+    # Get libraries from binaryindex and copy them to Frameworks
+    - opsi-dev-tool --version
+    - opsi-dev-tool --binary-pull development ssl-libs darwin x64 $SSL_LIB_VERSION .
+    - cp -r ssl-libs/* OpsiClientKiosk.app/Contents/Frameworks
+    - rm -r ssl-libs
+    # copy opsiclientkiosk binary to OpsiClientKiosk.app/Contents/MacOS 
+    - cp -r ../builds/x86_64-linux/${BINARY_NAME_MACOS} OpsiClientKiosk.app/Contents/MacOS
+    # copy resources to OpsiClientKiosk.app/Contents/Resource
+    - cp -r ../default OpsiClientKiosk.app/Contents/Resources
+    - cp -r ../locale OpsiClientKiosk.app/Contents/Resources
+    - cp -r ../opsiclientkiosk.icon OpsiClientKiosk.app/Contents/Resources
+    # copy files which could be changed by customer to app_macos folder 
+    # they had to be not within the Application structure because the Application will be codesigned and files within could not be changed anymore
+    - cp -r ../ock_custom .
+    - cp -r ../opsiclientkiosk.conf .
+
+  artifacts:
+    name: "app_macos"
+    paths:
+      - app_macos
+
 #***************************************#
 #  upload binaries to binaryindex       #
 #***************************************#
