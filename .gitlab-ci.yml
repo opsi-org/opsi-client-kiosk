@@ -224,8 +224,8 @@ make opsi-client-kiosk bundle for MacOS:
     # make PkgInfo
     - echo "APPL????" > PkgInfo
     # Get libraries from binaryindex and copy them to Frameworks
-    - opsi-dev-tool --version
-    - opsi-dev-tool --binary-pull development ssl-libs darwin x64 $SSL_LIB_VERSION .
+    - ./../opsi-dev-tool --version
+    - ./../opsi-dev-tool --binary-pull development ssl-libs darwin x64 $SSL_LIB_VERSION .
     - cp -r ssl-libs/* OpsiClientKiosk.app/Contents/Frameworks
     - rm -r ssl-libs
     # copy opsiclientkiosk binary to OpsiClientKiosk.app/Contents/MacOS 
