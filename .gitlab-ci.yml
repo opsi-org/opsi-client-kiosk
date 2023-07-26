@@ -235,7 +235,7 @@ make opsi-client-kiosk bundle for MacOS:
     - cp -r ../locale OpsiClientKiosk.app/Contents/Resources
     - cp -r ../opsiclientkiosk.ico OpsiClientKiosk.app/Contents/Resources
     # Codesign and notarize application
-    - ./../opsi-dev-cli -l info apple sign-and-notarize --print-log $BundleDir/OpsiClientKiosk.app
+    - ./../opsi-dev-cli -l info apple sign-and-notarize --print-log OpsiClientKiosk.app
     # copy files which could be changed by customer to app_macos folder 
     # they had to be not within the Application structure because the Application will be codesigned and files within could not be changed anymore
     - cp -r ../ock_custom .
