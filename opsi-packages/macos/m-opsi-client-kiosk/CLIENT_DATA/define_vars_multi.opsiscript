@@ -1,0 +1,48 @@
+
+; -------------------------------------
+; include file for opsi-setup-detector products
+; Define all variables here
+;---------------------------
+DefVar $arch$
+DefVar $distCodeName$
+DefVar $distRelease$
+DefVar $distroName$
+DefVar $distrotype$
+DefVar $errorstring$
+DefVar $exitcode$
+DefVar $iconfile$
+DefVar $installCommand$
+DefVar $installSuccess$
+DefVar $installdir$
+DefVar $installdir1$
+DefVar $installdir2$
+DefVar $installerfile$
+DefVar $licensekey$
+DefVar $licensepool$
+DefVar $licenserequired$
+DefVar $minimumspace$
+DefVar $msiid$
+DefVar $oldProgFound$
+DefVar $os$
+DefVar $osshort$
+DefVar $productid$
+DefVar $targetfile$
+DefVar $tmpstr$
+DefVar $uninstallprogram$
+
+DefStringlist $ListOfPackageNames$
+DefStringList $osinfomap$
+
+; kiosk specific variables
+DefVar $INST_OpsiclientdConf$
+DefVar $INST_ClientID$
+DefVar $desktop_icon$
+DefVar $install_icon_collection$
+DefVar $ApplicationSupportDir$
+
+DefVar $INST_ClientAgentVersion$
+DefVar $INST_ClientAgentPackageVersion$
+DefVar $REQUIRED_ClientAgentVersion$
+DefVar $REQUIRED_ClientAgentPackageVersion$
+DefVar $RightClientAgent$
+

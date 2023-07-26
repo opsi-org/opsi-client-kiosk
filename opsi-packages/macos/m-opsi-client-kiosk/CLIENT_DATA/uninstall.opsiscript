@@ -1,0 +1,51 @@
+; ----------------------------------------------------------------
+; Copyright (c) uib gmbh (www.uib.de)
+; This sourcecode is owned by uib
+; and published under the Terms of the Affero General Public License v3.
+; ----------------------------------------------------------------
+encoding=utf8
+
+
+[Actions]
+requiredWinstVersion >= "4.12.0.28"
+ScriptErrorMessages = false
+
+; All variables are defined here:
+include_insert "define_vars_multi.opsiscript"
+
+; import complete file !
+importlib "uib_exitcode.opsiscript"
+importlib "osd-lib.opsiscript"
+importlib "uib_macosinstalllib.opsiscript"
+
+
+; ----------------------------------------------------------------
+; $ProductId$ is the name of the product in opsi, only lower letters, no umlauts, no white spaces, use '-' as a seperator
+Set $ProductId$		 = "m-opsi-client-kiosk"
+; the path were we find the product after the installation
+;Set $InstallDir$	= "/Applications/<product.app>"
+Set $InstallDir$	= "/Applications/OpsiClientKiosk.app"
+Set $ApplicationSupportDir$ = "/Library/Application Support/org.opsi.OpsiClientKiosk"
+; ----------------------------------------------------------------
+
+set $OS$ = GetOS
+
+if not(($OS$ = "macos"))
+	logError "Installation aborted: wrong OS version: only macos"
+	isFatalError "wrong OS"
+endif
+
+comment "Show product picture"
+ShowBitmap "%ScriptPath%/" + $ProductId$ + ".png" $ProductId$
+
+set $desktop_icon$ = GetProductProperty("desktop_icon", "")
+set $install_icon_collection$ = GetProductProperty("install_icon_collection", "")
+
+
+Message "Uninstalling " + $ProductId$ + " ..."
+
+if FileExists("%ScriptPath%/delsub.opsiscript")
+	comment "Start uninstall sub section"
+	Sub "%ScriptPath%/delsub.opsiscript"
+endif
+
