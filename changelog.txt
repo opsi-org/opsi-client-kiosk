@@ -1,5 +1,23 @@
 [Changelog]
 
+opsi-client-kiosk (4.2.0.0) stable; urgency=high
+
+  * change: binary version to 4.2.0.0
+
+-- Jan Werner <j.werner@uib.de> Fri, 28 July 2023
+
+opsi-client-kiosk (4.1.1.17) stable; urgency=high
+
+  * fix: correct path to locale [M]
+
+-- Jan Werner <j.werner@uib.de> Tue, 27 September 2022
+
+opsi-client-kiosk (4.1.1.16) stable; urgency=high
+
+  * fix: all products are now shown also in tiles view
+
+-- Jan Werner <j.werner@uib.de> Tue, 19 July 2022
+
 opsi-client-kiosk (4.1.1.15) development; urgency=medium
 
   * oswebservice: new openssl units [W/L/M]
