@@ -48,6 +48,7 @@ get version:
     - $BuildNr = $doc.SelectSingleNode("//BuildNr").Value
     - if ($BuildNr -eq $null) {$BuildNr = 0}
     - $BINARY_VERSION = $MajorVersionNr + "." + $MinorVersionNr + "." + $RevisionNr + "." + $BuildNr
+    - echo $BINARY_VERSION
     - Add-Content version.env "BINARY_VERSION=${BINARY_VERSION}"
   artifacts:
     reports:
