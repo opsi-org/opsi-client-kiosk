@@ -39,7 +39,15 @@ get version:
   script:
     - New-Item version.env
     - $doc = [XML] (Get-Content -Path $LAZ_PROJECT_FILE)
-    - $BINARY_VERSION = $doc.SelectSingleNode("//MajorVersionNr").Value + "." + $doc.SelectSingleNode("//MinorVersionNr").Value + "." + $doc.SelectSingleNode("//RevisionNr").Value + "." + $doc.SelectSingleNode("//BuildNr").Value
+    - $MajorVersionNr = $doc.SelectSingleNode("//MajorVersionNr").Value
+    - if ($MajorVersionNr -eq $null) {$MajorVersionNr = 0}
+    - $MinorVersionNr = $doc.SelectSingleNode("//MinorVersionNr").Value
+    - if ($MinorVersionNr -eq $null) then {$MinorVersionNr = 0}
+    - $RevisionNr = $doc.SelectSingleNode("//RevisionNr").Value
+    - if ($RevisionNr -eq $null) {$RevisionNr = 0}
+    - $BuildNr = $doc.SelectSingleNode("//BuildNr").Value
+    - if ($BuildNr -eq $null) {$BuildNr = 0}
+    - $BINARY_VERSION = $MajorVersionNr + "." + $MinorVersionNr + "." + $RevisionNr + "." + $BuildNr
     - Add-Content version.env "BINARY_VERSION=${BINARY_VERSION}"
   artifacts:
     reports:
