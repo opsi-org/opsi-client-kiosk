@@ -42,7 +42,7 @@ get version:
     - $MajorVersionNr = $doc.SelectSingleNode("//MajorVersionNr").Value
     - if ($MajorVersionNr -eq $null) {$MajorVersionNr = 0}
     - $MinorVersionNr = $doc.SelectSingleNode("//MinorVersionNr").Value
-    - if ($MinorVersionNr -eq $null) then {$MinorVersionNr = 0}
+    - if ($MinorVersionNr -eq $null) {$MinorVersionNr = 0}
     - $RevisionNr = $doc.SelectSingleNode("//RevisionNr").Value
     - if ($RevisionNr -eq $null) {$RevisionNr = 0}
     - $BuildNr = $doc.SelectSingleNode("//BuildNr").Value
