@@ -1,11 +1,16 @@
 [Changelog]
 
+m-opsi-client-kiosk (4.2.0.0-5) testing; urgency=low
+
+  [change] binary version to 4.2.0.0
+
+-- Jan Werner <j.werner@uib.de> Fri, 28 July 2023
+
 m-opsi-client-kiosk (4.1.1.17-5) experimental; urgency=medium
 
   * fix (package): files copy section in setup.opsiscript: ock_custom folder are now correctly copied
    
 -- Jan Werner <j.werner@uib.de> Tue, 24 January 2023
-
 
 m-opsi-client-kiosk (4.1.1.17-4) experimental; urgency=high
 
