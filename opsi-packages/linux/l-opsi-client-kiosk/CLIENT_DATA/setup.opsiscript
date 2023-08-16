@@ -84,20 +84,6 @@ Set $INST_DesktopIcon$ = GetProductProperty("desktop_icon","false")
 ;Set $Startmenue_Folder$ = GetProductProperty ("startmenue_folder", "opsi.org")
 Set $Startmenue_Entry$ = GetProductProperty ("startmenue_entry", "opsi-client-kiosk")
 
-;opsiservicecall_authenticated
-;Set $OCD_config_service.url$ = GetValueFromInifile($INST_custom_Cfgini$, "opsiclientd", "config_service.url", $OCD_config_service.url$)
-;opsiservicecall_authenticated /username $INST_ClientId$ /password $SHI_pckey$ /serviceurl $OCD_config_service.url$
-Set $RightClientAgent$ = "false"
-; get opsi-client-agent product and package version
-Set $ReturnList$ = getReturnListFromSection("opsiservicecall_productOnClient_getObjects")
-Set $ArrayStr$ = takestring(0, $ReturnList$)
-Set $objectStr$ = jsonAsArrayGetElementByIndex($ArrayStr$,"0")
-Set $INST_ClientAgentVersion$ = jsonAsObjectGetValueByKey($objectStr$,"productVersion")
-Set $INST_ClientAgentPackageVersion$ = jsonAsObjectGetValueByKey($objectStr$,"packageVersion")
-Set $REQUIRED_ClientAgentVersion$ = "4.1.1.11"
-Set $REQUIRED_ClientAgentPackageVersion$ = "1"
-
-
 
 
 ;*********************** INSTALLATION PROCESS **********************************
@@ -154,13 +140,6 @@ endif
 	comment "Show product picture"
 	ShowBitmap "%ScriptPath%/" + $ProductId$ + ".png" $ProductId$
 
-	; check client-agent version
-	Set $RightClientAgent$ = booltostring(CompareDotSeparatedNumbers($INST_ClientAgentVersion$,">",$REQUIRED_ClientAgentVersion$))
-	if ($RightClientAgent$ = "false")
-		Set $RightClientAgent$ = booltostring(CompareDotSeparatedNumbers($INST_ClientAgentVersion$,"=",$REQUIRED_ClientAgentVersion$) and ($INST_ClientAgentPackageVersion$ INT>= $REQUIRED_ClientAgentPackageVersion$))	
-	endif
-	
-	if ($RightClientAgent$ = "true")
 		; uninstall old opsi-client-kiosk directory if existing 
 		if DirectoryExists($InstallDir$)
 			Message "Removing old " + $ProductId$ + " ..."
@@ -200,34 +179,9 @@ endif
 			comment "LinkFolder.conf saved succesfully"
 		endif
 		Patches_opsiclientkiosk.conf $InstallDir$ + "/opsiclientkiosk.conf"
-	else
-		LogError "Update opsi-client-agent to version (or greater): " + $REQUIRED_ClientAgentVersion$ + "-" + $REQUIRED_ClientAgentPackageVersion$
-		isFatalError "Required opsi-client-agent: " + $REQUIRED_ClientAgentVersion$ + "-" + $REQUIRED_ClientAgentPackageVersion$
-	endif ;opsi-client-agent version correct
 ;endif ;check minimum space  
 
 ;****************************** SECTIONS ***************************************
-;---------------------------
-;	Service call sections
-;---------------------------
-[opsiservicecall_authenticated]
-"method": "authenticated"
-"params": [
-					]
-
-[opsiservicecall_setOption_addConfigStateDefaults_true]
-"method": "backend_setOptions"
-"params": [
-	'{"addConfigStateDefaults":true}'
-]
-
-[opsiservicecall_productOnClient_getObjects]
-"method": "productOnClient_getObjects"
-"params": [
-	'[]',
-	'{"productId":"opsi-linux-client-agent","clientId":"$INST_ClientId$"}',
-]
-
 
 ;------------------------------
 ;	File sections

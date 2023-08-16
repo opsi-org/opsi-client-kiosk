@@ -1,5 +1,11 @@
 [Changelog]
 
+opsi-client-kiosk (4.2.0.0-11) testing; urgency=low
+
+  [change] binary version to 4.2.0.0
+
+-- Jan Werner <j.werner@uib.de> Fri, 28 July 2023
+
 opsi-client-kiosk (4.1.1.16-11) stable; urgency=high
 
   * fix: all products are now shown also in tiles view

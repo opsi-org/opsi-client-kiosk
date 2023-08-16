@@ -1,5 +1,17 @@
 [Changelog]
 
+l-opsi-client-kiosk (4.2.0.0-8) testing; urgency=low
+
+  [change] remove unnecessary check for opsi-client-agent version
+
+-- Jan Werner <j.werner@uib.de> Wed, 16 August 2023
+
+l-opsi-client-kiosk (4.2.0.0-7) testing; urgency=low
+
+  [change] binary version to 4.2.0.0
+
+-- Jan Werner <j.werner@uib.de> Fri, 28 July 2023
+
 l-opsi-client-kiosk (4.1.1.16-7) stable; urgency=high
 
   * fix: change ssl lib
