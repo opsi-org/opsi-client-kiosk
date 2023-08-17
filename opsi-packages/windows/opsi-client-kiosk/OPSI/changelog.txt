@@ -1,5 +1,11 @@
 [Changelog]
 
+opsi-client-kiosk (4.2.0.0-13) experimental; urgency=low
+
+  [update] changelog
+
+-- Jan Werner <j.werner@uib.de> Thu, 17 August 2023
+
 opsi-client-kiosk (4.2.0.0-12) experimental; urgency=low
 
   [change] remove unnecessary check for opsi-client-agent version
