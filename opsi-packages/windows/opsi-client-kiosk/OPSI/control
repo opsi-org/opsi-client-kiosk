@@ -1,5 +1,5 @@
 [Package]
-version: 12
+version: 13
 depends: opsi-client-agent (>= 4.1.1.6-5)
 
 [Product]
