@@ -55,6 +55,23 @@ get version:
       dotenv: version.env
 
 
+#***************************************************#
+#  Upload opsiclientkiosk.pot file to transifex     # 
+#  Download opsiclientkiosk.po files from transifex #
+#***************************************************#
+transifex:
+  stage: init
+  image: docker.uib.gmbh/opsi/dev/pybuilder:uib-python-default
+  script:
+  - opsi-dev-cli --version
+  - opsi-dev-cli -l info transifex upload-resource ./locale/opsiclientkiosk.pot
+  - opsi-dev-cli -l info transifex download-translations opsiclientkiosk.pot ./locale --min-translation-rate 1.0 --language de --language fr
+  artifacts:
+    name: "locale"
+    paths:
+      - locale
+
+
 #***************************************#
 #  compile and codesign Windows         #
 #***************************************#
