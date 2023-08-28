@@ -133,29 +133,29 @@ make opsi-client-kiosk bundle for Windows:
   dependencies:
     - get version
     - compile opsi-client-kiosk windows
-  tags:
-    - laz-win10
+  image: docker.uib.gmbh/opsi/dev/pybuilder:uib-python-default
   rules:
     # Wenn gepusht oder ein Merge Request erstellt wird immer erstellen
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
       when: always
   script:
+    - SSL_LIB_VERSION="1.1.1n"
     - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for Windows (32 Bit)"
     - $BundleDir = 'app_windows'
-    - if (Test-Path $BundleDir) { Remove-Item -Path $BundleDir -Recurse }
-    - New-Item -Path $BundleDir -ItemType Directory
+    #- if [ -d $BundleDir ]; then rm -rf $BundleDir fi
+    - mkdir $BundleDir 
     - cd $BundleDir
-    - Copy-Item '..\default' -Recurse .
-    - Copy-Item '..\locale' -Recurse .
-    - Copy-Item '..\ock_custom' -Recurse .
-    - Copy-Item '..\opsiclientkiosk.conf' .
-    - Copy-Item ..\builds\i386-win32\${BINARY_NAME_WINDOWS} .
+    - cp -r ../default .
+    - cp -r ../locale .
+    - cp -r ../ock_custom .
+    - cp -r ../opsiclientkiosk.conf .
+    - cp -r ../builds/i386-win32/${BINARY_NAME_WINDOWS} .
     # Get libs from binaryindex
     - opsi-dev-tool --version
     # openssl libs
     - opsi-dev-tool --binary-pull development ssl-libs windows x86 $SSL_LIB_VERSION .
-    - Copy-Item ssl-libs\* -Recurse .
-    - Remove-Item -Path ssl-libs -Recurse
+    - cp -r ssl-libs/* .
+    - rm -r ssl-libs
     # sqlite lib
     - opsi-dev-tool --binary-pull development sqlite windows x86 3.0.0 .
   artifacts:
@@ -266,8 +266,7 @@ make opsi-client-kiosk bundle for MacOS:
 #***************************************#
 opsi-client-kiosk to binaryindex:
   stage: binaryindex
-  tags:
-    - laz-linux
+  image: docker.uib.gmbh/opsi/dev/pybuilder:uib-python-default
   rules:
     - if: $CI_COMMIT_TAG != null
       when: always
