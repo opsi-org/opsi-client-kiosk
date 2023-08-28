@@ -158,7 +158,7 @@ make opsi-client-kiosk bundle for Windows:
   script:
     - SSL_LIB_VERSION="1.1.1n"
     - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for Windows (32 Bit)"
-    - $BundleDir = 'app_windows'
+    - BundleDir="app_windows"
     #- if [ -d $BundleDir ]; then rm -rf $BundleDir fi
     - mkdir $BundleDir 
     - cd $BundleDir
