@@ -3,7 +3,7 @@ msgstr "Content-Type: text/plain; charset=UTF-8"
 
 #: installdlg.rserrorondemand
 msgctxt "installdlg.rserrorondemand"
-msgid "Opsi service is bussy please try it again later. Detailed error message: "
+msgid "opsi is bussy please try it again later. Detailed error message: "
 msgstr ""
 
 #: ockimagestodepot.rscopyicons
@@ -141,7 +141,7 @@ msgstr ""
 
 #: opsiclientkioskgui.rserrorondemand
 msgctxt "opsiclientkioskgui.rserrorondemand"
-msgid "Opsi service is bussy please try it again later. Detailed error message: "
+msgid "opsi is bussy please try it again later. Detailed error message: "
 msgstr ""
 
 #: opsiclientkioskgui.rsinstall
@@ -362,7 +362,7 @@ msgid "Install now (Close all Applications, Kiosk is closed automatically)"
 msgstr ""
 
 #: tfinstalldlg.caption
-msgid "opsi-client-kiosk"
+msgid "opsi-kiosk-client"
 msgstr ""
 
 #: tfinstalldlg.label1.caption
@@ -382,16 +382,16 @@ msgstr ""
 msgid "Expert mode"
 msgstr ""
 
+#: tformhelpinfo.labelcopy.caption
+msgid "CopyRight:"
+msgstr ""
+
 #: tformhelpinfo.labelcreditsto.caption
 msgid "Credits to"
 msgstr ""
 
 #: tformhelpinfo.labellang.caption
 msgid "Display language:"
-msgstr ""
-
-#: tformhelpinfo.labellanguage.caption
-msgid "LabelLanguage"
 msgstr ""
 
 #: tformhelpinfo.labelmode.caption
@@ -519,7 +519,7 @@ msgid "Recent version"
 msgstr ""
 
 #: tformopsiclientkiosk.labeltitle.caption
-msgid "Opsi Client Kiosk"
+msgid "opsi Client Kiosk"
 msgstr ""
 
 #: tformopsiclientkiosk.labelverstr.caption
