@@ -3,7 +3,7 @@ msgstr "Content-Type: text/plain; charset=UTF-8"
 
 #: installdlg.rserrorondemand
 msgctxt "installdlg.rserrorondemand"
-msgid "opsi is bussy please try it again later. Detailed error message: "
+msgid "Opsi service is bussy please try it again later. Detailed error message: "
 msgstr ""
 
 #: ockimagestodepot.rscopyicons
@@ -141,7 +141,7 @@ msgstr ""
 
 #: opsiclientkioskgui.rserrorondemand
 msgctxt "opsiclientkioskgui.rserrorondemand"
-msgid "opsi is bussy please try it again later. Detailed error message: "
+msgid "Opsi service is bussy please try it again later. Detailed error message: "
 msgstr ""
 
 #: opsiclientkioskgui.rsinstall
@@ -362,7 +362,7 @@ msgid "Install now (Close all Applications, Kiosk is closed automatically)"
 msgstr ""
 
 #: tfinstalldlg.caption
-msgid "opsi-kiosk-client"
+msgid "opsi-client-kiosk"
 msgstr ""
 
 #: tfinstalldlg.label1.caption
@@ -380,18 +380,6 @@ msgstr ""
 
 #: tformhelpinfo.checkboxexpertmode.caption
 msgid "Expert mode"
-msgstr ""
-
-#: tformhelpinfo.labelcopy.caption
-msgid "CopyRight:"
-msgstr ""
-
-#: tformhelpinfo.labelcopyright.caption
-msgid "LabelCopyRight"
-msgstr ""
-
-#: tformhelpinfo.labelcredits.caption
-msgid "LabelCredits"
 msgstr ""
 
 #: tformhelpinfo.labelcreditsto.caption
@@ -414,20 +402,8 @@ msgstr ""
 msgid "opsi client kiosk"
 msgstr ""
 
-#: tformhelpinfo.labelopsiweb.caption
-msgid "LabelOpsiWeb"
-msgstr ""
-
-#: tformhelpinfo.labeluibweb.caption
-msgid "LabelUibWeb"
-msgstr ""
-
 #: tformhelpinfo.labelvers.caption
 msgid "Version"
-msgstr ""
-
-#: tformhelpinfo.labelversion.caption
-msgid "LabelVersion"
 msgstr ""
 
 #: tformhelpinfo.speedbuttonmanual.caption
@@ -538,24 +514,16 @@ msgstr ""
 msgid "Installed version"
 msgstr ""
 
-#: tformopsiclientkiosk.labelsoftwarename.caption
-msgid "LabelSoftwareName"
-msgstr ""
-
 #: tformopsiclientkiosk.labelsoftwarerecentversion.caption
 msgid "Recent version"
 msgstr ""
 
 #: tformopsiclientkiosk.labeltitle.caption
-msgid "opsi Client Kiosk"
+msgid "Opsi Client Kiosk"
 msgstr ""
 
 #: tformopsiclientkiosk.labelverstr.caption
 msgid "Version at Server"
-msgstr ""
-
-#: tformopsiclientkiosk.panelsearchmask.caption
-msgid "PanelSearchMask"
 msgstr ""
 
 #: tformopsiclientkiosk.panelsoftwarescreenshot.caption
@@ -578,10 +546,6 @@ msgstr ""
 
 #: tformopsiclientkiosk.speedbuttonall.hint
 msgid "Show all List entries (No Filter)"
-msgstr ""
-
-#: tformopsiclientkiosk.speedbuttonclearsearchedit.caption
-msgid "X"
 msgstr ""
 
 #: tformopsiclientkiosk.speedbuttonnotinstalled.caption
@@ -632,10 +596,6 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: tformpasswordquery.caption
-msgid "FormPasswordQuery"
-msgstr ""
-
 #: tformpasswordquery.editpassword.editlabel.caption
 msgctxt "tformpasswordquery.editpassword.editlabel.caption"
 msgid "Password"
@@ -652,14 +612,6 @@ msgstr ""
 
 #: tformprogresswindow.caption
 msgid "Initialize OpsiClientKiosk"
-msgstr ""
-
-#: tformprogresswindow.labeldataload.caption
-msgid "LabelDataLoad"
-msgstr ""
-
-#: tformprogresswindow.labeldataloaddetail.caption
-msgid "LabelDataLoadDetail"
 msgstr ""
 
 #: tformprogresswindow.labelinfo.caption
