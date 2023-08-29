@@ -84,7 +84,7 @@ end;*)
 procedure TFormHelpInfo.FormShow(Sender: TObject);
 begin
   LabelVersion.Caption := ProgramInfo.Version;
-  LabelLanguage.Caption := GetDefaultLang;
+  LabelLanguage.Caption := SetDefaultLang('');
   LabelCopyRight.Caption:= 'uib gmbh under AGPLv3';
   LabelUibWeb.Caption := 'https://uib.de';
   LabelOpsiWeb.Caption:= 'https://opsi.org';
@@ -128,12 +128,12 @@ var
   languageNotFound:boolean;
   Language: String;
 const
-  URL_MANUAL_EN = 'https://download.uib.de/opsi4.1/documentation/html/en/' +
-     'opsi-manual-v4.1/opsi-manual-v4.1.html#software-on-demand';
-  URL_MANUAL_DE = 'https://download.uib.de/opsi4.1/documentation/html/'+
-    'opsi-manual-v4.1/opsi-manual-v4.1.html#software-on-demand';
+  URL_MANUAL_EN = 'https://docs.opsi.org/opsi-docs-en/4.2/manual/modules/' +
+    'software-on-demand.html?q=+Verwendung#software-on-demand_opsi-client-kiosk';
+  URL_MANUAL_DE = 'https://docs.opsi.org/opsi-docs-de/4.2/manual/modules/' +
+    'software-on-demand.html?q=+Verwendung#software-on-demand_opsi-client-kiosk';
 begin
-  Language := GetDefaultLang;
+  Language := SetDefaultLang('');
   LogDatei.log('Open manual for language ' + Language ,LLNotice);
   if Language = 'de' then
   begin
