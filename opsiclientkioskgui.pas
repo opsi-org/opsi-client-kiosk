@@ -2303,12 +2303,12 @@ begin
     end
     else
     begin
-      GetDefaultLang;
-      LogDatei.log('GetDefaultLang: ' + GetDefaultLang, LLEssential);
+      SetDefaultLang('');
+      LogDatei.log('SetDefaultLang: ' + SetDefaultLang(''), LLEssential);
    {$IFDEF DARWIN}
-      SetDefaultLang(GetDefaultLang, '../Resources/locale');
+      SetDefaultLang('', '../Resources/locale');
    {$ELSE}
-      SetDefaultLang(GetDefaultLang);
+      SetDefaultLang('');
    {$ENDIF DARWIN}
     end;
   finally
