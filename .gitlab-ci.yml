@@ -66,6 +66,13 @@ transifex:
   - opsi-dev-cli --version
   - opsi-dev-cli -l info transifex upload-resource ./locale/opsiclientkiosk.pot
   - opsi-dev-cli -l info transifex download-translations opsiclientkiosk.pot ./locale --min-translation-rate 1.0 --language de --language en --language fr 
+  - cd ./locale
+  - rm *.mo
+  - |-
+    for file in *_*.po
+    do
+      mv -- "$file" "${file//_/.}"
+    done
   artifacts:
     name: "locale"
     paths:
