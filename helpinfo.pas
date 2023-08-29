@@ -58,28 +58,12 @@ type
 var
   FormHelpInfo: TFormHelpInfo;
 
-//resourcestring
-  //rsExpertMode = 'Expert mode';
-
-
 
 implementation
 
 {$R *.lfm}
 
 { TFormHelpInfo }
-
-(*procedure TFormHelpInfo.FormCreate(Sender: TObject);
-begin
-   //SpeedButtonExpertMode.Caption := rsExpertMode;
-  LabelVersion.Caption := ProgramInfo.Version;
-  LabelLanguage.Caption := GetDefaultLang;
-  LabelCopyRight.Caption:= 'uib gmbh under AGPLv3';
-  LabelUibWeb.Caption := 'https://uib.de';
-  LabelOpsiWeb.Caption:= 'https://opsi.org';
-  LabelCredits.Caption:= 'Lazarus/FPC, synapse, sqllite';
-  //Refresh;
-end;*)
 
 procedure TFormHelpInfo.FormShow(Sender: TObject);
 begin
