@@ -149,6 +149,7 @@ make opsi-client-kiosk bundle for Windows:
   stage: bundle
   dependencies:
     - get version
+    - transifex
     - compile opsi-client-kiosk windows
   image: docker.uib.gmbh/opsi/dev/pybuilder:uib-python-default
   rules:
@@ -188,6 +189,7 @@ make opsi-client-kiosk bundle for Linux:
   stage: bundle
   dependencies:
     - get version
+    - transifex
     - compile opsi-client-kiosk linux
   image: docker.uib.gmbh/opsi/dev/pybuilder:uib-python-default
   rules:
@@ -224,6 +226,7 @@ make opsi-client-kiosk bundle for MacOS:
   stage: bundle
   dependencies:
     - get version
+    - transifex
     - compile opsi-client-kiosk macos
   tags:
     - macos_catalina
