@@ -1,5 +1,14 @@
 [Changelog]
 
+opsi-client-kiosk (4.2.1.0) unreleased; urgency=high
+
+  * change: binary version to 4.2.1.0
+  * fix: correct paths of documentation
+  * refactor: replace deprecated pascal function GetDefaultlanguage
+    with SetDefaultLanguage
+
+-- Jan Werner <j.werner@uib.de> Fri, 28 July 2023
+
 opsi-client-kiosk (4.2.0.0) stable; urgency=high
 
   * change: binary version to 4.2.0.0
