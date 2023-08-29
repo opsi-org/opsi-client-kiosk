@@ -1,5 +1,10 @@
+# Transifex header
 msgid ""
-msgstr "Content-Type: text/plain; charset=UTF-8"
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: installdlg.rserrorondemand
 msgctxt "installdlg.rserrorondemand"
@@ -386,24 +391,12 @@ msgstr ""
 msgid "CopyRight:"
 msgstr ""
 
-#: tformhelpinfo.labelcopyright.caption
-msgid "LabelCopyRight"
-msgstr ""
-
-#: tformhelpinfo.labelcredits.caption
-msgid "LabelCredits"
-msgstr ""
-
 #: tformhelpinfo.labelcreditsto.caption
 msgid "Credits to"
 msgstr ""
 
 #: tformhelpinfo.labellang.caption
 msgid "Display language:"
-msgstr ""
-
-#: tformhelpinfo.labellanguage.caption
-msgid "LabelLanguage"
 msgstr ""
 
 #: tformhelpinfo.labelmode.caption
@@ -414,20 +407,8 @@ msgstr ""
 msgid "opsi client kiosk"
 msgstr ""
 
-#: tformhelpinfo.labelopsiweb.caption
-msgid "LabelOpsiWeb"
-msgstr ""
-
-#: tformhelpinfo.labeluibweb.caption
-msgid "LabelUibWeb"
-msgstr ""
-
 #: tformhelpinfo.labelvers.caption
 msgid "Version"
-msgstr ""
-
-#: tformhelpinfo.labelversion.caption
-msgid "LabelVersion"
 msgstr ""
 
 #: tformhelpinfo.speedbuttonmanual.caption
@@ -538,10 +519,6 @@ msgstr ""
 msgid "Installed version"
 msgstr ""
 
-#: tformopsiclientkiosk.labelsoftwarename.caption
-msgid "LabelSoftwareName"
-msgstr ""
-
 #: tformopsiclientkiosk.labelsoftwarerecentversion.caption
 msgid "Recent version"
 msgstr ""
@@ -552,10 +529,6 @@ msgstr ""
 
 #: tformopsiclientkiosk.labelverstr.caption
 msgid "Version at Server"
-msgstr ""
-
-#: tformopsiclientkiosk.panelsearchmask.caption
-msgid "PanelSearchMask"
 msgstr ""
 
 #: tformopsiclientkiosk.panelsoftwarescreenshot.caption
@@ -578,10 +551,6 @@ msgstr ""
 
 #: tformopsiclientkiosk.speedbuttonall.hint
 msgid "Show all List entries (No Filter)"
-msgstr ""
-
-#: tformopsiclientkiosk.speedbuttonclearsearchedit.caption
-msgid "X"
 msgstr ""
 
 #: tformopsiclientkiosk.speedbuttonnotinstalled.caption
@@ -632,10 +601,6 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: tformpasswordquery.caption
-msgid "FormPasswordQuery"
-msgstr ""
-
 #: tformpasswordquery.editpassword.editlabel.caption
 msgctxt "tformpasswordquery.editpassword.editlabel.caption"
 msgid "Password"
@@ -652,14 +617,6 @@ msgstr ""
 
 #: tformprogresswindow.caption
 msgid "Initialize OpsiClientKiosk"
-msgstr ""
-
-#: tformprogresswindow.labeldataload.caption
-msgid "LabelDataLoad"
-msgstr ""
-
-#: tformprogresswindow.labeldataloaddetail.caption
-msgid "LabelDataLoadDetail"
 msgstr ""
 
 #: tformprogresswindow.labelinfo.caption

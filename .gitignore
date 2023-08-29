@@ -35,8 +35,8 @@ x86_64-linux/
 *.app/
 .DS_Store
 
-
-
+# .po files (they are downloaded from transifex)
+.po
 
 # opsi-client-kiosk:
 /ock_custom/product_icons
