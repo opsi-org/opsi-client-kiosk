@@ -1,3 +1,4 @@
 [submodule "lazarus"]
 	path = lazarus
 	url = https://gitlab.uib.gmbh/uib/lazarus.git
+	branch = main
