@@ -17,6 +17,7 @@ variables:
     value: "3.0.9"
 
   GIT_SUBMODULE_STRATEGY: recursive
+  GIT_SUBMODULE_FORCE_HTTPS: "true"
 
 
 stages:
