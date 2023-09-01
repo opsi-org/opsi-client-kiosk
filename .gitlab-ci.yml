@@ -95,7 +95,7 @@ compile opsi-client-kiosk windows:
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
       when: always
   before_script:
-    - git pull --recursive-submodules
+    - git pull --recurse-submodules
     #- git submodule update --remote
   script:
     - echo "Compiling ${LAZ_PROJECT_FILE} (Version ${BINARY_VERSION}) for Windows (32 Bit)"
@@ -123,7 +123,7 @@ compile opsi-client-kiosk linux:
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
       when: always
   before_script:
-    - git pull --recursive-submodules
+    - git pull --recurse-submodules
     #- git submodule update --remote
   script:
     - echo "Compiling ${LAZ_PROJECT_FILE} (Version ${BINARY_VERSION}) for Linux (64 Bit)"
@@ -148,7 +148,7 @@ compile opsi-client-kiosk macos:
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
       when: always
   before_script:
-    - git pull --recursive-submodules
+    - git pull --recurse-submodules
     #- git submodule update --remote
   script:
     - echo "Compiling ${LAZ_PROJECT_FILE} (Version ${BINARY_VERSION}) for MacOS (Intel, 64 Bit)"
