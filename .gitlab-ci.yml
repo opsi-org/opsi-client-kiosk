@@ -94,8 +94,8 @@ compile opsi-client-kiosk windows:
     # Wenn gepusht oder ein Merge Request erstellt wird immer bauen
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
       when: always
-  before_script:
-    - git pull --recurse-submodules
+  #before_script:
+    #- git pull main --recurse-submodules
     #- git submodule update --remote
   script:
     #- git submodule update --init --recursive
@@ -124,8 +124,8 @@ compile opsi-client-kiosk linux:
     # Wenn gepusht oder ein Merge Request erstellt wird immer bauen
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
       when: always
-  before_script:
-    - git pull --recurse-submodules
+  #before_script:
+    #- git pull main --recurse-submodules
     #- git submodule update --remote
   script:
     #- git submodule update --init --recursive
@@ -151,8 +151,8 @@ compile opsi-client-kiosk macos:
     # Wenn gepusht oder ein Merge Request erstellt wird immer bauen
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
       when: always
-  before_script:
-    - git pull --recurse-submodules
+  #before_script:
+    #- git pull main --recurse-submodules
     #- git submodule update --remote
   script:
     #- git submodule update --init --recursive
