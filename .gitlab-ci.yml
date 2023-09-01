@@ -17,7 +17,7 @@ variables:
     value: "3.0.9"
 
   GIT_SUBMODULE_STRATEGY: recursive
-  #GIT_SUBMODULE_FORCE_HTTPS: "true"
+  GIT_SUBMODULE_FORCE_HTTPS: "true"
   #GIT_SUBMODULE_UPDATE_FLAGS: --remote
 
 
@@ -94,9 +94,6 @@ compile opsi-client-kiosk windows:
     # Wenn gepusht oder ein Merge Request erstellt wird immer bauen
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
       when: always
-  #before_script:
-    #- git pull origin main --recurse-submodules
-    #- git submodule update --remote
   script:
     - echo "Compiling ${LAZ_PROJECT_FILE} (Version ${BINARY_VERSION}) for Windows (32 Bit)"
     - C:\lazarus\lazbuild.exe $LAZ_PROJECT_FILE --build-all --build-mode=Release_Windows
@@ -122,9 +119,6 @@ compile opsi-client-kiosk linux:
     # Wenn gepusht oder ein Merge Request erstellt wird immer bauen
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
       when: always
-  #before_script:
-    #- git pull origin $CI_COMMIT_REF_NAME --recurse-submodules
-    #- git submodule update --remote
   script:
     - echo "Compiling ${LAZ_PROJECT_FILE} (Version ${BINARY_VERSION}) for Linux (64 Bit)"
     - /usr/bin/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_Linux
@@ -147,9 +141,6 @@ compile opsi-client-kiosk macos:
     # Wenn gepusht oder ein Merge Request erstellt wird immer bauen
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
       when: always
-  #before_script:
-    #- git pull origin $CI_COMMIT_REF_NAME --recurse-submodules
-    #- git submodule update --remote
   script:
     - echo "Compiling ${LAZ_PROJECT_FILE} (Version ${BINARY_VERSION}) for MacOS (Intel, 64 Bit)"
     - /Library/Lazarus/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_MacOS --ws=cocoa
