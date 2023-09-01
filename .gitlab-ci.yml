@@ -13,10 +13,12 @@ variables:
   BINARY_NAME_MAC:
     value: "OpsiClientKiosk"
 
-  SSL_LIB_VERSION: #only windows
-    value: "1.1.1n"
+  SSL_LIB_VERSION:
+    value: "3.0.9"
 
   GIT_SUBMODULE_STRATEGY: recursive
+  GIT_SUBMODULE_FORCE_HTTPS: "true"
+  #GIT_SUBMODULE_UPDATE_FLAGS: --remote
 
 
 stages:
@@ -164,7 +166,7 @@ make opsi-client-kiosk bundle for Windows:
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
       when: always
   script:
-    - SSL_LIB_VERSION="1.1.1n"
+    #- SSL_LIB_VERSION="1.1.1n"
     - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for Windows (32 Bit)"
     - BundleDir="app_windows"
     #- if [ -d $BundleDir ]; then rm -rf $BundleDir fi
@@ -205,7 +207,7 @@ make opsi-client-kiosk bundle for Linux:
       when: always
   script:
     - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for Linux (64 Bit)"
-    - SSL_LIB_VERSION="1.1-oldlibc"
+    #- SSL_LIB_VERSION="1.1-oldlibc"
     - BundleDir="app_linux"
     #- if [ -d $BundleDir ]; then rm -rf $BundleDir fi
     - mkdir $BundleDir 
@@ -247,7 +249,7 @@ make opsi-client-kiosk bundle for MacOS:
     - cp opsi-dev-tool opsi-dev-cli
   script:
     - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for MacOS (64 Bit)"
-    - SSL_LIB_VERSION="1.1-unsigned"
+    #- SSL_LIB_VERSION="1.1-unsigned"
     - BundleDir="app_macos"
     - mkdir $BundleDir 
     - cd $BundleDir
