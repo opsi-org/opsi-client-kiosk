@@ -139,6 +139,11 @@
           </SearchPaths>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="linux"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
@@ -149,7 +154,16 @@
           <Other>
             <CustomOptions Value="-dOPSICLIENTKIOSK
 -dOPSI
--dOPSI_AS_USER"/>
+-dOPSI_AS_USER
+-dSSLPATH
+-dSYNAPSE"/>
+            <OtherDefines Count="5">
+              <Define0 Value="OPSICLIENTKIOSK"/>
+              <Define1 Value="OPSI"/>
+              <Define2 Value="OPSI_AS_USER"/>
+              <Define3 Value="SSLPATH"/>
+              <Define4 Value="SYNAPSE"/>
+            </OtherDefines>
           </Other>
         </CompilerOptions>
       </Item4>
@@ -194,11 +208,15 @@
           <Other>
             <CustomOptions Value="-dOPSICLIENTKIOSK
 -dOPSI
--dOPSI_AS_USER"/>
-            <OtherDefines Count="3">
+-dOPSI_AS_USER
+-dSSLPATH
+-dSYNAPSE"/>
+            <OtherDefines Count="5">
               <Define0 Value="OPSICLIENTKIOSK"/>
               <Define1 Value="OPSI"/>
               <Define2 Value="OPSI_AS_USER"/>
+              <Define3 Value="SSLPATH"/>
+              <Define4 Value="SYNAPSE"/>
             </OtherDefines>
           </Other>
         </CompilerOptions>
@@ -237,7 +255,16 @@
           <Other>
             <CustomOptions Value="-dOPSICLIENTKIOSK
 -dOPSI
--dOPSI_AS_USER"/>
+-dOPSI_AS_USER
+-dSSLPATH
+-dSYNAPSE"/>
+            <OtherDefines Count="5">
+              <Define0 Value="OPSICLIENTKIOSK"/>
+              <Define1 Value="OPSI"/>
+              <Define2 Value="OPSI_AS_USER"/>
+              <Define3 Value="SSLPATH"/>
+              <Define4 Value="SYNAPSE"/>
+            </OtherDefines>
             <ExecuteAfter>
               <CompileReasons Run="False"/>
             </ExecuteAfter>
