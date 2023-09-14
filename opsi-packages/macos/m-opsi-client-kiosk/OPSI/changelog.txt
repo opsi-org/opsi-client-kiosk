@@ -1,6 +1,12 @@
 [Changelog]
 
-m-opsi-client-kiosk (4.2.0.0-5) testing; urgency=low
+m-opsi-client-kiosk (4.2.1.0-5) testing; urgency=low
+
+  [update] ssl version to openssl 3
+
+-- Jan Werner <j.werner@uib.de> 04 Sept 2023
+
+m-opsi-client-kiosk (4.2.0.0-5) stable; urgency=low
 
   [change] binary version to 4.2.0.0
 

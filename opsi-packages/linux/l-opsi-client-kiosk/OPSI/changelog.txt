@@ -1,6 +1,12 @@
 [Changelog]
 
-l-opsi-client-kiosk (4.2.0.0-8) testing; urgency=low
+l-opsi-client-kiosk (4.2.1.0-8) testing; urgency=low
+
+  [update] ssl version to openssl 3
+
+-- Jan Werner <j.werner@uib.de> 04 Sept 2023
+
+l-opsi-client-kiosk (4.2.0.0-8) stable urgency=low
 
   [change] remove unnecessary check for opsi-client-agent version
 
