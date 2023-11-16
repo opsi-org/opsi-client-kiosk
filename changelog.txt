@@ -8,7 +8,7 @@ opsi-client-kiosk (4.3.0.1) unreleased; urgency=medium
 
 opsi-client-kiosk (4.3.0.0) stable; urgency=medium
 
-   * change: use new corperate design
+   * change: use new corporate design
 
 -- Jan Werner <j.werner@uib.de> Mon, 16 Oct 2023
 
