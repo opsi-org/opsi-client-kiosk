@@ -1,5 +1,17 @@
 [Changelog]
 
+l-opsi-client-kiosk (4.3.0.1-8) urgency=medium
+
+  [update] small GUI improvments in the help window
+
+-- Jan Werner <j.werner@uib.de> 16 Nov 2023
+
+l-opsi-client-kiosk (4.3.0.0-8) stable; urgency=medium
+
+  [update] use new corporate design
+
+-- Jan Werner <j.werner@uib.de> 16 Oct 2023
+
 l-opsi-client-kiosk (4.2.1.0-8) testing; urgency=low
 
   [update] ssl version to openssl 3
@@ -22,45 +34,45 @@ l-opsi-client-kiosk (4.1.1.16-7) stable; urgency=high
 
   * fix: change ssl lib
   * update: Linkfolder
-   
+
 -- Jan Werner <j.werner@uib.de> Thu, 6 October 2022
 
 l-opsi-client-kiosk (4.1.1.16-4) stable; urgency=high
 
   * fix: all products are now shown also in tiles view
-   
+
 -- Jan Werner <j.werner@uib.de> Tue, 19 July 2022
 
 l-opsi-client-kiosk (4.1.1.15-4) stable; urgency=medium
 
-  * package now save and restores the ock_custom folder when installing the package on depot 
-    
+  * package now save and restores the ock_custom folder when installing the package on depot
+
 -- Jan Werner <j.werner@uib.de> Thu, 22 April 2022 13:26:00 +0100
 
 l-opsi-client-kiosk (4.1.1.15-3) stable; urgency=medium
 
   * oswebservice: new openssl units [W/L/M]
-  * update paths for config/settings data [L/M] 
-    
+  * update paths for config/settings data [L/M]
+
 -- Jan Werner <j.werner@uib.de> Thu, 07 April 2022 13:00:00 +0100
 
 l-opsi-client-kiosk (4.1.1.14-3) experimental; urgency=medium
 
   * new file opsiclientkiosk.conf (here the clienid is also stored and loaded if no fqdn was found)
   * code refactoring (paths)
-    
+
 -- Jan Werner <j.werner@uib.de> Tue, 22 March 2022 19:57:00 +0100
 
 l-opsi-client-kiosk (4.1.1.11-3) stable; urgency=medium
 
-  * include encoding=utf8 to *.opsiscript files and convert files to utf8 
+  * include encoding=utf8 to *.opsiscript files and convert files to utf8
 
 -- Jan Werner <j.werner@uib.de> Mon, 12 Jul 2021 18:07:00 +0100
 
 l-opsi-client-kiosk (4.1.1.11-2) stable; urgency=medium
 
   * new button Reinstall (allows direct reinstallation of products even if already installed)
-  * new opsi Method processActionRequests instead of fireEvent_software_on_demand 
+  * new opsi Method processActionRequests instead of fireEvent_software_on_demand
 
 -- Jan Werner <j.werner@uib.de> Fri, 09 Jul 2021 15:16:00 +0100
 

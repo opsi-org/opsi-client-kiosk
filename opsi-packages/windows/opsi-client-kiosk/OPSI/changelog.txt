@@ -1,5 +1,17 @@
 [Changelog]
 
+opsi-client-kiosk (4.3.0.1-13) urgency=medium
+
+  [update] small GUI improvments in the help window
+
+-- Jan Werner <j.werner@uib.de> 16 Nov 2023
+
+opsi-client-kiosk (4.3.0.0-13) stable; urgency=medium
+
+  [update] use new corporate design
+
+-- Jan Werner <j.werner@uib.de> 16 Oct 2023
+
 opsi-client-kiosk (4.2.1.0-13) testing; urgency=low
 
   [update] ssl version to openssl 3
@@ -27,21 +39,21 @@ opsi-client-kiosk (4.2.0.0-11) testing; urgency=low
 opsi-client-kiosk (4.1.1.16-11) stable; urgency=high
 
   * fix: all products are now shown also in tiles view
-   
+
 -- Jan Werner <j.werner@uib.de> Tue, 19 July 2022
 
 opsi-client-kiosk (4.1.1.15-11) stable; urgency=medium
 
   * oswebservice: new openssl units [W/L/M]
   * oswebservice: new openssl libraries (1.1.1n) [W]
-    
+
 -- Jan Werner <j.werner@uib.de> Thu, 07 April 2022 13:00:00 +0100
 
 opsi-client-kiosk (4.1.1.14-11) experimental; urgency=medium
 
   * new file opsiclientkiosk.conf (here the clienid is also stored and loaded if no fqdn was found)
   * code refactoring (paths)
-    
+
 -- Jan Werner <j.werner@uib.de> Tue, 22 March 2022 19:37:00 +0100
 
 opsi-client-kiosk (4.1.1.13-11) experimental; urgency=medium
@@ -49,26 +61,26 @@ opsi-client-kiosk (4.1.1.13-11) experimental; urgency=medium
   * tiles view can be disabled for performance reasons
   * new config software-on-demand.disable-tilesview
   * list view: not necessary column productID is removed
-    
+
 -- Jan Werner <j.werner@uib.de> Mon, 19 Jan 2022 16:23:00 +0100
 
 opsi-client-kiosk (4.1.1.12-10) experimental; urgency=medium
 
-  * connected depot is now shown in the status bar (bottom of the application) 
-  * small fix in GUI: Buttons are shown now consistent if setting product action for next standard event, moving back to tiles view and then go back again to detailed product view.  
+  * connected depot is now shown in the status bar (bottom of the application)
+  * small fix in GUI: Buttons are shown now consistent if setting product action for next standard event, moving back to tiles view and then go back again to detailed product view.
 
 -- Jan Werner <j.werner@uib.de> Mon, 18 Nov 2021 14:51:00 +0100
 
 opsi-client-kiosk (4.1.1.11-10) stable; urgency=medium
 
-  * include encoding=utf8 to *.opsiscript files and convert files to utf8 
+  * include encoding=utf8 to *.opsiscript files and convert files to utf8
 
 -- Jan Werner <j.werner@uib.de> Mon, 12 Jul 2021 18:08:00 +0100
 
 opsi-client-kiosk (4.1.1.11-9) stable; urgency=medium
 
   * new button Reinstall (allows direct reinstallation of products even if already installed)
-  * new opsi Method processActionRequests instead of fireEvent_software_on_demand 
+  * new opsi Method processActionRequests instead of fireEvent_software_on_demand
 
 -- Jan Werner <j.werner@uib.de> Fri, 09 Jul 2021 15:16:00 +0100
 
@@ -80,7 +92,7 @@ opsi-client-kiosk (4.1.1.10-9) stable; urgency=low
 
 opsi-client-kiosk (4.1.1.9-8) experimental; urgency=low
 
-  * fix: product detail view (tiles view) now displayes an update button also in the case if the installation-now-button is enabled 
+  * fix: product detail view (tiles view) now displayes an update button also in the case if the installation-now-button is enabled
     and an action request was already set on the server.
 
  -- Jan Werner <j.werner@uib.de>  Wed, 03 Mar 2021 17:00:00 +0000
@@ -107,22 +119,22 @@ opsi-client-kiosk (4.1.1.8-6) experimental; urgency=low
 opsi-client-kiosk (4.1.1.7-6) experimental; urgency=medium
 
  * remove set kiosk to setup part from postinst (functionality now coverd by opsi-client-agent package >= 4.1.1.18-1)
- 
+
  -- Jan Werner <j.werner@uib.de>  Wed, 14 Dec 2020 15:19:00 +0000
 
 opsi-client-kiosk (4.1.1.7-3) experimental; urgency=low
 
  * small fixes in skin (header title/kiosk.icon are now displayed correct)
- * if kiosk migration from client-agent package occured (folder migration exist in the opsi-client-kiosk folder on depot) 
-   set the opsi-client-kiosk to setup for all clients where software-on-demand.active=true. 
- 
+ * if kiosk migration from client-agent package occured (folder migration exist in the opsi-client-kiosk folder on depot)
+   set the opsi-client-kiosk to setup for all clients where software-on-demand.active=true.
+
  -- Jan Werner <j.werner@uib.de>  Thu, 03 Dec 2020 15:33:00 +0000
 
 opsi-client-kiosk (4.1.1.6-5) experimental; urgency=low
 
  * migration from files
  * depends on opsi-client-agent (>= 4.1.1.6-5)
- 
+
  -- Jan Werner <j.werner@uib.de>  Thu, 22 Oct 2020 15:33:00 +0000
 
 opsi-client-kiosk (4.1.1.6-4) experimental; urgency=low
@@ -130,13 +142,13 @@ opsi-client-kiosk (4.1.1.6-4) experimental; urgency=low
   * depends on opsi-client-agent (>= 4.1.1.1)
   * this kiosk version needs no to be installed separatly, during the installation of the opsi-client-agent package (>=4.1.1.3-1) on the depot all necessary steps will be executed.
     (e.g. migration of settings, installation of kiosk package on the depot, setting the kiosk to setup for the appropriate clients)
- 
+
  -- Jan Werner <j.werner@uib.de>  Tue, 20 Oct 2020 15:00:00 +0000
 
 
 opsi-client-kiosk (4.1.1.6-3) experimental; urgency=low
 
-  * Version build just for internal testing 
+  * Version build just for internal testing
 
  -- Jan Werner <j.werner@uib.de>  Tue, 29 Sept 2020 18:38:00 +0000
 
@@ -149,20 +161,20 @@ opsi-client-kiosk (4.1.1.6-2) experimental; urgency=low
 opsi-client-kiosk (4.1.1.6-1) experimental; urgency=low
 
   * opsi-client-kiosk version 4.1.1.6 (small bug fixes in user interface)
-  * migration from opsi-client-agent: postinst script now checks for different possible ock_custom paths in the client-agent directory 
-    and did not try to copy the ock_custom folder if no known path exists  
+  * migration from opsi-client-agent: postinst script now checks for different possible ock_custom paths in the client-agent directory
+    and did not try to copy the ock_custom folder if no known path exists
 
  -- Jan Werner <j.werner@uib.de>  Tue, 23 Sept 2020 12:09:30 +0000
 
 opsi-client-kiosk (4.1.1.4-1) experimental; urgency=low
 
   * Initial package
-  * the opsi-client-kiosk is now available as an extra package. Formely it was included in the opsi-client-agent package. 
+  * the opsi-client-kiosk is now available as an extra package. Formely it was included in the opsi-client-agent package.
   * The ock_custom folder as well as the properties settings will be migrated from the opsi-client-agent package respectively the opsi-backend.
   * Precondition for using the opsi-client-kiosk:
-     - The opsi-client-kiosk package and the opsi client-agent package >= version 4.1.1.0 must be installed on the opsi-depot. 
+     - The opsi-client-kiosk package and the opsi client-agent package >= version 4.1.1.0 must be installed on the opsi-depot.
      - IMPORTANT the opsi-client-kiosk package had to be installed on the depot before the opsi-client-agent package. This order is necessary for the migration process.
-     - The opsi-client-agent version >= 4.1.1.0 must be installed on the client. 
+     - The opsi-client-agent version >= 4.1.1.0 must be installed on the client.
 
  -- Jan Werner <j.werner@uib.de>  Wed, 19 August 2020 11:47:30 +0000
 

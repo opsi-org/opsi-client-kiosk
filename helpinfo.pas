@@ -15,11 +15,12 @@ type
   TFormHelpInfo = class(TForm)
     ButtonClose: TButton;
     CheckBoxExpertMode: TCheckBox;
+    GroupBoxInfo: TGroupBox;
     ImageLogo: TImage;
+    LabeCopy: TLabel;
+    LabelCopyRight: TLabel;
     LabelModeInfo: TLabel;
     LabelMode: TLabel;
-    LabelCopy: TLabel;
-    LabelCopyRight: TLabel;
     LabelCredits: TLabel;
     LabelCreditsTo: TLabel;
     LabelLang: TLabel;
@@ -29,9 +30,12 @@ type
     LabelUibWeb: TLabel;
     LabelVers: TLabel;
     LabelVersion: TLabel;
+    PanelCopyRight: TPanel;
+    PanelWeb: TPanel;
+    PanelMode: TPanel;
     PanelDescriptions: TPanel;
     PanelInfo: TPanel;
-    PanelInfoContent: TPanel;
+    PanelLanguage: TPanel;
     PanelTop: TPanel;
     PanelCredits: TPanel;
     PanelBottom: TPanel;
@@ -112,9 +116,9 @@ var
   languageNotFound:boolean;
   Language: String;
 const
-  URL_MANUAL_EN = 'https://docs.opsi.org/opsi-docs-en/4.2/manual/modules/' +
+  URL_MANUAL_EN = 'https://docs.opsi.org/opsi-docs-en/4.3/opsi-modules/' +
     'software-on-demand.html?q=+Verwendung#software-on-demand_opsi-client-kiosk';
-  URL_MANUAL_DE = 'https://docs.opsi.org/opsi-docs-de/4.2/manual/modules/' +
+  URL_MANUAL_DE = 'https://docs.opsi.org/opsi-docs-de/4.3/opsi-modules/' +
     'software-on-demand.html?q=+Verwendung#software-on-demand_opsi-client-kiosk';
 begin
   Language := SetDefaultLang('');
