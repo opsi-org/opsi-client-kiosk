@@ -966,6 +966,7 @@ begin
     //ShowMessage(ConfigState.Text);
     SoftwareOnDemand := StrToBool(ConfigState.Strings[0]);
     ConfigState.Free;
+    FormHelpInfo.LabelModeInfo.Caption := '';
     if not SoftwareOnDemand then
     begin
       if FormHelpInfo.LabelModeInfo.Caption = '' then
