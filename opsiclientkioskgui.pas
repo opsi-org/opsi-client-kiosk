@@ -585,6 +585,7 @@ begin
       Left:=20-ShapeRoundSquare.Pen.Width;
       Font.Color := clWhite;
       Name := 'LabelState';
+      Transparent := False;
       //BorderSpacing.Around := 3;
       OnClick := ProductPanelClick;//ProductTileChildClick;
       OnMouseWheel := scroll;
