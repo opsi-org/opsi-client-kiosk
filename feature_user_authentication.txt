@@ -1,0 +1,19 @@
+Überprüfen ob der aktuelle User der eingeloggte User ist:
+
+# 1. get logged in user SID
+function GetLoggedInUserSID: string; -> get logged in user sid
+osfuncwin2.pas (Zeile 373)
+
+ConvertStringSIDToSID(PChar(StrSID), SID); convert string SID to structure PSID
+https://learn.microsoft.com/en-us/windows/win32/api/sddl/nf-sddl-convertstringsidtosida
+https://www.freepascal.org/daily/packages/winunits-jedi/jwawindows/convertstringsidtosid.html  
+
+# 2. get token for a specific user (username, password)
+function LogonUserW -> get impersonation token for user including its SID
+https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-logonuserw
+https://www.freepascal.org/daily/packages/winunits-jedi/jwawindows/logonuserw.html
+
+# 3. check if SID of logged in user is the same SID as in the generated user token
+function CheckTokenMemberShip -> checks if SID is in token
+https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-checktokenmembership
+https://www.freepascal.org/daily/packages/winunits-jedi/jwawindows/checktokenmembership.html 
