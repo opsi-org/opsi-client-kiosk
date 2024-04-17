@@ -121,7 +121,7 @@ compile opsi-client-kiosk linux:
       when: always
   script:
     - echo "Compiling ${LAZ_PROJECT_FILE} (Version ${BINARY_VERSION}) for Linux (64 Bit)"
-    - /usr/bin/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_Linux
+    - /usr/share/lazarus/3.2.0/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_Linux
   artifacts:
     name: "$BINARY_NAME_LINUX $BINARY_VERSION Linux 64Bit"
     paths:
@@ -143,7 +143,7 @@ compile opsi-client-kiosk macos:
       when: always
   script:
     - echo "Compiling ${LAZ_PROJECT_FILE} (Version ${BINARY_VERSION}) for MacOS (Intel, 64 Bit)"
-    - /Library/Lazarus/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_MacOS --ws=cocoa
+    - /Applications/Lazarus/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_MacOS --ws=cocoa
   artifacts:
     name: "$BINARY_NAME_MAC $BINARY_VERSION MacOS 64Bit Intel"
     paths:
