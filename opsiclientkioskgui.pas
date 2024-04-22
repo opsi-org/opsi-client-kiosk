@@ -2268,6 +2268,7 @@ begin
   {$ELSE}
   UserAuthentication := False;
   {$ENDIF WINDOWS}
+  LogDatei.log('UserAuthentication: ' + BoolToStr(UserAuthentication, True), LLInfo);
 
   try
     { quick check parameters }

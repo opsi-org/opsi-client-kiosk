@@ -49,7 +49,12 @@ implementation
 
 procedure TFormUserAuthentication.FormCreate(Sender: TObject);
 begin
-  if FormOpsiClientKiosk.UserAuthentication then Show;
+  if FormOpsiClientKiosk.UserAuthentication then Show
+  else
+    begin
+      FormOpsiClientKiosk.Show;
+      Close;
+    end;
 end;
 
 
@@ -85,9 +90,11 @@ end;
 function TFormUserAuthentication.GetLogonUser(const UserName: string;
   const Password: string): boolean;
 begin
+  Result := False;
   if LogonUser(PChar(UserName),nil,PChar(Password),LOGON32_LOGON_NETWORK,LOGON32_PROVIDER_DEFAULT,FUserToken) then
   begin
     LogDatei.log('UserAuthentication: Log on successful', LLInfo);
+    Result := True;
   end
   else
   begin
@@ -121,6 +128,7 @@ begin
   Close;
 end;
 
+
 destructor TFormUserAuthentication.Destroy;
 begin
   try
@@ -129,7 +137,7 @@ begin
     except
       on e: Exception do
       begin
-        logdatei.log('Exception T.UserAuthentication', LLError);
+        logdatei.log('Exception TFormUserAuthentication', LLError);
         logdatei.log('Exception: ' + E.message, LLError);
         logdatei.log('Exception handled at: ' + getCallAddrStr, LLError);
         logdatei.log_exception(E, LLError);
