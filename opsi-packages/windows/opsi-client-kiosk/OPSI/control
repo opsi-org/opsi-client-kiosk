@@ -1,5 +1,5 @@
 [Package]
-version: 13
+version: 14
 depends: opsi-client-agent (>= 4.1.1.6-5)
 
 [Product]
@@ -8,7 +8,7 @@ id: opsi-client-kiosk
 name: Opsi Client Kiosk
 description: Softwarekiosk. Allows to install software with Opsi on the client on demand.
 advice: opsi-client-agent version >= 4.1.1.6-5 had to be installed on the client.
-version: 4.2.0.0
+version: 4.3.1.0
 priority: 0
 licenseRequired: False
 productClasses: 
