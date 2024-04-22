@@ -8,8 +8,7 @@ object FormProgressWindow: TFormProgressWindow
   ClientWidth = 553
   FormStyle = fsStayOnTop
   Position = poScreenCenter
-  LCLVersion = '2.0.10.0'
-  Visible = True
+  LCLVersion = '3.2.0.0'
   object ProgressBar1: TProgressBar
     Left = 8
     Height = 25
@@ -27,25 +26,25 @@ object FormProgressWindow: TFormProgressWindow
   end
   object LabelDataLoad: TLabel
     Left = 8
-    Height = 19
+    Height = 15
     Top = 57
-    Width = 100
+    Width = 78
     Caption = 'LabelDataLoad'
     ParentColor = False
   end
   object LabelDataLoadDetail: TLabel
     Left = 8
-    Height = 19
+    Height = 15
     Top = 129
-    Width = 140
+    Width = 108
     Caption = 'LabelDataLoadDetail'
     ParentColor = False
   end
   object LabelInfo: TLabel
     Left = 8
-    Height = 19
+    Height = 21
     Top = 16
-    Width = 164
+    Width = 136
     Caption = 'Please wait while '
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack

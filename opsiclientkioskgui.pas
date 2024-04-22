@@ -2087,6 +2087,7 @@ begin
     SetTilesView;
   end;
   Caption := 'opsi-client-kiosk' + ' (Version '+ ProgramInfo.Version + ')';
+  Show;
 end;
 
 procedure TFormOpsiClientKiosk.FormResize(Sender: TObject);

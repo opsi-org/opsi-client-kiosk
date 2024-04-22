@@ -14,7 +14,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
   OnDestroy = FormDestroy
   OnResize = FormResize
   Position = poScreenCenter
-  LCLVersion = '2.2.2.0'
+  LCLVersion = '3.2.0.0'
   object PanelToolbar: TPanel
     Left = 0
     Height = 45
@@ -217,8 +217,8 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 18
-    Top = 682
+    Height = 23
+    Top = 677
     Width = 656
     Panels = <    
       item
@@ -1197,11 +1197,11 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
     TabOrder = 3
     Visible = False
     object SpeedButtonReload: TSpeedButton
-      Left = 585
+      Left = 590
       Height = 33
       Hint = 'Reload data from server'
       Top = 6
-      Width = 65
+      Width = 60
       Align = alRight
       AutoSize = True
       BorderSpacing.Around = 5
@@ -1215,7 +1215,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
       Left = 5
       Height = 38
       Top = 1
-      Width = 106
+      Width = 86
       Align = alLeft
       AutoFill = True
       AutoSize = True
@@ -1230,8 +1230,8 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
       ChildSizing.ShrinkVertical = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 2
-      ClientHeight = 19
-      ClientWidth = 96
+      ClientHeight = 18
+      ClientWidth = 82
       Columns = 2
       ItemIndex = 0
       Items.Strings = (
@@ -1242,11 +1242,11 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
       TabOrder = 0
     end
     object BitBtnInstallNow: TBitBtn
-      Left = 484
+      Left = 482
       Height = 33
       Hint = 'Start the installation/update (uninstallation) of the selected products'
       Top = 6
-      Width = 96
+      Width = 103
       Align = alRight
       AutoSize = True
       BorderSpacing.Around = 5
@@ -1261,25 +1261,27 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
   end
   object PanelProducts: TPanel
     Left = 0
-    Height = 499
+    Height = 494
     Top = 183
     Width = 656
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 499
+    ClientHeight = 494
     ClientWidth = 656
     Color = clForm
+    ParentBackground = False
     ParentColor = False
     TabOrder = 4
     object PanelProductDetail: TPanel
       Left = 0
       Height = 172
-      Top = 327
+      Top = 322
       Width = 656
       Align = alBottom
       BevelOuter = bvNone
       ClientHeight = 172
       ClientWidth = 656
+      ParentBackground = False
       TabOrder = 1
       object ExtendedNotebook1: TExtendedNotebook
         Left = 0
@@ -1293,16 +1295,16 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
         TabOrder = 0
         object TabSheet1: TTabSheet
           Caption = 'Details'
-          ClientHeight = 142
-          ClientWidth = 650
+          ClientHeight = 144
+          ClientWidth = 648
           object PanelDetailsLables: TPanel
             Left = 0
-            Height = 142
+            Height = 144
             Top = 0
             Width = 160
             Align = alLeft
             BevelOuter = bvNone
-            ClientHeight = 142
+            ClientHeight = 144
             ClientWidth = 160
             ParentColor = False
             TabOrder = 0
@@ -1332,7 +1334,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
             end
             object LabelVerstr: TLabel
               Left = 5
-              Height = 16
+              Height = 15
               Top = 109
               Width = 150
               Align = alTop
@@ -1343,8 +1345,8 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
             end
             object LabelClientVerstr: TLabel
               Left = 5
-              Height = 16
-              Top = 130
+              Height = 15
+              Top = 129
               Width = 150
               Align = alTop
               Alignment = taRightJustify
@@ -1355,20 +1357,20 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
           end
           object PanelDetailsDBText: TPanel
             Left = 160
-            Height = 142
+            Height = 144
             Top = 0
-            Width = 490
+            Width = 488
             Align = alClient
             BevelOuter = bvNone
-            ClientHeight = 142
-            ClientWidth = 490
+            ClientHeight = 144
+            ClientWidth = 488
             ParentColor = False
             TabOrder = 1
             object DBTextVerStr: TDBText
               Left = 5
-              Height = 16
+              Height = 15
               Top = 109
-              Width = 480
+              Width = 478
               Align = alTop
               BorderSpacing.Around = 5
               DataField = 'VersionStr'
@@ -1379,7 +1381,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
               Left = 5
               Height = 47
               Top = 5
-              Width = 480
+              Width = 478
               Align = alTop
               BorderSpacing.Around = 5
               BorderStyle = bsNone
@@ -1393,7 +1395,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
               Left = 5
               Height = 47
               Top = 57
-              Width = 480
+              Width = 478
               Align = alTop
               BorderSpacing.Around = 5
               BorderStyle = bsNone
@@ -1405,9 +1407,9 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
             end
             object DBTextInstalledVerStr: TDBText
               Left = 5
-              Height = 16
-              Top = 130
-              Width = 480
+              Height = 15
+              Top = 129
+              Width = 478
               Align = alTop
               BorderSpacing.Around = 5
               DataField = 'InstalledVerSTr'
@@ -1418,33 +1420,33 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
         end
         object TabSheet2: TTabSheet
           Caption = 'Dependencies / Priority'
-          ClientHeight = 142
-          ClientWidth = 650
+          ClientHeight = 144
+          ClientWidth = 648
           object PanelPriority: TPanel
             Left = 0
             Height = 32
-            Top = 110
-            Width = 650
+            Top = 112
+            Width = 648
             Align = alBottom
             BevelOuter = bvNone
             ClientHeight = 32
-            ClientWidth = 650
+            ClientWidth = 648
             ParentColor = False
             TabOrder = 0
             object LabelPriority: TLabel
               Left = 57
-              Height = 16
+              Height = 15
               Top = 10
-              Width = 51
+              Width = 44
               BorderSpacing.Around = 5
               Caption = 'Priority: '
               ParentColor = False
             end
             object DBTextPriority: TDBText
               Left = 108
-              Height = 16
+              Height = 15
               Top = 9
-              Width = 87
+              Width = 73
               BorderSpacing.Around = 5
               DataField = 'priority'
               ParentColor = False
@@ -1452,19 +1454,20 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
           end
           object PanelDependencies: TPanel
             Left = 0
-            Height = 110
+            Height = 112
             Top = 0
-            Width = 650
+            Width = 648
             Align = alClient
             BevelOuter = bvNone
-            ClientHeight = 110
-            ClientWidth = 650
+            ClientHeight = 112
+            ClientWidth = 648
+            ParentBackground = False
             TabOrder = 1
             object DBGrid2: TDBGrid
               Left = 0
-              Height = 110
+              Height = 112
               Top = 0
-              Width = 650
+              Width = 648
               Align = alClient
               Color = clWindow
               Columns = <>
@@ -1477,7 +1480,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
     end
     object NotebookProducts: TNotebook
       Left = 0
-      Height = 327
+      Height = 322
       Top = 0
       Width = 656
       PageIndex = 0
@@ -1487,7 +1490,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
       object PageList: TPage
         object DBGrid1: TDBGrid
           Left = 0
-          Height = 327
+          Height = 322
           Hint = 'Click to ActionRequest Column, to set action requests (setup/uninstall)'
           Top = 0
           Width = 656
@@ -1507,12 +1510,12 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
         end
         object DBComboBox1: TDBComboBox
           Left = 475
-          Height = 20
+          Height = 23
           Top = 71
           Width = 100
           DataField = 'ActionRequest'
           DataSource = DataSourceProductData
-          ItemHeight = 19
+          ItemHeight = 15
           MaxLength = 0
           OnChange = DBComboBox1Change
           OnClick = DBComboBox1Click
@@ -1586,9 +1589,9 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
-            OnClick = ButtonSoftwareBackClick
             ParentFont = False
             TabOrder = 0
+            OnClick = ButtonSoftwareBackClick
           end
         end
         object ScrollBoxSoftwarePage: TScrollBox
@@ -1602,6 +1605,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
           BorderStyle = bsNone
           ClientHeight = 285
           ClientWidth = 656
+          ParentBackground = False
           TabOrder = 1
           object ImageIconSoftware: TImage
             Left = 15
@@ -1634,8 +1638,8 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
             Top = 104
             Width = 135
             Caption = 'Install'
-            OnClick = ButtonSoftwareInstallClick
             TabOrder = 0
+            OnClick = ButtonSoftwareInstallClick
           end
           object LabelSoftwareDescription: TLabel
             AnchorSideTop.Control = PanelSoftwareScreenshot
@@ -1686,6 +1690,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
             ClientWidth = 384
             Color = cl3DLight
             Font.Height = -16
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 1
@@ -1747,8 +1752,8 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
             Top = 292
             Width = 135
             Caption = 'Update'
-            OnClick = ButtonSoftwareUpdateClick
             TabOrder = 2
+            OnClick = ButtonSoftwareUpdateClick
           end
           object ButtonSoftwareUninstall: TButton
             Left = 15
@@ -1756,8 +1761,8 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
             Top = 104
             Width = 135
             Caption = 'Uninstall'
-            OnClick = ButtonSoftwareUninstallClick
             TabOrder = 3
+            OnClick = ButtonSoftwareUninstallClick
           end
           object ButtonSoftwareRemoveAction: TButton
             Left = 15
@@ -1765,9 +1770,9 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
             Top = 104
             Width = 135
             Caption = 'Remove action'
-            OnClick = ButtonSoftwareRemoveActionClick
             TabOrder = 4
             Visible = False
+            OnClick = ButtonSoftwareRemoveActionClick
           end
           object DBTextActionRequest: TDBText
             Left = 15
@@ -1820,8 +1825,8 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
             Top = 292
             Width = 135
             Caption = 'Reinstall'
-            OnClick = ButtonSoftwareReinstallClick
             TabOrder = 7
+            OnClick = ButtonSoftwareReinstallClick
           end
         end
       end
@@ -1871,13 +1876,13 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
       BorderSpacing.Around = 5
       BevelOuter = bvNone
       BorderStyle = bsSingle
-      ClientHeight = 31
-      ClientWidth = 642
+      ClientHeight = 29
+      ClientWidth = 640
       Constraints.MinHeight = 30
       TabOrder = 0
       object SpeedButtonClearSearchEdit: TSpeedButton
-        Left = 619
-        Height = 31
+        Left = 617
+        Height = 29
         Top = 0
         Width = 23
         Align = alRight
@@ -1888,10 +1893,10 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
       end
       object EditSearch: TEdit
         Left = 37
-        Height = 31
+        Height = 29
         Hint = 'Search in Productlist'
         Top = 0
-        Width = 582
+        Width = 580
         Align = alClient
         AutoSize = False
         AutoSelect = False
@@ -1900,17 +1905,17 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
         BorderSpacing.CellAlignVertical = ccaCenter
         BorderStyle = bsNone
         Font.Height = -16
-        OnChange = EditSearchChange
-        OnEnter = EditSearchEnter
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabOrder = 0
         TextHint = 'Search'
+        OnChange = EditSearchChange
+        OnEnter = EditSearchEnter
       end
       object ImageViewmag: TImage
         Left = 2
-        Height = 31
+        Height = 29
         Top = 0
         Width = 30
         Align = alLeft

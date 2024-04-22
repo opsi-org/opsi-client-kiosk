@@ -19,7 +19,7 @@ uses
   Classes, SysUtils, Forms, lazcontrols, lcltranslator, inifiles,
   opsiclientkioskgui, installdlg, datadb, progresswindow, oslog,
   osRunCommandElevated, lazproginfo, osprocesses, opsiconnection,
-  helpinfo, OckImagestoDepot, OckPathsUtils
+  helpinfo, OckImagestoDepot, OckPathsUtils, OckUserAuthentication
 
   {add more units if nedded};
 
@@ -30,17 +30,18 @@ begin
   //Application.Scaled:=True;
   RequireDerivedFormResource := True;
   Application.Initialize;
+  Application.ShowMainForm := False;
   Application.Title:='opsi-client-kiosk';
-
   Application.CreateForm(TFormOpsiClientKiosk, FormOpsiClientKiosk);
-  Application.CreateForm(TFInstalldlg, FInstalldlg);
-  Application.CreateForm(TDataModuleOCK, DataModuleOCK);
   Application.CreateForm(TFormProgressWindow, FormProgressWindow);
+  Application.CreateForm(TFormUserAuthentication, FormUserAuthentication);
+  Application.CreateForm(TFInstalldlg, FInstalldlg);
   Application.CreateForm(TFormHelpInfo, FormHelpInfo);
   Application.CreateForm(TFormSaveImagesOnDepot, FormSaveImagesOnDepot);
   {$IFDEF UNIX}
   Application.CreateForm(TFormPasswordQuery, FormPasswordQuery);
   {$ENDIF UNIX}
+
   Application.Run;
   Application.Free;
 end.

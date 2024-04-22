@@ -1,0 +1,52 @@
+object FormUserAuthentication: TFormUserAuthentication
+  Left = 671
+  Height = 240
+  Top = 246
+  Width = 471
+  Caption = 'User Authentication'
+  ClientHeight = 240
+  ClientWidth = 471
+  OnClose = FormClose
+  LCLVersion = '3.2.0.0'
+  Visible = True
+  object LabeledEditUser: TLabeledEdit
+    Left = 24
+    Height = 23
+    Top = 38
+    Width = 424
+    EditLabel.Height = 15
+    EditLabel.Width = 424
+    EditLabel.Caption = 'User'
+    TabOrder = 0
+  end
+  object LabeledEditPassword: TLabeledEdit
+    Left = 24
+    Height = 23
+    Top = 120
+    Width = 424
+    EchoMode = emPassword
+    EditLabel.Height = 15
+    EditLabel.Width = 424
+    EditLabel.Caption = 'Password'
+    PasswordChar = '*'
+    TabOrder = 1
+  end
+  object ButtonOK: TButton
+    Left = 24
+    Height = 25
+    Top = 184
+    Width = 75
+    Caption = 'OK'
+    TabOrder = 2
+    OnClick = ButtonOKClick
+  end
+  object ButtonCancel: TButton
+    Left = 373
+    Height = 25
+    Top = 184
+    Width = 75
+    Caption = 'Cancel'
+    TabOrder = 3
+    OnClick = ButtonCancelClick
+  end
+end

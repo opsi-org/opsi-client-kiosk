@@ -57,6 +57,10 @@ msgstr ""
 msgid "Setting rights..."
 msgstr ""
 
+#: ockuserauthentication.rswronguserorpassword
+msgid "Wrong user or password. Access denied. Close Application."
+msgstr ""
+
 #: opsiclientkioskgui.rsaction
 msgctxt "opsiclientkioskgui.rsaction"
 msgid "Action"
@@ -343,17 +347,6 @@ msgctxt "opsiconnection.rsnovaluefound"
 msgid "No value found! Set%sto"
 msgstr ""
 
-#: oswebservice.rserrorintconnection
-msgctxt "oswebservice.rserrorintconnection"
-msgid "Error while initializing opsiconnection"
-msgstr ""
-
-#: oswebservice.rsnovaluefound
-#, object-pascal-format
-msgctxt "oswebservice.rsnovaluefound"
-msgid "No value found! Set%sto"
-msgstr ""
-
 #: oswebservice.rssendlog
 msgid "Sending log file to server ..."
 msgstr ""
@@ -387,16 +380,32 @@ msgstr ""
 msgid "Expert mode"
 msgstr ""
 
-#: tformhelpinfo.labelcopy.caption
-msgid "CopyRight:"
+#: tformhelpinfo.groupboxinfo.caption
+msgid "Info"
+msgstr ""
+
+#: tformhelpinfo.labecopy.caption
+msgid "Copy right:"
+msgstr ""
+
+#: tformhelpinfo.labelcopyright.caption
+msgid "LabelCopyRight"
+msgstr ""
+
+#: tformhelpinfo.labelcredits.caption
+msgid "LabelCredits"
 msgstr ""
 
 #: tformhelpinfo.labelcreditsto.caption
-msgid "Credits to"
+msgid "Credits to:"
 msgstr ""
 
 #: tformhelpinfo.labellang.caption
 msgid "Display language:"
+msgstr ""
+
+#: tformhelpinfo.labellanguage.caption
+msgid "LabelLanguage"
 msgstr ""
 
 #: tformhelpinfo.labelmode.caption
@@ -407,8 +416,20 @@ msgstr ""
 msgid "opsi client kiosk"
 msgstr ""
 
+#: tformhelpinfo.labelopsiweb.caption
+msgid "LabelOpsiWeb"
+msgstr ""
+
+#: tformhelpinfo.labeluibweb.caption
+msgid "LabelUibWeb"
+msgstr ""
+
 #: tformhelpinfo.labelvers.caption
 msgid "Version"
+msgstr ""
+
+#: tformhelpinfo.labelversion.caption
+msgid "LabelVersion"
 msgstr ""
 
 #: tformhelpinfo.speedbuttonmanual.caption
@@ -519,6 +540,10 @@ msgstr ""
 msgid "Installed version"
 msgstr ""
 
+#: tformopsiclientkiosk.labelsoftwarename.caption
+msgid "LabelSoftwareName"
+msgstr ""
+
 #: tformopsiclientkiosk.labelsoftwarerecentversion.caption
 msgid "Recent version"
 msgstr ""
@@ -529,6 +554,10 @@ msgstr ""
 
 #: tformopsiclientkiosk.labelverstr.caption
 msgid "Version at Server"
+msgstr ""
+
+#: tformopsiclientkiosk.panelsearchmask.caption
+msgid "PanelSearchMask"
 msgstr ""
 
 #: tformopsiclientkiosk.panelsoftwarescreenshot.caption
@@ -551,6 +580,10 @@ msgstr ""
 
 #: tformopsiclientkiosk.speedbuttonall.hint
 msgid "Show all List entries (No Filter)"
+msgstr ""
+
+#: tformopsiclientkiosk.speedbuttonclearsearchedit.caption
+msgid "X"
 msgstr ""
 
 #: tformopsiclientkiosk.speedbuttonnotinstalled.caption
@@ -598,7 +631,12 @@ msgid "Cancel"
 msgstr ""
 
 #: tformpasswordquery.buttonok.caption
+msgctxt "tformpasswordquery.buttonok.caption"
 msgid "OK"
+msgstr ""
+
+#: tformpasswordquery.caption
+msgid "FormPasswordQuery"
 msgstr ""
 
 #: tformpasswordquery.editpassword.editlabel.caption
@@ -617,6 +655,14 @@ msgstr ""
 
 #: tformprogresswindow.caption
 msgid "Initialize OpsiClientKiosk"
+msgstr ""
+
+#: tformprogresswindow.labeldataload.caption
+msgid "LabelDataLoad"
+msgstr ""
+
+#: tformprogresswindow.labeldataloaddetail.caption
+msgid "LabelDataLoadDetail"
 msgstr ""
 
 #: tformprogresswindow.labelinfo.caption
@@ -660,6 +706,30 @@ msgstr ""
 
 #: tformsaveimagesondepot.labeluser.caption
 msgctxt "tformsaveimagesondepot.labeluser.caption"
+msgid "User"
+msgstr ""
+
+#: tformuserauthentication.buttoncancel.caption
+msgctxt "tformuserauthentication.buttoncancel.caption"
+msgid "Cancel"
+msgstr ""
+
+#: tformuserauthentication.buttonok.caption
+msgctxt "tformuserauthentication.buttonok.caption"
+msgid "OK"
+msgstr ""
+
+#: tformuserauthentication.caption
+msgid "User Authentication"
+msgstr ""
+
+#: tformuserauthentication.labelededitpassword.editlabel.caption
+msgctxt "tformuserauthentication.labelededitpassword.editlabel.caption"
+msgid "Password"
+msgstr ""
+
+#: tformuserauthentication.labelededituser.editlabel.caption
+msgctxt "tformuserauthentication.labelededituser.editlabel.caption"
 msgid "User"
 msgstr ""
 
