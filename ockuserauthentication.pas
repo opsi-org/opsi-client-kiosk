@@ -21,7 +21,7 @@ type
     LabeledEditPassword: TLabeledEdit;
     procedure ButtonCancelClick(Sender: TObject);
     procedure ButtonOKClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
   private
     FSid: PSid;
     FSidSize: LongWord;
@@ -46,10 +46,10 @@ implementation
 
 { TFormUserAuthentication }
 
-procedure TFormUserAuthentication.FormClose(Sender: TObject;
-  var CloseAction: TCloseAction);
+
+procedure TFormUserAuthentication.FormCreate(Sender: TObject);
 begin
-  FormOpsiClientKiosk.Close;
+  if FormOpsiClientKiosk.UserAuthentication then Show;
 end;
 
 
