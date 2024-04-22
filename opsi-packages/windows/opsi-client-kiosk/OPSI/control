@@ -11,14 +11,14 @@ advice: opsi-client-agent version >= 4.1.1.6-5 had to be installed on the client
 version: 4.3.1.0
 priority: 0
 licenseRequired: False
-productClasses: 
+productClasses:
 setupScript: setup32.opsiscript
 uninstallScript: uninstall32.opsiscript
-updateScript: 
-alwaysScript: 
-onceScript: 
-customScript: 
-userLoginScript: 
+updateScript:
+alwaysScript:
+onceScript:
+customScript:
+userLoginScript:
 
 [ProductDependency]
 action: setup
@@ -54,4 +54,10 @@ editable: True
 description: The Start Menu entry for the Client Kiosk (software on demand)
 values: ["Opsi Client Kiosk", "software on demand"]
 default: ["Opsi Client Kiosk"]
+
+[ProductProperty]
+type: bool
+name: user_authentication
+description: Should a user authentication window appear on startup?
+default: False
 
