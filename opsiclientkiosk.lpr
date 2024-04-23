@@ -8,6 +8,7 @@ uses
   {$ENDIF}//{$ENDIF}
   {$IFDEF WINDOWS}
   OckWindows,
+  OckUserAuthentication,
   {$ENDIF WINDOWS}
   {$IFDEF LINUX}
   OckLinux, OckPasswordQuery,
@@ -19,7 +20,7 @@ uses
   Classes, SysUtils, Forms, lazcontrols, lcltranslator, inifiles,
   opsiclientkioskgui, installdlg, datadb, progresswindow, oslog,
   osRunCommandElevated, lazproginfo, osprocesses, opsiconnection,
-  helpinfo, OckImagestoDepot, OckPathsUtils, OckUserAuthentication
+  helpinfo, OckImagestoDepot, OckPathsUtils
 
   {add more units if nedded};
 
