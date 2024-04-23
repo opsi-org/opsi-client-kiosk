@@ -27,8 +27,8 @@ type
     FSidSize: LongWord;
     FUserToken: THandle;
     FisMember: LongBool;
-    function GetLocalUserSidStr(const UserName: string): string;
-    function GetLogonUser(const UserName: string; const password: string):boolean;
+    function GetLocalUserSidStr(const UserName: widestring): string;
+    function GetLogonUser(const UserName: widestring; const password: widestring):boolean;
   public
     destructor Destroy;override;
   end;
@@ -58,9 +58,9 @@ begin
 end;
 
 
-function TFormUserAuthentication.GetLocalUserSidStr(const UserName: string): string;
+function TFormUserAuthentication.GetLocalUserSidStr(const UserName: widestring): string;
 var
-  RefDomain: array [0..MAX_PATH - 1] of char;      // enough
+  RefDomain: array [0..MAX_PATH - 1] of wchar;      // enough
   RefDomainSize: longword;
   Snu: SID_NAME_USE;
   StringSid: LPTSTR;
@@ -69,12 +69,12 @@ begin
   RefDomainSize := SizeOf(RefDomain);
   FSid := nil;
   FillChar(RefDomain, SizeOf(RefDomain), 0);
-  LookupAccountName(nil, PChar(UserName), FSid, FSidSize, RefDomain,
+  LookupAccountNameW(nil, PWChar(UserName), FSid, FSidSize, RefDomain,
     RefDomainSize, Snu);
   FSid := AllocMem(FSidSize);
   try
     RefDomainSize := SizeOf(RefDomain);
-    if LookupAccountName(nil, PChar(UserName), FSid, FSidSize, RefDomain,
+    if LookupAccountNameW(nil, PWChar(UserName), FSid, FSidSize, RefDomain,
       RefDomainSize, Snu) then
       begin
         ConvertSidToStringSid(FSid, StringSid);
@@ -87,11 +87,11 @@ begin
   end;
 end;
 
-function TFormUserAuthentication.GetLogonUser(const UserName: string;
-  const Password: string): boolean;
+function TFormUserAuthentication.GetLogonUser(const UserName: Widestring;
+  const Password: Widestring): boolean;
 begin
   Result := False;
-  if LogonUser(PChar(UserName),nil,PChar(Password),LOGON32_LOGON_NETWORK,LOGON32_PROVIDER_DEFAULT,FUserToken) then
+  if LogonUserW(PWChar(UserName),nil,PWChar(Password),LOGON32_LOGON_NETWORK,LOGON32_PROVIDER_DEFAULT,FUserToken) then
   begin
     LogDatei.log('UserAuthentication: Log on successful', LLInfo);
     Result := True;
