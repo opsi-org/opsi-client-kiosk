@@ -273,6 +273,7 @@ type
     procedure DeleteFormerImage(ImagePath:String);
     procedure InitSkin;
     function GetClientID(PathToConfigFile:string): string;
+    function GetConfigFromIniFile(PathToConfigFile:string; Section:string; Key: string; Default:string): string;
     //function RunAsAdmin(const Handle: DWord; const Path, Params: string
     //  ): Boolean;
     procedure SaveIconsAndScreenshotsLists;
@@ -316,6 +317,7 @@ type
     //procedure IconToProductID()
    public
     { public declarations }
+    UserAuthentication: boolean;
   end;
 
 
@@ -2087,6 +2089,7 @@ begin
     SetTilesView;
   end;
   Caption := 'opsi-client-kiosk' + ' (Version '+ ProgramInfo.Version + ')';
+  Show;
 end;
 
 procedure TFormOpsiClientKiosk.FormResize(Sender: TObject);
@@ -2260,7 +2263,12 @@ begin
   except
     LogDatei.log('Error while loading Images (Icons and/or Screenshots)',LLError);
   end;
-
+  {$IFDEF WINDOWS}
+  UserAuthentication := StrToBool(GetConfigFromIniFile(ChompPathDelim(ProgramDirectory) + PathDelim +'opsiclientkiosk.conf','authentication','UserAuthentication','False'));
+  {$ELSE}
+  UserAuthentication := False;
+  {$ENDIF WINDOWS}
+  LogDatei.log('UserAuthentication: ' + BoolToStr(UserAuthentication, True), LLInfo);
 
   try
     { quick check parameters }
@@ -2534,6 +2542,15 @@ var
 begin
   KioskConfig :=  TIniFile.Create(PathToConfigFile);
   Result := KioskConfig.ReadString('webservice','ClientID','');
+  FreeAndNil(KioskConfig);
+end;
+
+function TFormOpsiClientKiosk.GetConfigFromIniFile(PathToConfigFile:string; Section:string; Key: string; Default:string): string;
+var
+  KioskConfig:TIniFile;
+begin
+  KioskConfig :=  TIniFile.Create(PathToConfigFile);
+  Result := KioskConfig.ReadString(Section, Key, Default);
   FreeAndNil(KioskConfig);
 end;
 

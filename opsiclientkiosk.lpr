@@ -8,6 +8,7 @@ uses
   {$ENDIF}//{$ENDIF}
   {$IFDEF WINDOWS}
   OckWindows,
+  OckUserAuthentication,
   {$ENDIF WINDOWS}
   {$IFDEF LINUX}
   OckLinux, OckPasswordQuery,
@@ -30,17 +31,22 @@ begin
   //Application.Scaled:=True;
   RequireDerivedFormResource := True;
   Application.Initialize;
+  {$IFDEF Windows}
+  Application.ShowMainForm := False;
+  {$ENDIF Windows}
   Application.Title:='opsi-client-kiosk';
-
   Application.CreateForm(TFormOpsiClientKiosk, FormOpsiClientKiosk);
-  Application.CreateForm(TFInstalldlg, FInstalldlg);
-  Application.CreateForm(TDataModuleOCK, DataModuleOCK);
   Application.CreateForm(TFormProgressWindow, FormProgressWindow);
+  Application.CreateForm(TFInstalldlg, FInstalldlg);
   Application.CreateForm(TFormHelpInfo, FormHelpInfo);
   Application.CreateForm(TFormSaveImagesOnDepot, FormSaveImagesOnDepot);
   {$IFDEF UNIX}
   Application.CreateForm(TFormPasswordQuery, FormPasswordQuery);
   {$ENDIF UNIX}
+  {$IFDEF Windows}
+  Application.CreateForm(TFormUserAuthentication, FormUserAuthentication);
+  {$ENDIF Windows}
+
   Application.Run;
   Application.Free;
 end.

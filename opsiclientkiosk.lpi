@@ -24,7 +24,7 @@
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="4"/>
       <MinorVersionNr Value="3"/>
-      <BuildNr Value="1"/>
+      <RevisionNr Value="1"/>
       <StringTable CompanyName="uib gmbh (www.uib.de)" InternalName="opsi-client-kiosk" LegalCopyright="uib gmbh under AGPL v3" LegalTrademarks="opsi / opsi.org / open pc server integration" ProductName="opsi" ProductVersion="4.2.0"/>
     </VersionInfo>
     <BuildModes Count="9">
@@ -106,6 +106,7 @@
           <Linking>
             <Debugging>
               <GenerateDebugInfo Value="False"/>
+              <DebugInfoType Value="dsDwarf3"/>
               <StripSymbols Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
@@ -134,7 +135,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../external_libraries/dcpcrypt;../../external_libraries/dcpcrypt/Ciphers;../../external_libraries/dcpcrypt/Hashes;../../external_libraries/synapse;../../external_libraries/misc"/>
+            <OtherUnitFiles Value="lazarus/common;lazarus/external_libraries/misc;lazarus/external_libraries/synapse"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -175,7 +176,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../external_libraries/indy/Lib;../../external_libraries/indy/Lib/System;../../external_libraries/indy/Lib/Protocols;../../external_libraries/indy/Lib/Core;../../external_libraries/synapse40lib;../../external_libraries/dcpcrypt;../../external_libraries/dcpcrypt/Ciphers;../../external_libraries/dcpcrypt/Hashes"/>
+            <OtherUnitFiles Value="lazarus/common;lazarus/external_libraries/misc;lazarus/external_libraries/synapse"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -432,7 +433,7 @@
         <PackageName Value="LazUtils"/>
       </Item6>
     </RequiredPackages>
-    <Units Count="30">
+    <Units Count="31">
       <Unit0>
         <Filename Value="opsiclientkiosk.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -587,6 +588,14 @@
         <Filename Value="lazarus/common/osprocesses.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit29>
+      <Unit30>
+        <Filename Value="ockuserauthentication.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormUserAuthentication"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="OckUserAuthentication"/>
+      </Unit30>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -16,7 +16,7 @@ ScriptErrorMessages=off
 DefVar $LogDir$
 
 ; general information about the product
-DefVar $ProductId$  
+DefVar $ProductId$
 DefVar $MinimumSpace$
 DefVar $InstallDir$
 DefVar $BinaryName$
@@ -26,6 +26,7 @@ DefVar $INST_OS$
 DefVar $INST_icon_collection$
 DefVar $INST_DesktopIcon$
 DefVar $INST_ClientID$
+DefVar $INST_UserAuthentication$
 DefVar $INST_ClientAgentDir$
 DefVar $INST_OpsiclientdDir$
 DefVar $INST_OpsiclientdConf$
@@ -37,7 +38,7 @@ DefVar $Startmenue_Entry$
 ;DefVar $Existing_Startmenue_Entry$
 ;DefVar $Existing_Startmenue_Folder$
 
-; variables used for checking installed client agent version 
+; variables used for checking installed client agent version
 DefVar $INST_ClientAgentVersion$
 DefVar $INST_ClientAgentPackageVersion$
 DefVar $REQUIRED_ClientAgentVersion$
@@ -45,7 +46,7 @@ DefVar $REQUIRED_ClientAgentPackageVersion$
 DefVar $RightClientAgent$
 
 ; stores value of hostparameter software-on-demand.active
-DefVar $kiosk_active$ 
+DefVar $kiosk_active$
 ; path to icon file if available otherwise empty string
 DefVar $kiosk_iconfile$
 
@@ -76,6 +77,7 @@ Set $INST_icon_collection$ = GetProductProperty("install_icon_collection", "fals
 Set $INST_DesktopIcon$ = GetProductProperty("desktop_icon","false")
 Set $Startmenue_Folder$ = GetProductProperty ("startmenue_folder", "opsi.org")
 Set $Startmenue_Entry$ = GetProductProperty ("startmenue_entry", "Opsi Client Kiosk")
+Set $INST_UserAuthentication$ = GetProductProperty("user_authentication", "false")
 
 if RegKeyExists("HKLM\software\opsi.org\opsikioskclient")
 	Registry_delete_oldKeys_from_client_agent
@@ -96,17 +98,17 @@ endif
 ;	Check minimum disk space
 ;-----------------------------
 if not(HasMinimumSpace ("%SystemDrive%", $MinimumSpace$))
-	; Stop process and set installation status to failed	
+	; Stop process and set installation status to failed
 	LogError "Not enough space on %SystemDrive%, " + $MinimumSpace$ + " on drive %SystemDrive% needed for " + $ProductId$
 	isFatalError "No Space"
 else
 	;-----------------------------
 	;	Install product
-	;-----------------------------	
+	;-----------------------------
 	Message "Installing " + $ProductId$ + " ..."
 	comment "Show product picture"
 	ShowBitmap "%ScriptPath%\" + $ProductId$ + ".png" $ProductId$
-	; uninstall old opsi-client-kiosk directory if existing 
+	; uninstall old opsi-client-kiosk directory if existing
 	if DirectoryExists($InstallDir$)
 		Message "Removing old " + $ProductId$ + " ..."
 		if FileExists("%ScriptPath%\delsub32.opsiscript")
@@ -143,7 +145,7 @@ else
 		Linkfolder_create_desktop_icon
 	endif
 	Patches_opsiclientkiosk.conf $InstallDir$ + "/opsiclientkiosk.conf"
-endif ;check minimum space  
+endif ;check minimum space
 
 ;****************************** SECTIONS ***************************************
 
@@ -180,7 +182,7 @@ DeleteKey [HKLM\software\opsi.org\opsikioskclient]
 
 
 
-;------------------------- 
+;-------------------------
 ;	LinkFolder Sections
 ;-------------------------
 [LinkFolder_install]
@@ -210,13 +212,14 @@ end_link
 
 [Patches_opsiclientkiosk.conf]
 set [webservice] ClientID = $INST_ClientID$
+set [authentication] UserAuthentication = $INST_UserAuthentication$
 
-;------------------------- 
+;-------------------------
 ;	DosInAnIcon Sections !!!(not in use because at the moment not necessary)!!!
 ;-------------------------
 [DosInAnIcon_lock_opsikiosk]
 rem see http://setacl.sourceforge.net/
-rem grant user execute to the opsi-client-kiosk directory 
+rem grant user execute to the opsi-client-kiosk directory
 
 rem make the dacl not inherited
 "$InstallDir$\SetACL.exe" -on "$InstallDir$\$BinaryName$" -ot file -actn clear -actn setprot -op "dacl:p_c;sacl:nc" -rec cont_obj
