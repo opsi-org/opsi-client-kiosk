@@ -345,7 +345,7 @@ opsi-package windows:
     - 'sed -i "/Package/,/version:/s/version: .*\$/version: $package/" OPSI/control'
     - echo "building version $version-$package"
     - opsi-makepackage --no-set-rights -l 6
-    - upload-package opsi-client-kiosk*.opsi true true true false
+    - upload-package opsi-client-kiosk*.opsi
 
 
 #***************************************#
@@ -384,7 +384,7 @@ opsi-package linux:
     - 'sed -i "/Package/,/version:/s/version: .*\$/version: $package/" OPSI/control'
     - echo "building version $version-$package"
     - opsi-makepackage --no-set-rights -l 6
-    - upload-package l-opsi-client-kiosk*.opsi true true true false
+    - upload-package l-opsi-client-kiosk*.opsi
 
 
 #***************************************#
@@ -423,4 +423,4 @@ opsi-package macos:
     - 'sed -i "/Package/,/version:/s/version: .*\$/version: $package/" OPSI/control'
     - echo "building version $version-$package"
     - opsi-makepackage --no-set-rights -l 6
-    - upload-package m-opsi-client-kiosk*.opsi true true true false
+    - upload-package m-opsi-client-kiosk*.opsi
