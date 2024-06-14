@@ -24,7 +24,7 @@
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="4"/>
       <MinorVersionNr Value="3"/>
-      <RevisionNr Value="1"/>
+      <RevisionNr Value="2"/>
       <StringTable CompanyName="uib gmbh (www.uib.de)" InternalName="opsi-client-kiosk" LegalCopyright="uib gmbh under AGPL v3" LegalTrademarks="opsi / opsi.org / open pc server integration" ProductName="opsi" ProductVersion="4.2.0"/>
     </VersionInfo>
     <BuildModes Count="9">
@@ -347,12 +347,6 @@
 -dOPSI
 -dOPSI_AS_USER
 -dAPP_BUNDLE"/>
-            <OtherDefines Count="4">
-              <Define0 Value="OPSICLIENTKIOSK"/>
-              <Define1 Value="OPSI"/>
-              <Define2 Value="OPSI_AS_USER"/>
-              <Define3 Value="APP_BUNDLE"/>
-            </OtherDefines>
             <ExecuteAfter>
               <CompileReasons Run="False"/>
             </ExecuteAfter>

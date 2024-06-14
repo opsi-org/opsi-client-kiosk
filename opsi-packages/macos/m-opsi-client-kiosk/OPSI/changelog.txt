@@ -1,5 +1,11 @@
 [Changelog]
 
+m-opsi-client-kiosk (4.3.2.0-5) urgency=medium
+
+  [update] openssl version to 3.0.14 
+
+-- Jan Werner <j.werner@uib.de> 14 June 2024
+
 m-opsi-client-kiosk (4.3.0.1-5) urgency=medium
 
   [update] small GUI improvments in the help window
