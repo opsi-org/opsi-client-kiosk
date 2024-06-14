@@ -14,7 +14,7 @@ variables:
     value: "OpsiClientKiosk"
 
   SSL_LIB_VERSION:
-    value: "3.0.9"
+    value: "3.0.14"
 
   GIT_SUBMODULE_STRATEGY: recursive
   GIT_SUBMODULE_FORCE_HTTPS: "true"
@@ -180,7 +180,7 @@ make opsi-client-kiosk bundle for Windows:
     # Get libs from binaryindex
     - opsi-dev-tool --version
     # openssl libs
-    - opsi-dev-tool --binary-pull development ssl-libs windows x86 $SSL_LIB_VERSION .
+    - opsi-dev-tool --binary-pull development openssl windows x86 $SSL_LIB_VERSION .
     - cp -r ssl-libs/* .
     - rm -r ssl-libs
     # sqlite lib
@@ -219,7 +219,7 @@ make opsi-client-kiosk bundle for Linux:
     - cp -r ../builds/x86_64-linux/${BINARY_NAME_LINUX} .
     # Get libs from binaryindex
     - opsi-dev-tool --version
-    - opsi-dev-tool --binary-pull development ssl-libs linux x64 $SSL_LIB_VERSION .
+    - opsi-dev-tool --binary-pull development openssl linux x64 $SSL_LIB_VERSION .
     - cp -r ssl-libs/* .
     - rm -r ssl-libs
   artifacts:
@@ -267,7 +267,7 @@ make opsi-client-kiosk bundle for MacOS:
     # Get libraries from binaryindex and copy them to Frameworks
     - ./../opsi-dev-tool --version
     # openssl libs
-    - ./../opsi-dev-tool --binary-pull development ssl-libs darwin x64 $SSL_LIB_VERSION .
+    - ./../opsi-dev-tool --binary-pull development openssl darwin x64 $SSL_LIB_VERSION .
     - cp -r ssl-libs/* OpsiClientKiosk.app/Contents/Frameworks
     - rm -r ssl-libs
     # sqlite lib
