@@ -1,5 +1,12 @@
 [Changelog]
 
+l-opsi-client-kiosk (4.3.2.1-8) urgency=medium
+
+  [change] binary version to 4.3.2.1
+  [update] small improvments under the hood
+
+-- Jan Werner <j.werner@uib.de> 05 August 2024
+
 l-opsi-client-kiosk (4.3.2.0-8) urgency=medium
 
   [update] openssl version to 3.0.14 
