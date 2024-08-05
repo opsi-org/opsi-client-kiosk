@@ -2612,27 +2612,51 @@ end;
 
 function TFormOpsiClientKiosk.InstallNow(var aErrorMessage:string ): boolean;
 var
-  i : integer;
+  counter: integer;
+  WaitForOpsiScript: boolean;
+  timeout: boolean;
 begin
+  Result := False;
   //Test loop to generate error message
   //for i:= 0 to 6 do
   //begin
   //  OCKOpsiConnection.DoActionsOnDemand(aErrorMessage);
   //  sleep(100);
   //end;
-  OCKOpsiConnection.DoActionsOnDemand(aErrorMessage);
-  if aErrorMessage  = '' then
+  if OCKOpsiConnection.DoActionsOnDemand(aErrorMessage) then
   begin
-    sleep(10000);
-    while osprocesses.numberOfProcessInstances('notifier') > 0 do
+    WaitForOpsiScript := true;
+    timeout := false;
+    counter := 0;
+    LogDatei.log('Wait until opsi-script is started.',LLDebug);
+    while WaitForOpsiScript and not timeout do
     begin
-      Application.ProcessMessages;
-      //Instances := ockunique.numberOfProcessInstances('notifier');
-      sleep(100);
-      //Instances := ockunique.numberOfProcessInstances('notifier');
+      sleep(1000);
+      if osprocesses.ProcessIsRunning('opsi-script') then WaitForOpsiScript := false;
+      inc(counter);
+      if (counter >= 40) then
+      begin
+        timeout := true;
+        LogDatei.log('opsi-script was not started after ' + IntToStr(counter) +' sec. Timeout reached.',LLWarning);
+      end;
     end;
+    LogDatei.log('opsi-script is running.',LLDebug);
+    counter := 0;
+    while osprocesses.ProcessIsRunning('opsi-script') do
+    begin
+      //Application.ProcessMessages;
+      sleep(1000);
+      inc(counter);
+    end;
+    LogDatei.log('opsi-script stopped after ' + IntToStr(counter) +' sec.',LLDebug);
+    LogDatei.log('Installation finished.', LLInfo);
     Result := True;
-  end else Result:= False;
+   end
+  else
+  begin
+    Result:= False;
+    LogDatei.log(aErrorMessage,LLError);
+  end;
 end;
 
 
