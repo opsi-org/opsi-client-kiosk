@@ -38,6 +38,10 @@ get version:
   stage: init
   tags:
     - laz-win10
+  rules:
+    # Wenn gepusht oder ein Merge Request erstellt wird immer erstellen
+    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
+      when: always
   script:
     - New-Item version.env
     - $doc = [XML] (Get-Content -Path $LAZ_PROJECT_FILE)
@@ -64,6 +68,10 @@ get version:
 transifex:
   stage: init
   image: docker.uib.gmbh/opsi/dev/pybuilder:uib-python-default
+  rules:
+    # Wenn gepusht oder ein Merge Request erstellt wird immer erstellen
+    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
+      when: always
   script:
   - opsi-dev-cli --version
   - opsi-dev-cli -l info transifex upload-resource ./locale/opsiclientkiosk.pot
