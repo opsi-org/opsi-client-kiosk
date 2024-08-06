@@ -25,6 +25,7 @@
       <MajorVersionNr Value="4"/>
       <MinorVersionNr Value="3"/>
       <RevisionNr Value="2"/>
+      <BuildNr Value="1"/>
       <StringTable CompanyName="uib gmbh (www.uib.de)" InternalName="opsi-client-kiosk" LegalCopyright="uib gmbh under AGPL v3" LegalTrademarks="opsi / opsi.org / open pc server integration" ProductName="opsi" ProductVersion="4.2.0"/>
     </VersionInfo>
     <BuildModes Count="9">
@@ -276,15 +277,17 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="OpsiClientKiosk-Bundle/OpsiClientKiosk/OpsiClientKiosk.app/Contents/MacOS/OpsiClientKiosk"/>
+            <Filename Value="builds/$(TargetCPU)-$(TargetOS)/OpsiClientKiosk"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../external_libraries/dcpcrypt;../../external_libraries/dcpcrypt/Ciphers;../../external_libraries/dcpcrypt/Hashes;../../external_libraries/synapse;../../external_libraries/misc"/>
+            <OtherUnitFiles Value="lazarus/common;lazarus/external_libraries/misc;lazarus/external_libraries/synapse"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="darwin"/>
             <Optimizations>
               <OptimizationLevel Value="0"/>
             </Optimizations>
@@ -295,11 +298,16 @@
               <StripSymbols Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
+            <Options>
+              <PassLinkerOptions Value="True"/>
+              <LinkerOptions Value="-rpath @executable_path/../Frameworks -sectcreate __TEXT __info_plist Info.plist"/>
+            </Options>
           </Linking>
           <Other>
             <CustomOptions Value="-dOPSICLIENTKIOSK
 -dOPSI
--dOPSI_AS_USER"/>
+-dOPSI_AS_USER
+-dAPP_BUNDLE"/>
             <OtherDefines Count="4">
               <Define0 Value="OPSICLIENTKIOSK"/>
               <Define1 Value="OPSI"/>
@@ -333,6 +341,7 @@
           <Linking>
             <Debugging>
               <GenerateDebugInfo Value="False"/>
+              <RunWithoutDebug Value="True"/>
               <DebugInfoType Value="dsDwarf2Set"/>
               <StripSymbols Value="True"/>
             </Debugging>
@@ -347,6 +356,12 @@
 -dOPSI
 -dOPSI_AS_USER
 -dAPP_BUNDLE"/>
+            <OtherDefines Count="4">
+              <Define0 Value="OPSICLIENTKIOSK"/>
+              <Define1 Value="OPSI"/>
+              <Define2 Value="OPSI_AS_USER"/>
+              <Define3 Value="APP_BUNDLE"/>
+            </OtherDefines>
             <ExecuteAfter>
               <CompileReasons Run="False"/>
             </ExecuteAfter>
@@ -357,19 +372,21 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="OpsiClientKiosk-Bundle/OpsiClientKiosk/OpsiClientKiosk.app/Contents/MacOS/OpsiClientKiosk"/>
+            <Filename Value="builds/$(TargetCPU)-$(TargetOS)/OpsiClientKiosk"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../external_libraries/dcpcrypt;../../external_libraries/dcpcrypt/Ciphers;../../external_libraries/dcpcrypt/Hashes;../../external_libraries/synapse;../../external_libraries/misc"/>
+            <OtherUnitFiles Value="lazarus/common;lazarus/external_libraries/misc;lazarus/external_libraries/synapse"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
             <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
               <IncludeAssertionCode Value="True"/>
             </SyntaxOptions>
           </Parsing>
           <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
             <Checks>
               <IOChecks Value="True"/>
               <RangeChecks Value="True"/>
@@ -377,6 +394,8 @@
               <StackChecks Value="True"/>
             </Checks>
             <VerifyObjMethodCallValidity Value="True"/>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="darwin"/>
           </CodeGeneration>
           <Linking>
             <Debugging>
@@ -386,11 +405,23 @@
               <StripSymbols Value="True"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <PassLinkerOptions Value="True"/>
+              <LinkerOptions Value="-rpath @executable_path/../Frameworks -sectcreate __TEXT __info_plist Info.plist"/>
+            </Options>
           </Linking>
           <Other>
             <CustomOptions Value="-dOPSICLIENTKIOSK
 -dOPSI
--dOPSI_AS_USER"/>
+-dOPSI_AS_USER
+-dAPP_BUNDLE"/>
+            <OtherDefines Count="4">
+              <Define0 Value="OPSICLIENTKIOSK"/>
+              <Define1 Value="OPSI"/>
+              <Define2 Value="OPSI_AS_USER"/>
+              <Define3 Value="APP_BUNDLE"/>
+            </OtherDefines>
           </Other>
         </CompilerOptions>
       </Item9>

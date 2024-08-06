@@ -1,8 +1,9 @@
 object FormOpsiClientKiosk: TFormOpsiClientKiosk
-  Left = 664
+  Left = 616
   Height = 700
-  Top = 276
+  Top = 158
   Width = 656
+  ActiveControl = RadioGroupView
   Caption = 'opsi-client-kiosk'
   ChildSizing.Layout = cclLeftToRightThenTopToBottom
   ChildSizing.ControlsPerLine = 2
@@ -14,7 +15,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
   OnDestroy = FormDestroy
   OnResize = FormResize
   Position = poScreenCenter
-  LCLVersion = '3.2.0.0'
+  LCLVersion = '3.4.0.0'
   object PanelToolbar: TPanel
     Left = 0
     Height = 45
@@ -1483,7 +1484,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
       Height = 322
       Top = 0
       Width = 656
-      PageIndex = 0
+      PageIndex = 3
       Align = alClient
       TabOrder = 0
       TabStop = True
@@ -1529,25 +1530,25 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         object ScrollBoxAllTiles: TScrollBox
           Left = 0
-          Height = 322
+          Height = 327
           Top = 0
-          Width = 599
+          Width = 656
           HorzScrollBar.Page = 1
           HorzScrollBar.Visible = False
           VertScrollBar.Page = 1
           Align = alClient
           BorderStyle = bsNone
-          ClientHeight = 322
-          ClientWidth = 599
+          ClientHeight = 327
+          ClientWidth = 656
           Color = clDefault
           ParentColor = False
           TabOrder = 0
           OnMouseWheel = ScrollBoxAllTilesMouseWheel
           object FlowPanelAllTiles: TFlowPanel
             Left = 0
-            Height = 322
+            Height = 327
             Top = 0
-            Width = 599
+            Width = 656
             Align = alClient
             BevelOuter = bvNone
             Color = clForm
@@ -1604,7 +1605,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
           Align = alClient
           BorderStyle = bsNone
           ClientHeight = 285
-          ClientWidth = 656
+          ClientWidth = 639
           ParentBackground = False
           TabOrder = 1
           object ImageIconSoftware: TImage
@@ -1797,7 +1798,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
             Left = 16
             Height = 75
             Top = 355
-            Width = 560
+            Width = 543
             Anchors = [akTop, akLeft, akRight]
             Color = clForm
             DataField = 'Description'
@@ -1810,7 +1811,7 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
             Left = 16
             Height = 75
             Top = 463
-            Width = 560
+            Width = 543
             Anchors = [akTop, akLeft, akRight]
             Color = clForm
             DataField = 'Advice'
@@ -1834,8 +1835,8 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
         object LabelPleaseWait: TLabel
           Left = 0
           Height = 23
-          Top = 128
-          Width = 599
+          Top = 130
+          Width = 656
           Alignment = taCenter
           Anchors = [akLeft, akRight]
           AutoSize = False
@@ -1847,8 +1848,8 @@ object FormOpsiClientKiosk: TFormOpsiClientKiosk
         object ProgressBarPleaseWait: TProgressBar
           Left = -4
           Height = 8
-          Top = 152
-          Width = 603
+          Top = 154
+          Width = 660
           Anchors = [akLeft, akRight]
           Style = pbstMarquee
           TabOrder = 0

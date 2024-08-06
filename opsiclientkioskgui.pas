@@ -1087,14 +1087,17 @@ var
     ErrorMessage: string;
 begin
   Screen.Cursor := crHourGlass;
+  NotebookProducts.PageIndex := 2;
+  Application.ProcessMessages;
   OCKOpsiConnection.SetActionRequest(SelectedProduct,Request); //to opsi server
   DataModuleOCK.SQLQueryProductData.Locate('ProductID',VarArrayOf([SelectedProduct]),[loCaseInsensitive]);
-  //DataModuleOCK.SQLQueryProductData.Edit;
+  DataModuleOCK.SQLQueryProductData.Edit;
   DataSourceProductData.Edit;
   if OnDemand then
   begin
     { On Demand }
     ShowPagePleaseWait;
+    Application.ProcessMessages;
     if InstallNow(ErrorMessage) then
     begin
       DataModuleOCK.SQLQueryProductData.FieldByName('ActionRequest').AsString := '';
@@ -1110,7 +1113,6 @@ begin
         DataModuleOCK.SQLQueryProductData.FieldByName('InstalledVerStr').AsString :=
           DataModuleOCK.SQLQueryProductData.FieldByName('VersionStr').AsString;
          ShowMessage(rsInstallationFinished);
-        //SQLProductData[] =
       end;
       { uninstall }
       if Request = 'uninstall' then
@@ -1141,6 +1143,7 @@ begin
     ArrayProductPanels[SelectedPanelIndex].LabelAction.Caption := rsAction+': ' + Request;
     {$IFDEF DARWIN}
       NotebookProducts.PageIndex := 2;
+      Application.ProcessMessages;
     {$ENDIF DARWIN}
     ShowMessage(ArrayProductPanels[SelectedPanelIndex].LabelName.Caption + Message);
     //ShowSoftwareButtonsDependendOnState(ArrayProductPanels[SelectedPanelIndex]);
@@ -1150,6 +1153,7 @@ begin
     ButtonSoftwareUpdate.Visible:= False;
     ButtonSoftwareRemoveAction.Visible := True;
   end;
+  DataModuleOCK.SQLQueryProductData.Edit;
   DataModuleOCK.SQLQueryProductData.Post;
   DataModuleOCK.SQLQueryProductData.Open;
   Screen.Cursor := crDefault;
@@ -1159,6 +1163,7 @@ procedure TFormOpsiClientKiosk.SetActionRequestListView(Request:String; Message:
 begin
   Screen.Cursor := crHourGlass;
   OCKOpsiConnection.SetActionRequest(SelectedProduct,Request); //to opsi server
+  DataModuleOCK.SQLQueryProductData.Edit;
   DataSourceProductData.Edit;
   if Request = 'none' then
   begin
@@ -1171,6 +1176,7 @@ begin
     if not DisableTilesView then ArrayProductPanels[SelectedPanelIndex].LabelAction.Caption := rsAction+': ' + Request;
   end;
   if not DisableTilesView then ShowMessage(ArrayProductPanels[SelectedPanelIndex].LabelName.Caption + Message);
+  DataModuleOCK.SQLQueryProductData.Edit;
   DataModuleOCK.SQLQueryProductData.Post;
   DataModuleOCK.SQLQueryProductData.Open;
   Screen.Cursor := crDefault;
@@ -1648,13 +1654,19 @@ end;
 procedure TFormOpsiClientKiosk.ButtonSoftwareRemoveActionClick(Sender: TObject);
 begin
   Screen.Cursor := crHourGlass;
+  NotebookProducts.PageIndex := 2;
+  Application.ProcessMessages;
   OCKOpsiConnection.SetActionRequest(SelectedProduct,'none'); //to opsi server
+  DataModuleOCK.SQLQueryProductData.Edit;
   DataSourceProductData.Edit;
   DataModuleOCK.SQLQueryProductData.FieldByName('ActionRequest').AsString := '';// to local database
   ArrayProductPanels[SelectedPanelIndex].LabelAction.Caption := '';
   ShowSoftwareButtonsDependendOnState(ArrayProductPanels[SelectedPanelIndex]);
   ShowMessage(rsActionRemovedFor + ' '
     + ArrayProductPanels[SelectedPanelIndex].LabelName.Caption);
+  NotebookProducts.PageIndex := 2;
+  Application.ProcessMessages;
+  DataModuleOCK.SQLQueryProductData.Edit;
   DataModuleOCK.SQLQueryProductData.Post;
   DataModuleOCK.SQLQueryProductData.Open;
   if (DataModuleOCK.SQLQueryProductData.EOF and
@@ -1743,7 +1755,8 @@ begin
     if DBComboBox1.Text = 'uninstall' then SetActionRequestListView('uninstall', rsWillUninstallNextEvent, False);
     if DBComboBox1.Text = 'none' then SetActionRequestListView('none', rsWillUpdateNextEvent, False);
 
-    {DataModuleOCK.SQLQueryProductData.Post;
+    {DataModuleOCK.SQLQueryProductData.Edit;
+    DataModuleOCK.SQLQueryProductData.Post;
     //if DataModuleOCK.SQLQueryProductData.FieldByName('ActionRequest').AsString
       //<> '' then
       Product := GetProductPanelByProductID(DataModuleOCK.SQLQueryProductData.FieldByName('ProductID').AsString);
@@ -1786,6 +1799,7 @@ begin
   if (DBComboBox1.Text <> '') and (not DataModuleOCK.SQLQueryProductData.EOF)
   then
   begin
+    DataModuleOCK.SQLQueryProductData.Edit;
     DataModuleOCK.SQLQueryProductData.Post;
   //DataModuleOCK.SQLQueryProductData.FieldByName('actionrequest').AsString := 'none';
     //DataModuleOCK.SQLQueryProductData.Edit;
@@ -2612,27 +2626,58 @@ end;
 
 function TFormOpsiClientKiosk.InstallNow(var aErrorMessage:string ): boolean;
 var
-  i : integer;
+  counter: integer;
+  WaitForOpsiScript: boolean;
+  timeout: boolean;
 begin
+  Result := False;
   //Test loop to generate error message
   //for i:= 0 to 6 do
   //begin
   //  OCKOpsiConnection.DoActionsOnDemand(aErrorMessage);
   //  sleep(100);
   //end;
-  OCKOpsiConnection.DoActionsOnDemand(aErrorMessage);
-  if aErrorMessage  = '' then
+  if OCKOpsiConnection.DoActionsOnDemand(aErrorMessage) then
   begin
-    sleep(10000);
-    while osprocesses.numberOfProcessInstances('notifier') > 0 do
+    WaitForOpsiScript := true;
+    timeout := false;
+    counter := 0;
+    LogDatei.log('Wait until opsi-script is started.',LLDebug);
+    while WaitForOpsiScript and not timeout do
     begin
+      {$IFDEF WINDOWS}
+      //Does not work correctly on macOS
       Application.ProcessMessages;
-      //Instances := ockunique.numberOfProcessInstances('notifier');
-      sleep(100);
-      //Instances := ockunique.numberOfProcessInstances('notifier');
+      {$ENDIF WINDOWS}
+      sleep(1000);
+      if osprocesses.ProcessIsRunning('opsi-script') then WaitForOpsiScript := false;
+      inc(counter);
+      if (counter >= 40) then
+      begin
+        timeout := true;
+        LogDatei.log('opsi-script was not started after ' + IntToStr(counter) +' sec. Timeout reached.',LLWarning);
+      end;
     end;
+    LogDatei.log('opsi-script is running.',LLDebug);
+    counter := 0;
+    while osprocesses.ProcessIsRunning('opsi-script') do
+    begin
+      {$IFDEF WINDOWS}
+      //Does not work correctly on macOS
+      Application.ProcessMessages;
+      {$ENDIF WINDOWS}
+      sleep(1000);
+      inc(counter);
+    end;
+    LogDatei.log('opsi-script stopped after ' + IntToStr(counter) +' sec.',LLDebug);
+    LogDatei.log('Installation finished.', LLInfo);
     Result := True;
-  end else Result:= False;
+   end
+  else
+  begin
+    Result:= False;
+    LogDatei.log(aErrorMessage,LLError);
+  end;
 end;
 
 
