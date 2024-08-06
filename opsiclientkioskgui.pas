@@ -2645,7 +2645,10 @@ begin
     LogDatei.log('Wait until opsi-script is started.',LLDebug);
     while WaitForOpsiScript and not timeout do
     begin
+      {$IFDEF WINDOWS}
+      //Does not work correctly on macOS
       Application.ProcessMessages;
+      {$ENDIF WINDOWS}
       sleep(1000);
       if osprocesses.ProcessIsRunning('opsi-script') then WaitForOpsiScript := false;
       inc(counter);
@@ -2659,7 +2662,10 @@ begin
     counter := 0;
     while osprocesses.ProcessIsRunning('opsi-script') do
     begin
+      {$IFDEF WINDOWS}
+      //Does not work correctly on macOS
       Application.ProcessMessages;
+      {$ENDIF WINDOWS}
       sleep(1000);
       inc(counter);
     end;
