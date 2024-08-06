@@ -129,7 +129,7 @@ compile opsi-client-kiosk linux:
       when: always
   script:
     - echo "Compiling ${LAZ_PROJECT_FILE} (Version ${BINARY_VERSION}) for Linux (64 Bit)"
-    - /usr/share/lazarus/3.2.0/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_Linux
+    - /usr/share/lazarus/3.4.0/lazbuild $LAZ_PROJECT_FILE --build-all --build-mode=Release_Linux
   artifacts:
     name: "$BINARY_NAME_LINUX $BINARY_VERSION Linux 64Bit"
     paths:
