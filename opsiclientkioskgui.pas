@@ -2645,6 +2645,7 @@ begin
     LogDatei.log('Wait until opsi-script is started.',LLDebug);
     while WaitForOpsiScript and not timeout do
     begin
+      Application.ProcessMessages;
       sleep(1000);
       if osprocesses.ProcessIsRunning('opsi-script') then WaitForOpsiScript := false;
       inc(counter);
@@ -2658,7 +2659,7 @@ begin
     counter := 0;
     while osprocesses.ProcessIsRunning('opsi-script') do
     begin
-      //Application.ProcessMessages;
+      Application.ProcessMessages;
       sleep(1000);
       inc(counter);
     end;
