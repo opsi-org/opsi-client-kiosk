@@ -111,7 +111,7 @@ compile opsi-client-kiosk windows:
   artifacts:
     name: "$BINARY_NAME_WINDOWS $BINARY_VERSION Windows 32Bit"
     paths:
-      - builds\i386-win32\${BINARY_NAME_WINDOWS}
+      - builds/i386-win32/${BINARY_NAME_WINDOWS}
 
    
 #***************************************#
