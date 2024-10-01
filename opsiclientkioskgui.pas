@@ -1106,7 +1106,9 @@ begin
       begin
         ButtonSoftwareInstall.Visible:= False;
         ButtonSoftwareReinstall.Visible:= True;
-        ButtonSoftwareUninstall.Visible:= True;
+        if DataModuleOCK.SQLQueryProductData.FieldByName('hasUninstall').AsBoolean then
+          ButtonSoftwareUninstall.Visible := True
+        else ButtonSoftwareUninstall.Visible := False;
         ArrayProductPanels[SelectedPanelIndex].LabelState.Caption := rsInstalled;
         ArrayProductPanels[SelectedPanelIndex].LabelState.Color := clInstalled;
         DataModuleOCK.SQLQueryProductData.FieldByName('InstallationStatus').AsString := 'installed';
@@ -1315,7 +1317,9 @@ begin
     if ProductPanel.LabelState.Caption = rsInstalled then
     begin
       ButtonSoftwareInstall.Visible := False;
-      ButtonSoftwareUninstall.Visible := True;
+      if DataModuleOCK.SQLQueryProductData.FieldByName('hasUninstall').AsBoolean then
+        ButtonSoftwareUninstall.Visible := True
+      else ButtonSoftwareUninstall.Visible := False;
       ButtonSoftwareRemoveAction.Visible:= False;
       ButtonSoftwareUpdate.Visible := False;
       ButtonSoftwareReinstall.Visible := True;
@@ -1334,7 +1338,20 @@ begin
         begin
           ButtonSoftwareInstall.Visible := False;
           ButtonSoftwareReinstall.Visible := False;
-          ButtonSoftwareUninstall.Visible := True;
+          if DataModuleOCK.SQLQueryProductData.FieldByName('hasUninstall').AsBoolean then
+            ButtonSoftwareUninstall.Visible := True
+          else ButtonSoftwareUninstall.Visible := False;
+          ButtonSoftwareRemoveAction.Visible:= False;
+          ButtonSoftwareUpdate.Visible := True;
+        end
+        else
+        if ProductPanel.LabelState.Caption = rsStateUnknown then
+        begin
+          ButtonSoftwareInstall.Visible := False;
+          ButtonSoftwareReinstall.Visible := True;
+          if DataModuleOCK.SQLQueryProductData.FieldByName('hasUninstall').AsBoolean then
+            ButtonSoftwareUninstall.Visible := True
+          else ButtonSoftwareUninstall.Visible := False;
           ButtonSoftwareRemoveAction.Visible:= False;
           ButtonSoftwareUpdate.Visible := True;
         end;
