@@ -438,6 +438,7 @@ var
 begin
   Result := False;
   resultstring := MyOpsiMethodCall('processActionRequests', []);  //former 'fireEvent_software_on_demand'
+  LogDatei.log('DoActionsOnDemand: ' + resultstring, LLInfo);
   JSONResponse := GetJSON(resultstring); //GetJSON(StringJSON).FindPath('result')
   try
     if Assigned(JSONResponse) then
