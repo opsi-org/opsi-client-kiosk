@@ -466,8 +466,19 @@ var
 begin
   Result := TStringList.Create;
   if JSONObjectConfigStates <> nil then
-    for i := 0 to JSONObjectConfigStates.Arrays[ConfigProperty].Count -1 do
-     Result.Add(JSONObjectConfigStates.Arrays[ConfigProperty].Items[i].AsString)
+  begin
+    if JSONObjectConfigStates.Find(ConfigProperty) <> nil then
+    begin
+      for i := 0 to JSONObjectConfigStates.Arrays[ConfigProperty].Count -1 do
+       Result.Add(JSONObjectConfigStates.Arrays[ConfigProperty].Items[i].AsString)
+    end
+    else
+    begin
+      Result.Add('False');
+      LogDatei.log('Could not find Host-Parameter/Config: "' + ConfigProperty + '" ! Please create the Host-Parameter/Config on the opsi-config-server.', LLWarning);
+      ShowMessage('Could not find Host-Parameter/Config:' + LineEnding + '"' + ConfigProperty + '"' + LineEnding + LineEnding + 'Please contact your administrator.')
+    end;
+  end
   else
   begin
     Result.Add('False');
