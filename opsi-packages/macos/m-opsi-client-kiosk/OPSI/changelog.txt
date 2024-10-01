@@ -1,5 +1,13 @@
 [Changelog]
 
+m-opsi-client-kiosk (4.3.3.0-5) urgency=medium
+
+  Update: 
+    - show uninstall button only if product has uninstall script.
+    - improved error handling if necessary software-on-demand config is not available on server.
+
+-- Jan Werner <j.werner@uib.de> Tue, 1 Oct 2024
+
 m-opsi-client-kiosk (4.3.2.1-5) urgency=medium
 
   [change] binary version to 4.3.2.1
