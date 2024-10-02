@@ -32,6 +32,7 @@ begin
   RequireDerivedFormResource := True;
   Application.Initialize;
   {$IFDEF Windows}
+  Application.MainFormOnTaskBar := True;  // https://forum.lazarus.freepascal.org/index.php?topic=55417.0
   Application.ShowMainForm := False;
   {$ENDIF Windows}
   Application.Title:='opsi-client-kiosk';
