@@ -14,7 +14,10 @@ variables:
     value: "OpsiClientKiosk"
 
   SSL_LIB_VERSION:
-    value: "3.0.14"
+    value: "3.0.16"
+
+  SQLITE_LIB_VERSION:
+    value: "3.49.1" #at the moment only relevant for windows, for macOS change it in the specific job, Linux uses sqlite version of the distribution
 
   GIT_SUBMODULE_STRATEGY: recursive
   GIT_SUBMODULE_FORCE_HTTPS: "true"
@@ -192,7 +195,7 @@ make opsi-client-kiosk bundle for Windows:
     - cp -r ssl-libs/* .
     - rm -r ssl-libs
     # sqlite lib
-    - opsi-dev-tool --binary-pull development sqlite windows x86 3.0.0 .
+    - opsi-dev-tool --binary-pull development sqlite windows x86 $SQLITE_LIB_VERSION .
   artifacts:
     name: "app_windows"
     paths: 
