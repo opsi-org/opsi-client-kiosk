@@ -1,5 +1,11 @@
 [Changelog]
 
+opsi-client-kiosk (4.3.3.1) unreleased; urgency=medium
+
+  * update: Lazarus submodule to commit 9af41b264d2cd3828075d1c1885382dc7e185018
+
+-- Jan Werner <j.werner@uib.de> Thu, 27 Mar 2025
+
 opsi-client-kiosk (4.3.3.0) unreleased; urgency=medium
 
   * update: show uninstall button only if product has uninstall script.

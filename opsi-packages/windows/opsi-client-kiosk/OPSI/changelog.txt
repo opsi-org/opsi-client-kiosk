@@ -1,5 +1,15 @@
 [Changelog]
 
+opsi-client-kiosk (4.3.3.1-15) urgency=medium
+
+  Update: 
+    - openssl to version 3.0.16 
+    - sqlite3 to version 3.49.1
+    - signed dlls
+    - binary version to 4.3.3.1 
+
+-- Jan Werner <j.werner@uib.de> Thu, 27 Mar 2025
+
 opsi-client-kiosk (4.3.3.0-14) urgency=medium
 
   Update: 
