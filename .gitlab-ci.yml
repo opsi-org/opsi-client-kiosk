@@ -276,9 +276,9 @@ make opsi-client-kiosk bundle for MacOS:
     # make PkgInfo
     - echo "APPL????" > PkgInfo
     # Get libraries from binaryindex and copy them to Frameworks
-    - ./../opsi-dev-tool --version
+    - opsi-dev-tool --version
     # openssl libs
-    - ./../opsi-dev-tool --binary-pull development openssl darwin x64 $SSL_LIB_VERSION .
+    - opsi-dev-tool --binary-pull development openssl darwin x64 $SSL_LIB_VERSION .
     - cp -r ssl-libs/* OpsiClientKiosk.app/Contents/Frameworks
     - rm -r ssl-libs
     # set library paths in library header
@@ -287,7 +287,7 @@ make opsi-client-kiosk bundle for MacOS:
     - install_name_tool -add_rpath "@executable_path/../Frameworks/libssl.3.dylib" OpsiClientKiosk.app/Contents/Frameworks/libssl.3.dylib
     - install_name_tool -id @executable_path/../Frameworks/libcrypto.3.dylib OpsiClientKiosk.app/Contents/Frameworks/libcrypto.3.dylib
     # sqlite lib
-    - ./../opsi-dev-tool --binary-pull development sqlite darwin x64 3.0.0 OpsiClientKiosk.app/Contents/Frameworks
+    - opsi-dev-tool --binary-pull development sqlite darwin x64 3.0.0 OpsiClientKiosk.app/Contents/Frameworks
     # copy opsiclientkiosk binary to OpsiClientKiosk.app/Contents/MacOS 
     - cp -r ../builds/x86_64-darwin/${BINARY_NAME_MAC} OpsiClientKiosk.app/Contents/MacOS
     # copy resources to OpsiClientKiosk.app/Contents/Resource
@@ -295,7 +295,7 @@ make opsi-client-kiosk bundle for MacOS:
     - cp -r ../locale OpsiClientKiosk.app/Contents/Resources
     - cp -r ../opsiclientkiosk.ico OpsiClientKiosk.app/Contents/Resources
     # Codesign and notarize application
-    - ./../opsi-dev-cli -l info apple sign-and-notarize --print-log OpsiClientKiosk.app
+    - opsi-dev-cli -l info apple sign-and-notarize --print-log OpsiClientKiosk.app
     # copy files which could be changed by customer to app_macos folder 
     # they had to be not within the Application structure because the Application will be codesigned and files within could not be changed anymore
     - cp -r ../ock_custom .
