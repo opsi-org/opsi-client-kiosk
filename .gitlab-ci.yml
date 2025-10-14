@@ -257,9 +257,7 @@ make opsi-client-kiosk bundle for MacOS:
     - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event" 
       when: always
   before_script:
-    - curl -o opsi-dev-tools.tar.gz "$OPSIDEVTOOLS_URL_DARWIN_X64"
-    - tar -xvf opsi-dev-tools.tar.gz
-    - cp opsi-dev-tool opsi-dev-cli
+    - curl -sS "${OPSIDEVTOOLS_INSTALLER_URL_MACOS_X64}" | sh
   script:
     - echo "Make opsi-client-kiosk bundle (Version ${BINARY_VERSION}) for MacOS (64 Bit)"
     #- SSL_LIB_VERSION="1.1-unsigned"
