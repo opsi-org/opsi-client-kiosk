@@ -196,6 +196,8 @@ make opsi-client-kiosk bundle for Windows:
     - rm -r ssl-libs
     # sqlite lib
     - opsi-dev-tool --binary-pull development sqlite windows x86 $SQLITE_LIB_VERSION .
+    # virustotal check
+    - opsi-dev-cli -l info virustotal check ${BINARY_NAME_WINDOWS} libssl-3.dll libcrypto-3.dll sqlite3.dll --allow-detections=4
   artifacts:
     name: "app_windows"
     paths: 
