@@ -1,5 +1,12 @@
 [Changelog]
 
+l-opsi-client-kiosk (4.3.3.1-10) urgency=medium
+
+  Update: 
+    - openssl to version 3.0.19
+
+-- Jan Werner <j.werner@uib.de> Wed, 11 Mar 2026
+
 l-opsi-client-kiosk (4.3.3.1-9) urgency=medium
 
   Update: 

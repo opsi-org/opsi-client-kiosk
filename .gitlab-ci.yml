@@ -14,7 +14,7 @@ variables:
     value: "OpsiClientKiosk"
 
   SSL_LIB_VERSION:
-    value: "3.0.16"
+    value: "3.0.19"
 
   SQLITE_LIB_VERSION:
     value: "3.49.1" #at the moment only relevant for windows, for macOS change it in the specific job, Linux uses sqlite version of the distribution

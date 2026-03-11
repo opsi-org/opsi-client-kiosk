@@ -1,5 +1,5 @@
 [Package]
-version: 6
+version: 7
 depends: opsi-mac-client-agent (>= 4.1.1.11-1) 
 
 [Product]
