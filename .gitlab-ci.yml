@@ -14,10 +14,10 @@ variables:
     value: "OpsiClientKiosk"
 
   SSL_LIB_VERSION:
-    value: "3.0.19"
+    value: "3.5.9"
 
   SQLITE_LIB_VERSION:
-    value: "3.49.1" #at the moment only relevant for windows, for macOS change it in the specific job, Linux uses sqlite version of the distribution
+    value: "3.54.1" #at the moment only relevant for windows, for macOS change it in the specific job, Linux uses sqlite version of the distribution
 
   GIT_SUBMODULE_STRATEGY: recursive
   GIT_SUBMODULE_FORCE_HTTPS: "true"
@@ -287,7 +287,7 @@ make opsi-client-kiosk bundle for MacOS:
     - install_name_tool -add_rpath "@executable_path/../Frameworks/libssl.3.dylib" OpsiClientKiosk.app/Contents/Frameworks/libssl.3.dylib
     - install_name_tool -id @executable_path/../Frameworks/libcrypto.3.dylib OpsiClientKiosk.app/Contents/Frameworks/libcrypto.3.dylib
     # sqlite lib
-    - opsi-dev-tool --binary-pull development sqlite darwin x64 3.0.0 OpsiClientKiosk.app/Contents/Frameworks
+    - opsi-dev-tool --binary-pull development sqlite darwin x64 3.54.1 OpsiClientKiosk.app/Contents/Frameworks
     # copy opsiclientkiosk binary to OpsiClientKiosk.app/Contents/MacOS 
     - cp -r ../builds/x86_64-darwin/${BINARY_NAME_MAC} OpsiClientKiosk.app/Contents/MacOS
     # copy resources to OpsiClientKiosk.app/Contents/Resource
