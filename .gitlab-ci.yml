@@ -17,7 +17,7 @@ variables:
     value: "3.5.9"
 
   SQLITE_LIB_VERSION:
-    value: "3.54.1" #at the moment only relevant for windows, for macOS change it in the specific job, Linux uses sqlite version of the distribution
+    value: "3.54.1" #at the moment only relevant for windows and macOS, Linux uses sqlite version of the distribution
 
   GIT_SUBMODULE_STRATEGY: recursive
   GIT_SUBMODULE_FORCE_HTTPS: "true"
@@ -189,13 +189,15 @@ make opsi-client-kiosk bundle for Windows:
     - cp -r ../opsiclientkiosk.conf .
     - cp -r ../builds/i386-win32/${BINARY_NAME_WINDOWS} .
     # Get libs from binaryindex
-    - opsi-dev-tool --version
+    - opsi-dev-cli --version
     # openssl libs
-    - opsi-dev-tool --binary-pull development openssl windows x86 $SSL_LIB_VERSION .
+    #- opsi-dev-tool --binary-pull development openssl windows x86 $SSL_LIB_VERSION .
+    - opsi-dev-cli binary pull --branch development --os windows --architecture x86 --version $SSL_LIB_VERSION --destination . openssl
     - cp -r ssl-libs/* .
     - rm -r ssl-libs
     # sqlite lib
-    - opsi-dev-tool --binary-pull development sqlite windows x86 $SQLITE_LIB_VERSION .
+    #- opsi-dev-tool --binary-pull development sqlite windows x86 $SQLITE_LIB_VERSION .
+    - opsi-dev-cli binary pull --branch development --os windows --architecture x86 --version $SQLITE_LIB_VERSION --destination . sqlite
     # virustotal check
     - opsi-dev-cli -l info virustotal check ${BINARY_NAME_WINDOWS} libssl-3.dll libcrypto-3.dll sqlite3.dll --allow-detections=4
   artifacts:
@@ -231,8 +233,9 @@ make opsi-client-kiosk bundle for Linux:
     - cp -r ../opsiclientkiosk.conf .
     - cp -r ../builds/x86_64-linux/${BINARY_NAME_LINUX} .
     # Get libs from binaryindex
-    - opsi-dev-tool --version
-    - opsi-dev-tool --binary-pull development openssl linux x64 $SSL_LIB_VERSION .
+    - opsi-dev-cli --version
+    #- opsi-dev-cli binary pull development openssl linux x64 $SSL_LIB_VERSION .
+    - opsi-dev-cli binary pull --branch development --os linux --architecture x64 --version $SSL_LIB_VERSION --destination . openssl
     - cp -r ssl-libs/* .
     - rm -r ssl-libs
   artifacts:
@@ -276,9 +279,10 @@ make opsi-client-kiosk bundle for MacOS:
     # make PkgInfo
     - echo "APPL????" > PkgInfo
     # Get libraries from binaryindex and copy them to Frameworks
-    - opsi-dev-tool --version
+    - opsi-dev-cli --version
     # openssl libs
-    - opsi-dev-tool --binary-pull development openssl darwin x64 $SSL_LIB_VERSION .
+    #- opsi-dev-cli binary pull development openssl darwin x64 $SSL_LIB_VERSION .
+    - opsi-dev-cli binary pull --branch development --os darwin --architecture x64 --version $SSL_LIB_VERSION --destination . openssl
     - cp -r ssl-libs/* OpsiClientKiosk.app/Contents/Frameworks
     - rm -r ssl-libs
     # set library paths in library header
@@ -287,7 +291,8 @@ make opsi-client-kiosk bundle for MacOS:
     - install_name_tool -add_rpath "@executable_path/../Frameworks/libssl.3.dylib" OpsiClientKiosk.app/Contents/Frameworks/libssl.3.dylib
     - install_name_tool -id @executable_path/../Frameworks/libcrypto.3.dylib OpsiClientKiosk.app/Contents/Frameworks/libcrypto.3.dylib
     # sqlite lib
-    - opsi-dev-tool --binary-pull development sqlite darwin x64 3.54.1 OpsiClientKiosk.app/Contents/Frameworks
+    #- opsi-dev-cli binary pull development sqlite darwin x64 3.54.1 OpsiClientKiosk.app/Contents/Frameworks
+    - opsi-dev-cli binary pull --branch development --os darwin --architecture x64 --version $SQLITE_LIB_VERSION --destination OpsiClientKiosk.app/Contents/Frameworks sqlite
     # copy opsiclientkiosk binary to OpsiClientKiosk.app/Contents/MacOS 
     - cp -r ../builds/x86_64-darwin/${BINARY_NAME_MAC} OpsiClientKiosk.app/Contents/MacOS
     # copy resources to OpsiClientKiosk.app/Contents/Resource
@@ -319,10 +324,10 @@ opsi-client-kiosk to binaryindex:
     #  when: manual
   script:
     - echo "deploy to binaryindex"
-    - opsi-dev-tool --version
-    - opsi-dev-tool -l info --binary-push builds/i386-win32/${BINARY_NAME_WINDOWS} opsi-client-kiosk windows x86 "${BINARY_VERSION}"
-    - opsi-dev-tool -l info --binary-push builds/x86_64-linux/${BINARY_NAME_LINUX} opsi-client-kiosk linux x64 "${BINARY_VERSION}"
-    - opsi-dev-tool -l info --binary-push builds/x86_64-darwin/${BINARY_NAME_MAC}  opsi-client-kiosk darwin x64 "${BINARY_VERSION}"
+    - opsi-dev-cli --version
+    - opsi-dev-cli -l info binary push builds/i386-win32/${BINARY_NAME_WINDOWS} --product opsi-client-kiosk --os windows --architecture x86 --version "${BINARY_VERSION}"
+    - opsi-dev-cli -l info binary push builds/x86_64-linux/${BINARY_NAME_LINUX} --product opsi-client-kiosk --os linux --architecture x64 --version "${BINARY_VERSION}"
+    - opsi-dev-cli -l info binary push builds/x86_64-darwin/${BINARY_NAME_MAC}  --product opsi-client-kiosk --os darwin --architecture x64 --version "${BINARY_VERSION}"
 
   
 #***************************************#
@@ -348,8 +353,8 @@ opsi-package windows:
     - mkdir -p $Files_Path
     - mv app_windows $Files_Path/app
     #- cp -r app $Files_Path
-    - opsi-dev-tool --version
-    - opsi-dev-tool --binary-pull development client-kiosk-icon-collection all all latest .
+    - opsi-dev-cli --version
+    - opsi-dev-cli binary pull --branch development --os all --architecture all --version latest --destination . client-kiosk-icon-collection
     - mkdir -p $Files_Path/resources
     - mv Collection64x64.zip $Files_Path/resources/Collection64x64.zip
     - cd $opsiPackage_Path
@@ -387,8 +392,9 @@ opsi-package linux:
     - mkdir -p $Files_Path
     - mv app_linux $Files_Path/app
     #- cp -r app $Files_Path
-    - opsi-dev-tool --version
-    - opsi-dev-tool --binary-pull development client-kiosk-icon-collection all all latest .
+    - opsi-dev-cli --version
+    #- opsi-dev-cli binary pull development client-kiosk-icon-collection all all latest .
+    - opsi-dev-cli binary pull --branch development --os all --architecture all --version latest --destination . client-kiosk-icon-collection
     - mkdir -p $Files_Path/resources
     - mv Collection64x64.zip $Files_Path/resources/Collection64x64.zip
     - cd $opsiPackage_Path
@@ -426,8 +432,9 @@ opsi-package macos:
     - mkdir -p $Files_Path
     - mv app_macos $Files_Path/app
     #- cp -r app $Files_Path
-    - opsi-dev-tool --version
-    - opsi-dev-tool --binary-pull development client-kiosk-icon-collection all all latest .
+    - opsi-dev-cli --version
+    #- opsi-dev-cli binary pull development client-kiosk-icon-collection all all latest .
+    - opsi-dev-cli binary pull --branch development --os all --architecture all --version latest --destination . client-kiosk-icon-collection
     - mkdir -p $Files_Path/resources
     - mv Collection64x64.zip $Files_Path/resources/Collection64x64.zip
     - cd $opsiPackage_Path
