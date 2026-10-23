@@ -1,5 +1,5 @@
 [Package]
-version: 10
+version: 11
 depends: opsi-linux-client-agent (>= 4.1.1.11-1)
 
 [Product]
